@@ -91,7 +91,7 @@ components:
 
 functions:
   // [Cecil] Random light
-  export void RandomLight(void) {
+  void RandomLight(void) {
     /*UBYTE ubR = (m_colColor & 0xFF000000) >> 24;
     UBYTE ubG = (m_colColor & 0x00FF0000) >> 16;
     UBYTE ubB = (m_colColor & 0x0000FF00) >> 8;
