@@ -76,7 +76,7 @@
     <IntDir>vs2013\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <ExecutablePath>$(SolutionDir)Extras;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Extras;$(SolutionDir)Engine107;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(ProjectDir)StdH;$(SolutionDir)Extras;$(SolutionDir)Engine107;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Engine107;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
     <OutDir>vs2013\$(Configuration)\</OutDir>
@@ -86,7 +86,7 @@
     <IntDir>vs2013\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <ExecutablePath>$(SolutionDir)Extras;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Extras;$(SolutionDir)Engine110;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(ProjectDir)StdH;$(SolutionDir)Extras;$(SolutionDir)Engine110;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Engine110;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
@@ -95,7 +95,7 @@
     <IntDir>vs2013\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <ExecutablePath>$(SolutionDir)Extras;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Extras;$(SolutionDir)Engine107;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(ProjectDir)StdH;$(SolutionDir)Extras;$(SolutionDir)Engine107;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Engine107;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
@@ -104,7 +104,7 @@
     <IntDir>vs2013\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <ExecutablePath>$(SolutionDir)Extras;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Extras;$(SolutionDir)Engine110;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(ProjectDir)StdH;$(SolutionDir)Extras;$(SolutionDir)Engine110;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Engine110;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
@@ -294,6 +294,14 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Chaosbox\Chaosbox.cpp" />
+    <ClCompile Include="..\Chaosbox\Classes\GlobalController.cpp" />
+    <ClCompile Include="..\Chaosbox\ModModule.cpp" />
+    <ClCompile Include="..\Chaosbox\Randomized\GameOptions.cpp" />
+    <ClCompile Include="..\Chaosbox\Randomized\Randomized.cpp" />
+    <ClInclude Include="..\Chaosbox\Classes\GlobalController.h" />
+    <ClInclude Include="..\Chaosbox\Classes\GlobalController_tables.h" />
+    <ClInclude Include="..\Chaosbox\Randomized\RandomLists.h" />
     <ClCompile Include="Common\Common.cpp" />
     <ClCompile Include="Common\EmanatingParticles.cpp" />
     <ClCompile Include="Common\HUD.cpp" />
@@ -546,6 +554,11 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClCompile Include="WorldSettingsController.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Chaosbox\Chaosbox.h" />
+    <ClInclude Include="..\Chaosbox\ModModule.h" />
+    <ClInclude Include="..\Chaosbox\ModOptions.h" />
+    <ClInclude Include="..\Chaosbox\Randomized\GameOptions.h" />
+    <ClInclude Include="..\Chaosbox\Randomized\Randomized.h" />
     <ClInclude Include="Common\Common.h" />
     <ClInclude Include="Common\Flags.h" />
     <ClInclude Include="Common\GameInterface.h" />
@@ -3911,6 +3924,27 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\WalkerBig.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\WalkerSmall.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Woman.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Chaosbox\Classes\GlobalController.es">
+      <FileType>Document</FileType>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_110|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_110|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Chaosbox/Classes/%(Filename).es</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_110|Win32'">Chaosbox/Classes/%(Filename).es</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Chaosbox/Classes/%(Filename).es</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_110|Win32'">Chaosbox/Classes/%(Filename).es</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Chaosbox/Classes/%(Filename).es </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_110|Win32'">cd $(SolutionDir)
+ecc Chaosbox/Classes/%(Filename).es </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Chaosbox/Classes/%(Filename).es </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_110|Win32'">cd $(SolutionDir)
+ecc Chaosbox/Classes/%(Filename).es </Command>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -218,7 +218,8 @@ virtual CTString GetPlayerKillDescription(const CTString &strPlayerName, const E
     FLOAT3D vBodySpeed = en_vCurrentTranslationAbsolute-en_vGravityDir*(en_vGravityDir%en_vCurrentTranslationAbsolute);
     
     // spawn debris
-    Debris_Begin(EIBT_WOOD, DPT_NONE, BET_NONE, 1.0f, vNormalizedDamage, vBodySpeed, 5.0f, 2.0f);
+    // [Cecil] RND: Effects
+    Debris_Begin(EIBT_WOOD, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), 1.0f, vNormalizedDamage, vBodySpeed, 5.0f, 2.0f);
     
     Debris_Spawn(this, this, MODEL_DEBRIS_MUZZLE, TEXTURE_CANNON, 0, 0, 0, 0, m_fSize,
       FLOAT3D(FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f));
@@ -238,7 +239,7 @@ virtual CTString GetPlayerKillDescription(const CTString &strPlayerName, const E
     CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNON;
+    eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
     FLOAT fSize = m_fBlowUpSize*1.0f;
     eSpawnEffect.vStretch = FLOAT3D(fSize,fSize,fSize);
     penExplosion->Initialize(eSpawnEffect);
@@ -247,7 +248,7 @@ virtual CTString GetPlayerKillDescription(const CTString &strPlayerName, const E
     plExplosion = GetPlacement();
     penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNONSHOCKWAVE;
+    eSpawnEffect.betType = RandomEffect(BET_CANNONSHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
     fSize = m_fBlowUpSize*1.0f;
     eSpawnEffect.vStretch = FLOAT3D(fSize,fSize,fSize);
     penExplosion->Initialize(eSpawnEffect);

@@ -383,6 +383,15 @@ functions:
     AddFlare(MODEL_FLARE, TEXTURE_FLARE, FLOAT3D(0,0.6f,0), FLOAT3D(3,3,0.3f) );
 };
 
+  void AdjustDifficulty(void) {
+    // [Cecil] RND: Change type
+    if (GetSP()->sp_RND.iRandom & RND_ITEMS && !m_bRandomized) {
+      m_EwitType = WeaponItemType((RndNumber(this, RND_ITEMS, en_ulID, m_EwitType) % 12) + 1);
+      m_bRandomized = TRUE;
+      Reinitialize();
+    }
+  };
+
 procedures:
   ItemCollected(EPass epass) : CItem::ItemCollected {
     ASSERT(epass.penOther!=NULL);
@@ -406,7 +415,7 @@ procedures:
     if (epass.penOther->ReceiveItem(eWeapon)) {
       if(_pNetwork->IsPlayerLocal(epass.penOther)) {IFeel_PlayEffect("PU_Weapon");}
       // play the pickup sound
-      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, 1.0f);
+      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soPick, SOUND_PICK, SOF_3D);
       m_fPickSoundLen = GetSoundLength(SOUND_PICK);
       if (!GetSP()->sp_bWeaponsStay || m_bDropped || (m_bPickupOnce||m_bRespawn)) {

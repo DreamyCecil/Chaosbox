@@ -174,17 +174,17 @@ functions:
     CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_BOMB;
+    eSpawnEffect.betType = RandomEffect(BET_BOMB, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(m_fExplosionStretch,m_fExplosionStretch,m_fExplosionStretch);
     penExplosion->Initialize(eSpawnEffect);
 
     // explosion debris
-    eSpawnEffect.betType = BET_EXPLOSION_DEBRIS;
+    eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
     CEntityPointer penExplosionDebris = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosionDebris->Initialize(eSpawnEffect);
 
     // explosion smoke
-    eSpawnEffect.betType = BET_EXPLOSION_SMOKE;
+    eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
     CEntityPointer penExplosionSmoke = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosionSmoke->Initialize(eSpawnEffect);
   }
@@ -234,7 +234,7 @@ procedures:
       eSpawn.colDebris = C_WHITE|CT_OPAQUE;
       eSpawn.Eeibt = EIBT_FLESH;
       eSpawn.dptParticles = DPT_AFTERBURNER;
-      eSpawn.betStain = BET_BLOODSTAINGROW;
+      eSpawn.betStain = RandomEffect(BET_BLOODSTAINGROW, ERE_WAVE); // [Cecil] RND: Effects
       eSpawn.pmd = GetModelDataForComponent(MODEL_HEAD);
       eSpawn.ptd = GetTextureDataForComponent(TEXTURE_HEAD);
       eSpawn.ptdRefl = NULL;

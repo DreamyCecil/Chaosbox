@@ -364,9 +364,10 @@ functions:
   // adjust sound and watcher parameters here if needed
   void EnemyPostInit(void) 
   {
-    m_soFire.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
-    m_soVoice.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
-    m_soSound.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soFire.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
+    m_soVoice.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
+    m_soSound.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
   };
 
   void LaunchTwister(FLOAT3D vEnemyOffset)
@@ -512,7 +513,8 @@ procedures:
         vFirePos = Lerp(m_fWindBlastFirePosBegin*m_fAttSizeCurrent, 
                         m_fWindBlastFirePosEnd*m_fAttSizeCurrent,
                        (FLOAT)m_iWind*0.25f);
-        ShootProjectile(PRT_AIRELEMENTAL_WIND, vFirePos,
+        // [Cecil] RND: Projectiles
+        ShootProjectile(RandomProjectile(PRT_AIRELEMENTAL_WIND, ERP_EN_THROW), vFirePos,
                         ANGLE3D(30.0f-m_iWind*10.0, 0.0f, 0.0f));
         m_iWind++;
         autowait(0.1f);

@@ -14,6 +14,15 @@
 #include "Camera.h"
 #include "LCDDrawing.h"
 
+// [Cecil] Texture stock
+#include <Engine/Templates/Stock_CTextureData.h>
+
+// [Cecil] Entities
+#define DECL_DLL _declspec(dllimport)
+#include "EntitiesMP/ModelHolder2.h"
+#include "EntitiesMP/Light.h"
+#undef DECL_DLL
+
 extern FLOAT con_fHeightFactor = 0.5f;
 extern FLOAT con_tmLastLines   = 5.0f;
 extern INDEX con_bTalk = 0;
@@ -1022,12 +1031,18 @@ void CGame::InitInternal( void)
   CON_DiscardLastLineTimes();
 
   // provide URL to the engine
-  _strModURL = "http://www.croteam.com/mods/TheSecondEncounter";
+  _strModURL = "https://dreamycecil.github.io/"; // [Cecil]
+
+  // [Cecil] Initialize Chaosbox
+  ChaosboxInit();
 }
 
 // internal cleanup
 void CGame::EndInternal(void)
 {
+  // [Cecil] End Chaosbox
+  ChaosboxEnd();
+
   // stop game if eventually started
   StopGame();
   // remove game timer handler
@@ -1117,6 +1132,52 @@ BOOL CGame::NewGame(const CTString &strSessionName, const CTFileName &fnWorld,
       BOOL bWaitAllPlayers = sp.sp_bWaitAllPlayers && _pNetwork->IsNetworkEnabled();
       _pNetwork->StartPeerToPeer_t( strSessionName, fnWorld, 
         sp.sp_ulSpawnFlags, sp.sp_ctMaxPlayers, bWaitAllPlayers, &sp);
+
+      // [Cecil] Create global controller entity
+      CWorld *pwo = &_pNetwork->ga_World;
+      CPlacement3D plGlobal = CPlacement3D(FLOAT3D(0.0f, 0.0f, 0.0f), ANGLE3D(0.0f, 0.0f, 0.0f));
+
+      CEntity *penGlobal = pwo->CreateEntity_t(plGlobal, CTFILENAME("Classes\\GlobalController.ecl"));
+      penGlobal->Initialize();
+
+      // [Cecil] Random world textures
+      /*CEntity *penRandom = _pNetwork->ga_World.wo_cenAllEntities.Pointer(0);
+
+      // go through all brush polygons
+      FOREACHINSTATICARRAY(_pNetwork->ga_World.wo_baBrushes.ba_apbpo, CBrushPolygon *, itbpo) {
+        CBrushPolygon *pbpo = itbpo.Current();
+
+        for (INDEX iLayer = 0; iLayer < 3; iLayer++) {
+          INDEX ctTextures = _pTextureStock->st_ctObjects.Count();
+          if (ctTextures <= 0) {
+            break;
+          }
+
+          ULONG ulID = pbpo->bpo_abptTextures[iLayer].bpt_toTexture.GetData()->ser_FileName.GetHash();
+
+          INDEX iTex = (GetSP()->sp_iTypeBased & RND_TEXTURES ? (ulID+1)*iLayer + ulID : penRandom->IRnd()) % ctTextures;
+          CTString strTexture = _pTextureStock->st_ctObjects[iTex].ser_FileName;
+
+          pbpo->bpo_abptTextures[iLayer].bpt_toTexture.SetData_t(CTFileName(strTexture));
+        }
+      }*/
+
+      const BOOL bModels = (GetSP()->sp_RND.iRandom & RND_MODELS|RND_TEXTURES);
+      const BOOL bLight = (GetSP()->sp_RND.iRandom & RND_LIGHTS);
+
+      if (bModels || bLight) {
+        {FOREACHINDYNAMICCONTAINER(_pNetwork->ga_World.wo_cenEntities, CEntity, iten) {
+          CEntity *pen = iten;
+
+          if (bModels && IsOfClass(pen, "ModelHolder2")) {
+            ((CModelHolder2*)pen)->ReloadModel();
+          }
+
+          if (bLight && IsOfClass(pen, "Light")) {
+            ((CLight*)pen)->RandomLight();
+          }
+        }}
+      }
     }
   } catch (char *strError) {
     gm_bFirstLoading = FALSE;

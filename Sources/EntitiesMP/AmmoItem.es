@@ -36,6 +36,20 @@ event EAmmoItem {
   INDEX iQuantity,                // ammo quantity
 };
 
+%{
+// [Cecil] RND: Ammo types for randomization
+static AmmoItemType _aeAmmo[8] = {
+  AIT_SHELLS,
+  AIT_BULLETS,
+  AIT_ROCKETS,
+  AIT_GRENADES,
+  AIT_ELECTRICITY,
+  AIT_IRONBALLS,
+  AIT_NAPALM,
+  AIT_SNIPERBULLETS,
+};
+%}
+
 class CAmmoItem : CItem {
 name      "Ammo Item";
 thumbnail "Thumbnails\\AmmoItem.tbn";
@@ -352,6 +366,14 @@ functions:
 
     if (GetSP()->sp_bInfiniteAmmo && m_penTarget==NULL) {
       Destroy();
+      return;
+    }
+
+    // [Cecil] RND: Change type
+    if (GetSP()->sp_RND.iRandom & RND_ITEMS && !m_bRandomized) {
+      m_EaitType = _aeAmmo[RndNumber(this, RND_ITEMS, en_ulID, m_EaitType) % 8];
+      m_bRandomized = TRUE;
+      Reinitialize();
     }
   }
 
@@ -376,7 +398,7 @@ procedures:
     // if health is received
     if (epass.penOther->ReceiveItem(eAmmo)) {
       // play the pickup sound
-      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, 1.0f);
+      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       if(_pNetwork->IsPlayerLocal(epass.penOther)) {IFeel_PlayEffect("PU_Ammo");}
       if( (m_EaitType == AIT_SERIOUSPACK) || (m_EaitType == AIT_BACKPACK) )
       {

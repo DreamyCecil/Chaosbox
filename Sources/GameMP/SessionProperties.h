@@ -1,3 +1,7 @@
+// [Cecil] Chaosbox mod
+#pragma once
+#include <Chaosbox/ModOptions.h>
+
 /*
  * Class responsible for describing game session
  */
@@ -66,6 +70,9 @@ public:
   ULONG sp_ulLevelsMask;    // mask of visited levels so far
 
   BOOL  sp_bUseExtraEnemies;  // spawn extra multiplayer enemies
+
+  // [Cecil] Mod options
+  SRandomizer sp_RND;
 };
 
 // NOTE: never instantiate CSessionProperties, as its size is not fixed to the size defined in engine

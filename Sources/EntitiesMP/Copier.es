@@ -57,7 +57,7 @@ functions:
     if (m_bSpawnEffect) {
       ESpawnEffect ese;
       ese.colMuliplier = C_WHITE|CT_OPAQUE;
-      ese.betType = BET_TELEPORT;
+      ese.betType = RandomEffect(BET_TELEPORT, ERE_EXP); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(0,1,0);
       FLOATaabbox3D box;
       pen->GetBoundingBox(box);

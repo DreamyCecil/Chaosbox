@@ -381,8 +381,9 @@ functions:
   void EnemyPostInit(void) 
   {
     // set sound default parameters
-    m_soFire1.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soFire1.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
   };
 
 procedures:

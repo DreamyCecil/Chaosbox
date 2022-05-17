@@ -1483,7 +1483,7 @@ functions:
         // remember that it was beaten
         m_iBeatenHighScore = m_iHighScore;
         // tell that to player
-        m_soHighScore.Set3DParameters(25.0f, 5.0f, 1.0f, 1.0f);
+        m_soHighScore.Set3DParameters(25.0f, 5.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
         //PlaySound(m_soHighScore, SOUND_HIGHSCORE, 0); !!!!####!!!!
       }
     }
@@ -1959,7 +1959,7 @@ functions:
     }
     if (!(ulFlags&CMF_READ) && (ulFlags&CMF_ANALYZE)) {
       m_tmAnalyseEnd = _pTimer->CurrentTick()+2.0f;
-      m_soMessage.Set3DParameters(25.0f, 5.0f, 1.0f, 1.0f);
+      m_soMessage.Set3DParameters(25.0f, 5.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soMessage, SOUND_INFO, SOF_3D|SOF_VOLUMETRIC|SOF_LOCAL);
     }
   }
@@ -2197,15 +2197,15 @@ functions:
 
   void SetDefaultMouthPitch(void)
   {
-    m_soMouth.Set3DParameters(50.0f, 10.0f, 1.0f, 1.0f);
+    m_soMouth.Set3DParameters(50.0f, 10.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   }
   void SetRandomMouthPitch(FLOAT fMin, FLOAT fMax)
   {
-    m_soMouth.Set3DParameters(50.0f, 10.0f, 1.0f, Lerp(fMin, fMax, FRnd()));
+    m_soMouth.Set3DParameters(50.0f, 10.0f, 1.0f, Lerp(fMin, fMax, FRnd()) * RandomPitch()); // [Cecil] RND: Pitch
   }
   void SetSpeakMouthPitch(void)
   {
-    m_soSpeech.Set3DParameters(50.0f, 10.0f, 2.0f, 1.0f);
+    m_soSpeech.Set3DParameters(50.0f, 10.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
   }
 
   // added: also shake view because of chainsaw firing
@@ -2851,10 +2851,10 @@ functions:
         ese.colMuliplier = C_WHITE|CT_OPAQUE;
         // stain
         if (bGrow) {
-          ese.betType    = BET_BLOODSTAINGROW;
+          ese.betType    = RandomEffect(BET_BLOODSTAINGROW, ERE_WAVE); // [Cecil] RND: Effects
           ese.vStretch   = FLOAT3D( fStretch*1.5f, fStretch*1.5f, 1.0f);
         } else {
-          ese.betType    = BET_BLOODSTAIN;
+          ese.betType    = RandomEffect(BET_BLOODSTAIN, ERE_WAVE); // [Cecil] RND: Effects
           ese.vStretch   = FLOAT3D( fStretch*0.75f, fStretch*0.75f, 1.0f);
         }
         ese.vNormal    = FLOAT3D( vPlaneNormal);
@@ -3135,7 +3135,7 @@ functions:
       if(_pNetwork->IsPlayerLocal(this)) {IFeel_PlayEffect("WoundWater");}
       m_tmMouthSoundLast = _pTimer->CurrentTick();
       PlaySound( m_soLocalAmbientOnce, SOUND_WATERBUBBLES, SOF_3D|SOF_VOLUMETRIC|SOF_LOCAL);
-      m_soLocalAmbientOnce.Set3DParameters( 25.0f, 5.0f, 2.0f, Lerp(0.5f, 1.5f, FRnd()) );
+      m_soLocalAmbientOnce.Set3DParameters( 25.0f, 5.0f, 2.0f, Lerp(0.5f, 1.5f, FRnd()) * RandomPitch()); // [Cecil] RND: Pitch
       SpawnBubbles( 10+INDEX(FRnd()*10));
     } else if( m_fDamageAmmount>1.0f) {
       // if not dead
@@ -3203,7 +3203,8 @@ functions:
     ULONG ulFleshModel   = MODEL_FLESH;
     if( iBloodType==2) { ulFleshTexture = TEXTURE_FLESH_RED; }
     // spawn debris
-    Debris_Begin( EIBT_FLESH, DPT_BLOODTRAIL, BET_BLOODSTAIN, fBlowUpSize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
+    // [Cecil] RND: Effects
+    Debris_Begin( EIBT_FLESH, DPT_BLOODTRAIL, RandomEffect(BET_BLOODSTAIN, ERE_WAVE), fBlowUpSize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
     for( INDEX iDebris=0; iDebris<4; iDebris++) {
       // flowerpower mode?
       if( iBloodType==3) {
@@ -3942,7 +3943,7 @@ functions:
   }
 
   void PlayPowerUpSound ( void ) {
-    m_soPowerUpBeep.Set3DParameters(50.0f, 10.0f, 4.0f, 1.0f);
+    m_soPowerUpBeep.Set3DParameters(50.0f, 10.0f, 4.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soPowerUpBeep, SOUND_POWERUP_BEEP, SOF_3D|SOF_VOLUMETRIC|SOF_LOCAL);
   }
 
@@ -4137,7 +4138,7 @@ functions:
         }
         // change ambience sounds
         if (m_pstState==PST_DIVE) {
-          m_soLocalAmbientLoop.Set3DParameters(50.0f, 10.0f, 0.25f, 1.0f);
+          m_soLocalAmbientLoop.Set3DParameters(50.0f, 10.0f, 0.25f, RandomPitch()); // [Cecil] RND: Pitch
           PlaySound(m_soLocalAmbientLoop, SOUND_WATERAMBIENT, 
             SOF_LOOP|SOF_3D|SOF_VOLUMETRIC|SOF_LOCAL);
         } else if (pstOld==PST_DIVE) {
@@ -4169,7 +4170,7 @@ functions:
         {
           PlaySound(m_soLocalAmbientOnce, SOUND_WATERBUBBLES, 
             SOF_3D|SOF_VOLUMETRIC|SOF_LOCAL);
-          m_soLocalAmbientOnce.Set3DParameters(25.0f, 5.0f, 2.0f, Lerp(0.5f, 1.5f, FRnd()) );
+          m_soLocalAmbientOnce.Set3DParameters(25.0f, 5.0f, 2.0f, Lerp(0.5f, 1.5f, FRnd()) * RandomPitch()); // [Cecil] RND: Pitch
           SpawnBubbles( 5+INDEX(FRnd()*5));
         }
         m_tmNextAmbientOnce = _pTimer->CurrentTick()+5.0f+FRnd();
@@ -5351,7 +5352,7 @@ functions:
     }
     ESpawnEffect ese;
     ese.colMuliplier = C_WHITE|CT_OPAQUE;
-    ese.betType = BET_TELEPORT;
+    ese.betType = RandomEffect(BET_TELEPORT, ERE_EXP); // [Cecil] RND: Effects
     ese.vNormal = FLOAT3D(0,1,0);
     FLOATaabbox3D box;
     GetBoundingBox(box);
@@ -6566,12 +6567,13 @@ procedures:
     m_penAnimator->Initialize(eInitAnimator);
 
     // set sound default parameters
-    m_soMouth.Set3DParameters(50.0f, 10.0f, 1.0f, 1.0f);
-    m_soFootL.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
-    m_soFootR.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
-    m_soBody.Set3DParameters(25.0f, 5.0f, 1.0f, 1.0f);
-    m_soMessage.Set3DParameters(25.0f, 5.0f, 1.0f, 1.0f);
-    m_soSniperZoom.Set3DParameters(25.0f, 5.0f, 1.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soMouth.Set3DParameters(50.0f, 10.0f, 1.0f, RandomPitch());
+    m_soFootL.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch());
+    m_soFootR.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch());
+    m_soBody.Set3DParameters(25.0f, 5.0f, 1.0f, RandomPitch());
+    m_soMessage.Set3DParameters(25.0f, 5.0f, 1.0f, RandomPitch());
+    m_soSniperZoom.Set3DParameters(25.0f, 5.0f, 1.0f, RandomPitch());
       
     // setup light source
     SetupLightSource();
@@ -6634,7 +6636,7 @@ procedures:
         m_strCenterMessage = eMsg.strMessage;
         m_tmCenterMessageEnd = _pTimer->CurrentTick()+eMsg.tmLength;
         if (eMsg.mssSound==MSS_INFO) {
-          m_soMessage.Set3DParameters(25.0f, 5.0f, 1.0f, 1.0f);
+          m_soMessage.Set3DParameters(25.0f, 5.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
           PlaySound(m_soMessage, SOUND_INFO, SOF_3D|SOF_VOLUMETRIC|SOF_LOCAL);
         }
         resume;

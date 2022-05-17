@@ -281,7 +281,8 @@ procedures:
     // fire projectile
     StartModelAnim(WOMAN_ANIM_AIRATTACK02, 0);
     autowait(0.6f);
-    ShootProjectile(PRT_WOMAN_FIRE, FIRE_AIR, ANGLE3D(0, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_WOMAN_FIRE, ERP_ENEMY), FIRE_AIR, ANGLE3D(0, 0, 0));
     PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
     autowait(0.6f);
     StandingAnim();
@@ -352,7 +353,8 @@ procedures:
     // fire projectile
     StartModelAnim(WOMAN_ANIM_GROUNDATTACK02, 0);
     autowait(0.3f);
-    ShootProjectile(PRT_WOMAN_FIRE, FIRE_GROUND, ANGLE3D(0, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_WOMAN_FIRE, ERP_ENEMY), FIRE_GROUND, ANGLE3D(0, 0, 0));
     PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
     autowait(0.3f);
     StandingAnim();

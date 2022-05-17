@@ -228,7 +228,7 @@ procedures:
     ModelChangeNotify();
 
     // play the burning sound
-    m_soEffect.Set3DParameters(10.0f, 1.0f, 1.0f, 1.0f);
+    m_soEffect.Set3DParameters(10.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_FLAME, SOF_3D|SOF_LOOP);
 
     // must always be in movers, to find sector content type

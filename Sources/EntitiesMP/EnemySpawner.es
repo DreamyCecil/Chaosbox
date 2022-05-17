@@ -141,8 +141,14 @@ functions:
 
       CEntity *pen = NULL;
       if (bCopy) {
+        // [Cecil] RND: Replace target enemy
+        CEntityPointer penSpawn = m_penTarget;
+
+        SEnemyProperties enp;
+        BOOL bReplaced = enp.ReplaceEnemy(this, penSpawn);
+
         // copy template entity
-        pen = GetWorld()->CopyEntityInWorld( *m_penTarget,
+        pen = GetWorld()->CopyEntityInWorld(*penSpawn,
           CPlacement3D(FLOAT3D(-32000.0f+FRnd()*200.0f, -32000.0f+FRnd()*200.0f, 0), ANGLE3D(0, 0, 0)) );
 
         // change needed properties
@@ -153,10 +159,28 @@ functions:
          || m_estType==EST_MAINTAINGROUP || m_estType==EST_RESPAWNGROUP) {
           peb->m_penSpawnerTarget = this;
         }
+
+        // [Cecil] RND: Copy enemy properties
+        if (bReplaced) {
+          enp.ApplyProperties(peb);
+        }
+
         if (m_penPatrol!=NULL) {
           peb->m_penMarker = m_penPatrol;
         }
         pen->Initialize();
+
+        // [Cecil] RND: Copy health
+        if (bReplaced) {
+          peb->SetHealth(enp.fHealth);
+          peb->m_fMaxHealth = peb->GetHealth();
+        }
+
+        // [Cecil] RND: Enemy stretch
+        if (GetSP()->sp_RND.iRandom & RND_STRETCH) {
+          RandomStretch(peb);
+        }
+
       } else {
         pen = m_penTarget;
         m_penTarget = NULL;
@@ -182,7 +206,7 @@ functions:
       if (m_bSpawnEffect) {
         ESpawnEffect ese;
         ese.colMuliplier = C_WHITE|CT_OPAQUE;
-        ese.betType = BET_TELEPORT;
+        ese.betType = RandomEffect(BET_TELEPORT, ERE_EXP); // [Cecil] RND: Effects
         ese.vNormal = FLOAT3D(0,1,0);
         FLOATaabbox3D box;
         pen->GetBoundingBox(box);

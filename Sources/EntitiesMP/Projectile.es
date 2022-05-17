@@ -137,10 +137,7 @@ void CProjectile_OnPrecache(CDLLEntityClass *pdec, INDEX iUser)
   pdec->PrecacheTexture(TEX_SPEC_MEDIUM);
   pdec->PrecacheTexture(TEX_SPEC_STRONG);
 
-  switch ((ProjectileType)iUser) {
-  case PRT_ROCKET                :
-  case PRT_WALKER_ROCKET         :
-  case PRT_DEVIL_ROCKET          :
+  // [Cecil] RND: Precache everything for randomization
     pdec->PrecacheModel(MODEL_ROCKET  );
     pdec->PrecacheTexture(TEXTURE_ROCKET);
     pdec->PrecacheSound(SOUND_FLYING  );
@@ -148,8 +145,6 @@ void CProjectile_OnPrecache(CDLLEntityClass *pdec, INDEX iUser)
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_EXPLOSIONSTAIN);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_SHOCKWAVE);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_ROCKET_PLANE);
-    break;
-  case PRT_GRENADE:
     pdec->PrecacheModel(MODEL_GRENADE);
     pdec->PrecacheTexture(TEXTURE_GRENADE);
     pdec->PrecacheSound(SOUND_GRENADE_BOUNCE);
@@ -157,80 +152,39 @@ void CProjectile_OnPrecache(CDLLEntityClass *pdec, INDEX iUser)
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_EXPLOSIONSTAIN);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_SHOCKWAVE);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_GRENADE_PLANE);
-    break;
-  
-  case PRT_FLAME:
     pdec->PrecacheModel(MODEL_FLAME);
     pdec->PrecacheClass(CLASS_FLAME);
-    break;
-
-  case PRT_LASER_RAY:
     pdec->PrecacheModel(MODEL_LASER                   );
     pdec->PrecacheTexture(TEXTURE_GREEN_LASER         );
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_LASERWAVE);
-    break;
-
-  case PRT_GRUNT_PROJECTILE_SOL:
     pdec->PrecacheModel(MODEL_GRUNT_PROJECTILE           );
     pdec->PrecacheTexture(TEXTURE_GRUNT_PROJECTILE_01    );
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_LASERWAVE);
-    break;
-
-  case PRT_GRUNT_PROJECTILE_COM:
     pdec->PrecacheModel(MODEL_GRUNT_PROJECTILE           );
     pdec->PrecacheTexture(TEXTURE_GRUNT_PROJECTILE_02    );
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_LASERWAVE);
-    break;
-
-  case PRT_CATMAN_FIRE:
     pdec->PrecacheModel(MODEL_CATMAN_FIRE             );
     pdec->PrecacheTexture(TEXTURE_CATMAN_FIRE         );
-    break;
-
-  case PRT_HEADMAN_FIRECRACKER:
     pdec->PrecacheModel(MODEL_HEADMAN_FIRECRACKER     );
     pdec->PrecacheTexture(TEXTURE_HEADMAN_FIRECRACKER );
-    break;
-  case PRT_HEADMAN_ROCKETMAN:
     pdec->PrecacheModel(MODEL_HEADMAN_BLADE           );
     pdec->PrecacheTexture(TEXTURE_HEADMAN_BLADE       );
     pdec->PrecacheModel(MODEL_HEADMAN_BLADE_FLAME     );
     pdec->PrecacheTexture(TEXTURE_HEADMAN_BLADE_FLAME );
-    break;
-  case PRT_HEADMAN_BOMBERMAN:
     pdec->PrecacheModel(MODEL_HEADMAN_BOMB         );
     pdec->PrecacheTexture(TEXTURE_HEADMAN_BOMB     );  
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_BOMB);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_EXPLOSIONSTAIN);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_GRENADE_PLANE);
-    break;
-
-  case PRT_BONEMAN_FIRE:
     pdec->PrecacheModel(MODEL_BONEMAN_FIRE         );
     pdec->PrecacheTexture(TEXTURE_BONEMAN_FIRE     );
-    break;
-
-  case PRT_WOMAN_FIRE:
     pdec->PrecacheModel(MODEL_WOMAN_FIRE           );
     pdec->PrecacheTexture(TEXTURE_WOMAN_FIRE       );
-    break;
-
-  case PRT_DRAGONMAN_FIRE:
-  case PRT_DRAGONMAN_STRONG_FIRE:
     pdec->PrecacheModel(MODEL_DRAGONMAN_FIRE       );
     pdec->PrecacheTexture(TEXTURE_DRAGONMAN_FIRE1  );
     pdec->PrecacheTexture(TEXTURE_DRAGONMAN_FIRE2  );
-    break;
-
-  case PRT_STONEMAN_FIRE:
-  case PRT_STONEMAN_BIG_FIRE:
-  case PRT_STONEMAN_LARGE_FIRE:
     pdec->PrecacheModel(MODEL_ELEM_STONE           );
     pdec->PrecacheTexture(TEXTURE_ELEM_STONE       ); 
-    break;
-  case PRT_LAVAMAN_BIG_BOMB:
-  case PRT_LAVAMAN_BOMB:
-  case PRT_LAVAMAN_STONE:
     pdec->PrecacheModel(MODEL_ELEM_LAVA_STONE);
     pdec->PrecacheModel(MODEL_ELEM_LAVA_STONE_FLARE);
     pdec->PrecacheModel(MODEL_ELEM_LAVA_BOMB);
@@ -241,52 +195,24 @@ void CProjectile_OnPrecache(CDLLEntityClass *pdec, INDEX iUser)
     pdec->PrecacheTexture(TEXTURE_ELEM_LAVA_BOMB_FLARE); 
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_SHOCKWAVE);
     pdec->PrecacheClass(CLASS_BLOOD_SPRAY);
-    break;
-  case PRT_METEOR:
     pdec->PrecacheSound(SOUND_FLYING  );
     pdec->PrecacheSound(SOUND_METEOR_BLAST  );
     pdec->PrecacheModel(MODEL_ELEM_LAVA_BOMB);
     pdec->PrecacheTexture(TEXTURE_ELEM_LAVA_BOMB); 
     pdec->PrecacheClass(CLASS_BLOOD_SPRAY);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_CANNON);
-
-    break;
-
-  case PRT_ICEMAN_FIRE:
-  case PRT_ICEMAN_BIG_FIRE:
-  case PRT_ICEMAN_LARGE_FIRE:
     pdec->PrecacheModel(MODEL_ELEM_ICE          );  
     pdec->PrecacheModel(MODEL_ELEM_ICE_FLARE    );  
     pdec->PrecacheTexture(TEXTURE_ELEM_ICE      );    
   //pdec->PrecacheTexture(TEXTURE_ELEM_ICE_FLARE);    
-    break;
-
-  case PRT_HUANMAN_FIRE:
     pdec->PrecacheModel(MODEL_HUANMAN_FIRE      );
     pdec->PrecacheTexture(TEXTURE_HUANMAN_FIRE  );
     pdec->PrecacheModel(MODEL_HUANMAN_FLARE     );
     pdec->PrecacheTexture(TEXTURE_HUANMAN_FLARE );
-    break;
-
-  case PRT_FISHMAN_FIRE:
     pdec->PrecacheModel(MODEL_FISHMAN_FIRE      );
     pdec->PrecacheTexture(TEXTURE_FISHMAN_FIRE  );
-    break;
-
-  case PRT_MANTAMAN_FIRE:
     pdec->PrecacheModel(MODEL_MANTAMAN_FIRE     );
     pdec->PrecacheTexture(TEXTURE_MANTAMAN_FIRE );
-    break;
-
-  case PRT_DEVIL_LASER:         
-    /*
-    pdec->PrecacheModel(MODEL_DEVIL_LASER      );
-    pdec->PrecacheTexture(TEXTURE_DEVIL_LASER  ); 
-    break;
-    */
-
-  case PRT_CYBORG_LASER:         
-  case PRT_CYBORG_BOMB:
     pdec->PrecacheModel(MODEL_CYBORG_LASER      );
     pdec->PrecacheTexture(TEXTURE_CYBORG_LASER  ); 
     pdec->PrecacheModel(MODEL_CYBORG_BOMB       );
@@ -294,9 +220,6 @@ void CProjectile_OnPrecache(CDLLEntityClass *pdec, INDEX iUser)
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_BOMB);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_EXPLOSIONSTAIN);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_GRENADE_PLANE);
-    break;
-
-  case PRT_LAVA_COMET:
     pdec->PrecacheModel(MODEL_ELEM_LAVA_STONE);
     pdec->PrecacheModel(MODEL_ELEM_LAVA_STONE_FLARE);
     pdec->PrecacheModel(MODEL_ELEM_LAVA_BOMB);
@@ -313,67 +236,39 @@ void CProjectile_OnPrecache(CDLLEntityClass *pdec, INDEX iUser)
     pdec->PrecacheTexture(TEXTURE_LAVA_FLARE);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_SHOCKWAVE);
     pdec->PrecacheClass(CLASS_BLOOD_SPRAY);
-    break;
-  case PRT_BEAST_PROJECTILE:
-  case PRT_BEAST_DEBRIS:
     pdec->PrecacheSound(SOUND_BEAST_FLYING  );
     pdec->PrecacheModel(MODEL_BEAST_FIRE);
     pdec->PrecacheTexture(TEXTURE_BEAST_FIRE);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_CANNON);
-    break;
-  case PRT_GUFFY_PROJECTILE:
     pdec->PrecacheSound(SOUND_FLYING                   );
     pdec->PrecacheModel(MODEL_GUFFY_PROJECTILE         );
     pdec->PrecacheTexture(TEXTURE_GUFFY_PROJECTILE     );
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_ROCKET );
-    break;
-  case PRT_BEAST_BIG_PROJECTILE:
-  case PRT_DEVIL_GUIDED_PROJECTILE:
-  case PRT_BEAST_BIG_DEBRIS:
-  case PRT_SHOOTER_FIREBALL:
     pdec->PrecacheSound(SOUND_BEAST_FLYING  );
     pdec->PrecacheModel(MODEL_BEAST_FIRE);
     pdec->PrecacheTexture(TEXTURE_BEAST_BIG_FIRE);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_LIGHT_CANNON);
-    break;
-  case PRT_DEMON_FIREBALL:
-  case PRT_DEMON_FIREBALL_DEBRIS:
     pdec->PrecacheSound(SOUND_DEMON_FLYING  );
     pdec->PrecacheModel(MODEL_DEMON_FIREBALL);
     pdec->PrecacheTexture(TEXTURE_DEMON_FIREBALL);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_LIGHT_CANNON);
-    break;
-  case PRT_LARVA_PLASMA:
     pdec->PrecacheSound(SOUND_DEMON_FLYING  );
     pdec->PrecacheModel(MODEL_LARVA_PLASMA);
     pdec->PrecacheTexture(TEXTURE_LARVA_PLASMA);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_LIGHT_CANNON);    
-    break;
-  case PRT_LARVA_TAIL_PROJECTILE:
     pdec->PrecacheSound(SOUND_LARVETTE  );
     pdec->PrecacheModel(MODEL_LARVA_TAIL);
     pdec->PrecacheTexture(TEXTURE_LARVA_TAIL);
     pdec->PrecacheClass(CLASS_BASIC_EFFECT, BET_CANNON);
-    break;
-  case PRT_SHOOTER_WOODEN_DART:
     pdec->PrecacheModel(MODEL_SHTR_WOODEN_DART);
     pdec->PrecacheTexture(TEX_SHTR_WOODEN_DART);
-    break;
-  case PRT_SHOOTER_FLAME:
     pdec->PrecacheModel(MODEL_FLAME);
     pdec->PrecacheClass(CLASS_FLAME);
-    break;
-  case PRT_AIRELEMENTAL_WIND:
     pdec->PrecacheModel(MODEL_WINDBLAST);
     pdec->PrecacheTexture(TEXTURE_WINDBLAST);    
-    break;
-  case PRT_AFTERBURNER_DEBRIS:
     pdec->PrecacheModel(MODEL_MARKER);
     pdec->PrecacheTexture(TEXTURE_MARKER);    
-    break;
-  default:
-    ASSERT(FALSE);
-  }
+
 }
 %}
 
@@ -957,7 +852,7 @@ void PlayerRocket(void) {
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -30.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
   // play the flying sound
-  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   m_fFlyTime = 30.0f;
   if( GetSP()->sp_bCooperative)
@@ -995,7 +890,7 @@ void WalkerRocket(void) {
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -30.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
   // play the flying sound
-  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   m_fFlyTime = 30.0f;
   if (GetSP()->sp_gdGameDifficulty<=CSessionProperties::GD_EASY) {
@@ -1031,7 +926,7 @@ void PlayerRocketExplosion(void) {
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_ROCKET;
+  ese.betType = RandomEffect(BET_ROCKET, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1,1,1);
   SpawnEffect(GetPlacement(), ese);
   // spawn sound event in range
@@ -1040,26 +935,26 @@ void PlayerRocketExplosion(void) {
   }
 
   // explosion debris
-  ese.betType = BET_EXPLOSION_DEBRIS;
+  ese.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
   SpawnEffect(GetPlacement(), ese);
 
   // explosion smoke
-  ese.betType = BET_EXPLOSION_SMOKE;
+  ese.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
   SpawnEffect(GetPlacement(), ese);
 
   // on plane
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // shock wave
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // second explosion on plane
-      ese.betType = BET_ROCKET_PLANE;
+      ese.betType = RandomEffect(BET_ROCKET_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1108,7 +1003,7 @@ void PlayerGrenadeExplosion(void) {
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_GRENADE;
+  ese.betType = RandomEffect(BET_GRENADE, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1,1,1);
   SpawnEffect(GetPlacement(), ese);
   // spawn sound event in range
@@ -1120,15 +1015,15 @@ void PlayerGrenadeExplosion(void) {
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // wall stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // shock wave
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // second explosion on plane
-      ese.betType = BET_GRENADE_PLANE;
+      ese.betType = RandomEffect(BET_GRENADE_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1217,7 +1112,7 @@ void PlayerLaserWave(void) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // shock wave
       ese.colMuliplier = C_dRED|CT_OPAQUE;
-      ese.betType = BET_LASERWAVE;
+      ese.betType = RandomEffect(BET_LASERWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1344,17 +1239,17 @@ void HeadmanBombermanExplosion(void) {
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_BOMB;
+  ese.betType = RandomEffect(BET_BOMB, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1.0f,1.0f,1.0f);
   SpawnEffect(GetPlacement(), ese);
   // on plane
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // wall stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
-      ese.betType = BET_GRENADE_PLANE;
+      ese.betType = RandomEffect(BET_GRENADE_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1370,17 +1265,17 @@ void CyborgBombExplosion(void)
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_BOMB;
+  ese.betType = RandomEffect(BET_BOMB, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1.0f,1.0f,1.0f);
   SpawnEffect(GetPlacement(), ese);
   // on plane
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // wall stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
-      ese.betType = BET_GRENADE_PLANE;
+      ese.betType = RandomEffect(BET_GRENADE_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1613,7 +1508,7 @@ void LavamanBombExplosion(void)
     {
       // shock wave
       ese.colMuliplier = C_WHITE|CT_OPAQUE;
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1621,7 +1516,7 @@ void LavamanBombExplosion(void)
 
   // shock wave
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(4,4,4);
   SpawnEffect(GetPlacement(), ese);
 
@@ -1687,7 +1582,7 @@ void LavamanBombDebrisExplosion(void)
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f)
     {
       ese.colMuliplier = C_WHITE|CT_OPAQUE;
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
     }
@@ -1695,7 +1590,7 @@ void LavamanBombDebrisExplosion(void)
 
   // spawn explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(2,2,2);
   SpawnEffect(GetPlacement(), ese);
 
@@ -1761,7 +1656,7 @@ void BeastProjectile(void) {
 
   ModelChangeNotify();
   // play the flying sound
-  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_BEAST_FLYING, SOF_3D|SOF_LOOP);
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -60.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
@@ -1796,7 +1691,7 @@ void BeastBigProjectile(void) {
 
   ModelChangeNotify();
   // play the flying sound
-  m_soEffect.Set3DParameters(50.0f, 2.0f, 1.0f, 0.75f);
+  m_soEffect.Set3DParameters(50.0f, 2.0f, 1.0f, 0.75f * RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_BEAST_FLYING, SOF_3D|SOF_LOOP);
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -60.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
@@ -1878,7 +1773,7 @@ void BeastDebrisExplosion(void)
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_GREEN|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(0.75,0.75,0.75);
   SpawnEffect(GetPlacement(), ese);
 
@@ -1901,7 +1796,7 @@ void BeastBigDebrisExplosion(void)
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1,1,1);
   SpawnEffect(GetPlacement(), ese);
 
@@ -1924,7 +1819,7 @@ void BeastProjectileExplosion(void)
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_GREEN|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1.25,1.25,1.25);
   SpawnEffect(GetPlacement(), ese);
 
@@ -1982,7 +1877,7 @@ void BeastBigProjectileExplosion(void)
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(2,2,2);
   SpawnEffect(GetPlacement(), ese);
 
@@ -2125,7 +2020,7 @@ void DevilRocket(void) {
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -DEVIL_ROCKET_SPEED), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
   // play the flying sound
-  m_soEffect.Set3DParameters(100.0f, 2.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(100.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   m_fFlyTime = 50.0f;
   m_fDamageAmount = 50.0f;
@@ -2152,7 +2047,7 @@ void DevilRocketExplosion(void) {
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_GRENADE;
+  ese.betType = RandomEffect(BET_GRENADE, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(2,2,2);
   SpawnEffect(GetPlacement(), ese);
   // spawn sound event in range
@@ -2164,17 +2059,17 @@ void DevilRocketExplosion(void) {
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       ese.vStretch = FLOAT3D(2,2,2);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // shock wave
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       ese.vStretch = FLOAT3D(2,2,2);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // second explosion on plane
-      ese.betType = BET_GRENADE_PLANE;
+      ese.betType = RandomEffect(BET_GRENADE_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       ese.vStretch = FLOAT3D(2,2,2);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
@@ -2197,7 +2092,7 @@ void DevilGuidedProjectile(void) {
   GetModelObject()->StretchModel(FLOAT3D(2.5f, 2.5f, 2.5f));
   ModelChangeNotify();
   // play the flying sound
-  m_soEffect.Set3DParameters(250.0f, 2.0f, 1.0f, 0.75f);
+  m_soEffect.Set3DParameters(250.0f, 2.0f, 1.0f, 0.75f * RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -80.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
@@ -2221,7 +2116,7 @@ void DevilGuidedProjectileExplosion(void)
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(4,4,4);
   SpawnEffect(GetPlacement(), ese);
 
@@ -2364,7 +2259,7 @@ void LavaBallExplosion(void) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // shock wave
       ese.colMuliplier = C_WHITE|CT_OPAQUE;
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
     }
@@ -2459,7 +2354,7 @@ void GuffyProjectile(void) {
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -50.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
   // play the flying sound
-  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   m_fFlyTime = 30.0f;
   m_fDamageAmount = 10.0f;
@@ -2503,7 +2398,7 @@ void DemonFireball(void) {
 
   ModelChangeNotify();
   // play the flying sound
-  m_soEffect.Set3DParameters(50.0f, 2.0f, 1.0f, 0.75f);
+  m_soEffect.Set3DParameters(50.0f, 2.0f, 1.0f, 0.75f * RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_BEAST_FLYING, SOF_3D|SOF_LOOP);
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -100.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
@@ -2527,7 +2422,7 @@ void DemonFireballExplosion(void)
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(2,2,2);
   SpawnEffect(GetPlacement(), ese);
 
@@ -2566,7 +2461,7 @@ void LarvaPlasma(void) {
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -60.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
   // play the flying sound
-  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   m_fFlyTime = 30.0f;
   if( GetSP()->sp_bCooperative)
@@ -2598,7 +2493,7 @@ void LarvaPlasmaExplosion(void) {
   // explosion
   ESpawnEffect ese;
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_LIGHT_CANNON;
+  ese.betType = RandomEffect(BET_LIGHT_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(2,2,2);
   SpawnEffect(GetPlacement(), ese);
 
@@ -2633,7 +2528,7 @@ void LarvaTail(void) {
 
   ModelChangeNotify();
   // play the flying sound
-  m_soEffect.Set3DParameters(50.0f, 10.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(50.0f, 10.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_LARVETTE, SOF_3D|SOF_LOOP);
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -30.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
@@ -2708,7 +2603,7 @@ void Meteor() {
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -m_fSpeed), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
   // play the flying sound
-  m_soEffect.Set3DParameters(250.0f, 10.0f, 2.0f, 1.0f);
+  m_soEffect.Set3DParameters(250.0f, 10.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_FLYING, SOF_3D|SOF_LOOP);
   m_fFlyTime = 30.0f;
   m_fDamageAmount = 100.0f;
@@ -2750,7 +2645,7 @@ void MeteorExplosion() {
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_CANNON;
+  ese.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(5,5,5);
   SpawnEffect(GetPlacement(), ese);
   // spawn sound event in range
@@ -2759,31 +2654,31 @@ void MeteorExplosion() {
   }
 
   // explosion debris
-  ese.betType = BET_EXPLOSION_DEBRIS;
+  ese.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
   SpawnEffect(GetPlacement(), ese);
 
   // explosion smoke
-  ese.betType = BET_EXPLOSION_SMOKE;
+  ese.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
   SpawnEffect(GetPlacement(), ese);
 
   // on plane
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // shock wave
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // second explosion on plane
-      ese.betType = BET_ROCKET_PLANE;
+      ese.betType = RandomEffect(BET_ROCKET_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
     }
   }
-  m_soExplosion.Set3DParameters(150.0f, 10.0f, 1.5f, 1.0f);
+  m_soExplosion.Set3DParameters(150.0f, 10.0f, 1.5f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soExplosion, SOUND_METEOR_BLAST, SOF_3D);
 }
 
@@ -3044,7 +2939,7 @@ void BounceSound(void) {
   switch (m_prtType) {
     case PRT_GRENADE:
       if (en_vCurrentTranslationAbsolute.Length() > 3.0f) {
-        m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, 1.0f);
+        m_soEffect.Set3DParameters(20.0f, 2.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
         PlaySound(m_soEffect, SOUND_GRENADE_BOUNCE, SOF_3D);
       }
       break;

@@ -408,17 +408,17 @@ functions:
       CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
       ESpawnEffect eSpawnEffect;
       eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-      eSpawnEffect.betType = BET_BOMB;
+      eSpawnEffect.betType = RandomEffect(BET_BOMB, ERE_EXP); // [Cecil] RND: Effects
       eSpawnEffect.vStretch = FLOAT3D(1.0f,1.0f,1.0f);
       penExplosion->Initialize(eSpawnEffect);
 
       // explosion debris
-      eSpawnEffect.betType = BET_EXPLOSION_DEBRIS;
+      eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
       CEntityPointer penExplosionDebris = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
       penExplosionDebris->Initialize(eSpawnEffect);
 
       // explosion smoke
-      eSpawnEffect.betType = BET_EXPLOSION_SMOKE;
+      eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
       CEntityPointer penExplosionSmoke = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
       penExplosionSmoke->Initialize(eSpawnEffect);
     }
@@ -526,7 +526,7 @@ procedures:
     CEntityPointer penProjectile = CreateEntity(pl, CLASS_PROJECTILE);
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_HEADMAN_BOMBERMAN;
+    eLaunch.prtType = RandomProjectile(PRT_HEADMAN_BOMBERMAN, ERP_EN_THROW); // [Cecil] RND: Projectiles
     eLaunch.fSpeed = fLaunchSpeed;
     penProjectile->Initialize(eLaunch);
 
@@ -550,19 +550,24 @@ procedures:
     autowait(0.15f);
     PlaySound(m_soSound, SOUND_FIREFIRECRACKER, SOF_3D);
     autowait(0.52f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(-16.0f, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_HEADMAN_FIRECRACKER, ERP_ENEMY), FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(-16.0f, 0, 0));
 
     autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(-8, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_HEADMAN_FIRECRACKER, ERP_ENEMY), FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(-8, 0, 0));
 
     autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(0.0f, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_HEADMAN_FIRECRACKER, ERP_ENEMY), FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(0.0f, 0, 0));
 
     autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(8.0f, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_HEADMAN_FIRECRACKER, ERP_ENEMY), FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(8.0f, 0, 0));
 
     autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(16.0f, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_HEADMAN_FIRECRACKER, ERP_ENEMY), FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(16.0f, 0, 0));
 
     autowait(0.5f + FRnd()/3);
     return EEnd();
@@ -574,7 +579,8 @@ procedures:
     autowait(0.2f + FRnd()/4);
 
     StartModelAnim(HEADMAN_ANIM_ROCKETMAN_ATTACK, 0);
-    ShootProjectile(PRT_HEADMAN_ROCKETMAN, FLOAT3D(0.0f, 1.0f, 0.0f), ANGLE3D(0, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_HEADMAN_ROCKETMAN, ERP_ENEMY), FLOAT3D(0.0f, 1.0f, 0.0f), ANGLE3D(0, 0, 0));
     PlaySound(m_soSound, SOUND_FIREROCKETMAN, SOF_3D);
 
     autowait(1.0f + FRnd()/3);

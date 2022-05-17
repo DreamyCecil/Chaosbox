@@ -124,7 +124,7 @@ functions:
       CEntityPointer penSplash = CreateEntity(plSplash, CLASS_BASIC_EFFECT);
       ESpawnEffect ese;
       ese.colMuliplier = C_WHITE|CT_OPAQUE;
-      ese.betType = BET_GIZMO_SPLASH_FX;
+      ese.betType = RandomEffect(BET_GIZMO_SPLASH_FX, ERE_EXP); // [Cecil] RND: Effects
       penSplash->Initialize(ese);
     }
   };
@@ -157,7 +157,7 @@ functions:
         FLOAT fStretch = box.Size().Length();
         // stain
         ese.colMuliplier = C_WHITE|CT_OPAQUE;
-        ese.betType    = BET_GIZMOSTAIN;
+        ese.betType    = RandomEffect(BET_GIZMOSTAIN, ERE_WAVE); // [Cecil] RND: Effects
         ese.vStretch   = FLOAT3D( fStretch*0.75f, fStretch*0.75f, 1.0f);
         ese.vNormal    = FLOAT3D( vPlaneNormal);
         ese.vDirection = FLOAT3D( 0, 0, 0);

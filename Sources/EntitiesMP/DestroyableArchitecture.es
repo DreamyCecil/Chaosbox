@@ -237,7 +237,7 @@ functions:
       eSpawn.colDebris = C_WHITE|CT_OPAQUE;
       eSpawn.Eeibt = EIBT_ROCK;
       eSpawn.dptParticles = DPT_NONE;
-      eSpawn.betStain = BET_NONE;
+      eSpawn.betStain = RandomEffect(BET_NONE, ERE_WAVE); // [Cecil] RND: Effects
       eSpawn.pmd = GetModelDataForComponent(di.ulModelID);
       eSpawn.ptd = GetTextureDataForComponent(di.ulTextureID);
       eSpawn.ptdRefl = NULL;
@@ -304,7 +304,7 @@ functions:
       eSpawn.colDebris = C_WHITE|CT_OPAQUE;
       eSpawn.Eeibt = EIBT_ROCK;
       eSpawn.dptParticles = DPT_NONE;
-      eSpawn.betStain = BET_NONE;
+      eSpawn.betStain = RandomEffect(BET_NONE, ERE_WAVE); // [Cecil] RND: Effects
       eSpawn.pmd = GetModelDataForComponent(di.ulModelID);
       eSpawn.ptd = GetTextureDataForComponent(di.ulTextureID);
       eSpawn.ptdRefl = NULL;

@@ -78,3 +78,6 @@ Sources/EntitiesMP/*.h
 Sources/EntitiesMP/*.cpp
 !Sources/EntitiesMP/Common/*
 !Sources/EntitiesMP/StdH/*
+
+Sources/Chaosbox/Classes/*.h
+Sources/Chaosbox/Classes/*.cpp

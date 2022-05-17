@@ -62,6 +62,18 @@
     <Filter Include="Messages">
       <UniqueIdentifier>{7a1dcaf7-0837-41e6-9e0c-6a85f796cc5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chaosbox">
+      <UniqueIdentifier>{982f5657-c7d8-4ec1-bccb-fa2c7c1296e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chaosbox\Randomized">
+      <UniqueIdentifier>{fbfa210f-b10c-4239-b4f2-05d5f0bd4f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Files\Chaosbox">
+      <UniqueIdentifier>{10042061-5c9d-4387-801e-75ea4d360b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chaosbox\Classes">
+      <UniqueIdentifier>{939da0e0-706e-4b43-a807-b28d6e241b11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Common.cpp">
@@ -540,6 +552,21 @@
     </ClCompile>
     <ClCompile Include="WorldSettingsController.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Randomized\GameOptions.cpp">
+      <Filter>Chaosbox\Randomized</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Randomized\Randomized.cpp">
+      <Filter>Chaosbox\Randomized</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\ModModule.cpp">
+      <Filter>Chaosbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Chaosbox.cpp">
+      <Filter>Chaosbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Classes\GlobalController.cpp">
+      <Filter>Chaosbox\Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1479,6 +1506,30 @@
     <ClInclude Include="WorldSettingsController_tables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Chaosbox\Randomized\Randomized.h">
+      <Filter>Chaosbox\Randomized</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Randomized\GameOptions.h">
+      <Filter>Chaosbox\Randomized</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Chaosbox.h">
+      <Filter>Chaosbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\ModModule.h">
+      <Filter>Chaosbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\ModOptions.h">
+      <Filter>Chaosbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Randomized\RandomLists.h">
+      <Filter>Chaosbox\Randomized</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Classes\GlobalController.h">
+      <Filter>Chaosbox\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Classes\GlobalController_tables.h">
+      <Filter>Chaosbox\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="NavigationMarker.es">
@@ -2347,6 +2398,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Woman.txt">
       <Filter>Messages</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Chaosbox\Classes\GlobalController.es">
+      <Filter>Class Files\Chaosbox</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

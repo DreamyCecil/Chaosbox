@@ -810,7 +810,7 @@ procedures:
       SpawnBeamMachineMainLightning();
     }
 
-    m_soBeam.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME, 1.0f);
+    m_soBeam.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound( m_soBeam, SOUND_BEAM, SOF_3D|SOF_LOOP);
     ShowBeamMachineHitFlare();
     m_tmHitFlareTime = _pTimer->CurrentTick();
@@ -861,7 +861,7 @@ procedures:
       autowait(_pTimer->TickQuantum);
       FLOAT tmNow = _pTimer->CurrentTick();
       FLOAT fRatio = CalculateRatio(tmNow, m_tmBeamTime, m_tmBeamTime+2.0f, 0, 1.0f);
-      m_soBeam.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, fRatio*SND_VOLUME, 1.0f);
+      m_soBeam.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, fRatio*SND_VOLUME, RandomPitch()); // [Cecil] RND: Pitch
     }
     
     // turn off light beam
@@ -896,10 +896,11 @@ procedures:
     en_fAcceleration = 1e6f;
     en_fDeceleration = 1e6f;
 
-    m_soBeam.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME, 1.0f);
-    m_soBeamMachine.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME/2.0f, 1.0f);
-    m_soPlates.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME/2.0f, 1.0f);
-    m_soFlaresFX.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soBeam.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME, RandomPitch());
+    m_soBeamMachine.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME/2.0f, RandomPitch());
+    m_soPlates.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME/2.0f, RandomPitch());
+    m_soFlaresFX.Set3DParameters(SND_FALLOFF, SND_HOTSPOT, SND_VOLUME, RandomPitch());
 
     // set appearance
     SetModel(MODEL_SPACESHIP);

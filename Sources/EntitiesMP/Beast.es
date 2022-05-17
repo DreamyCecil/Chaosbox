@@ -270,7 +270,7 @@ functions:
   // adjust sound and watcher parameters here if needed
   void EnemyPostInit(void) 
   {
-    m_soSound.Set3DParameters(160.0f, 50.0f, 2.0f, 1.0f);
+    m_soSound.Set3DParameters(160.0f, 50.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
   };
 
 procedures:
@@ -315,7 +315,7 @@ procedures:
     ese.colMuliplier = C_WHITE|CT_OPAQUE;
     ese.vStretch = FLOAT3D(1,1,2)*15.0f;
     ese.vNormal = FLOAT3D(0,1,0);
-    ese.betType = BET_DUST_FALL;
+    ese.betType = RandomEffect(BET_DUST_FALL, ERE_HIT); // [Cecil] RND: Effects
     CPlacement3D plSmoke=plFX;
     plSmoke.pl_PositionVector+=FLOAT3D(0,0.35f*ese.vStretch(2),0);
     CEntityPointer penFX = CreateEntity(plSmoke, CLASS_BASIC_EFFECT);
@@ -341,7 +341,8 @@ procedures:
       PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
       autowait(0.51f);
 
-      ShootProjectile(PRT_BEAST_PROJECTILE, FLOAT3D( 0.0f, 1.5f*BEAST_STRETCH, 0.0f),
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_BEAST_PROJECTILE, ERP_ENEMY), FLOAT3D( 0.0f, 1.5f*BEAST_STRETCH, 0.0f),
         ANGLE3D(AngleDeg((FRnd()-0.5)*30.0f), AngleDeg(FRnd()*10.0f), 0));
       autowait(0.3f);
     }
@@ -358,7 +359,8 @@ procedures:
 
           PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
           autowait(0.34f);
-          ShootProjectile(PRT_BEAST_BIG_PROJECTILE, FLOAT3D( 0.0f, 1.5f*BIG_BEAST_STRETCH, 0.0f),
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_BEAST_BIG_PROJECTILE, ERP_ENEMY), FLOAT3D( 0.0f, 1.5f*BIG_BEAST_STRETCH, 0.0f),
             ANGLE3D(0.0f, 0.0f, 0.0f));
             //ANGLE3D( AngleDeg(40.0f*Cos(m_iCounter*360.0/6.0f)), AngleDeg(20.0f*Sin(m_iCounter*180.0/6.0f)), 0));
           //autowait(0.15f);
@@ -377,7 +379,8 @@ procedures:
 
           PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
           autowait(0.5f);
-          ShootProjectile(PRT_BEAST_BIG_PROJECTILE, FLOAT3D( 0.0f, 1.5f*BIG_BEAST_STRETCH, 0.0f),
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_BEAST_BIG_PROJECTILE, ERP_ENEMY), FLOAT3D( 0.0f, 1.5f*BIG_BEAST_STRETCH, 0.0f),
             ANGLE3D(0.0f, 0.0f, 0.0f));
             //ANGLE3D( AngleDeg(20.0f*Cos(m_iCounter*360.0/3.0f)), AngleDeg(10.0f*Sin(m_iCounter*180.0/3.0f)), 0));
             //ANGLE3D( FRnd()*20.0f-10.0f, FRnd()*10.0f-5.0f, 0));
@@ -399,7 +402,8 @@ procedures:
 
           PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
           autowait(0.34f);
-          ShootProjectile(PRT_BEAST_BIG_PROJECTILE, FLOAT3D( 0.0f, 1.5f*HUGE_BEAST_STRETCH, 0.0f),
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_BEAST_BIG_PROJECTILE, ERP_ENEMY), FLOAT3D( 0.0f, 1.5f*HUGE_BEAST_STRETCH, 0.0f),
             ANGLE3D(0.0f, 0.0f, 0.0f));
             //ANGLE3D( AngleDeg(40.0f*Cos(m_iCounter*360.0/6.0f)), AngleDeg(20.0f*Sin(m_iCounter*180.0/6.0f)), 0));
           //autowait(0.15f);
@@ -418,7 +422,8 @@ procedures:
 
           PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
           autowait(0.5f);
-          ShootProjectile(PRT_BEAST_BIG_PROJECTILE, FLOAT3D( 0.0f, 1.5f*HUGE_BEAST_STRETCH, 0.0f),
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_BEAST_BIG_PROJECTILE, ERP_ENEMY), FLOAT3D( 0.0f, 1.5f*HUGE_BEAST_STRETCH, 0.0f),
             ANGLE3D(0.0f, 0.0f, 0.0f));
             //ANGLE3D( AngleDeg(20.0f*Cos(m_iCounter*360.0/3.0f)), AngleDeg(10.0f*Sin(m_iCounter*180.0/3.0f)), 0));
             //ANGLE3D( FRnd()*20.0f-10.0f, FRnd()*10.0f-5.0f, 0));

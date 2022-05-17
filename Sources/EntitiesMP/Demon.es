@@ -201,7 +201,7 @@ functions:
   // adjust sound and watcher parameters here if needed
   void EnemyPostInit(void) 
   {
-    m_soSound.Set3DParameters(160.0f, 50.0f, 2.0f, 1.0f);
+    m_soSound.Set3DParameters(160.0f, 50.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
   };
 
 procedures:
@@ -233,7 +233,7 @@ procedures:
     plFX.pl_PositionVector=plFX.pl_PositionVector+vFireballLaunchPos*m;
     ESpawnEffect ese;
     ese.colMuliplier = C_WHITE|CT_OPAQUE;
-    ese.betType = BET_COLLECT_ENERGY;
+    ese.betType = RandomEffect(BET_COLLECT_ENERGY, ERE_EXP); // [Cecil] RND: Effects
     ese.vStretch = FLOAT3D(1.0f, 1.0f, 1.0f);
     m_penFireFX = CreateEntity(plFX, CLASS_BASIC_EFFECT);
     m_penFireFX->Initialize(ese);
@@ -249,10 +249,12 @@ procedures:
     MaybeSwitchToAnotherPlayer();
 
     if (IsVisible(m_penEnemy)) {
-      ShootProjectile(PRT_DEMON_FIREBALL, vFireballLaunchPos, ANGLE3D(0.0f, 0.0f, 0.0f));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_DEMON_FIREBALL, ERP_ENEMY), vFireballLaunchPos, ANGLE3D(0.0f, 0.0f, 0.0f));
     }
     else {
-      ShootProjectileAt(m_vPlayerSpotted, PRT_DEMON_FIREBALL, vFireballLaunchPos, ANGLE3D(0.0f, 0.0f, 0.0f));
+      // [Cecil] RND: Projectiles
+      ShootProjectileAt(m_vPlayerSpotted, RandomProjectile(PRT_DEMON_FIREBALL, ERP_ENEMY), vFireballLaunchPos, ANGLE3D(0.0f, 0.0f, 0.0f));
     }
       
     autowait(1.0f);

@@ -15,4 +15,8 @@
 #include <EntitiesMP/Common/Common.h>
 #include <EntitiesMP/Common/GameInterface.h>
 #include <EntitiesMP/Player.h>
+
+// [Cecil] Chaosbox mod
+#include <Chaosbox/Chaosbox.h>
+
 #undef DECL_DLL

@@ -180,7 +180,7 @@ procedures:
     // if health is received
     if (epass.penOther->ReceiveItem(eAmmo)) {
       // play the pickup sound
-      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, 1.0f);
+      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soPick, SOUND_PICK, SOF_3D);
       m_fPickSoundLen = GetSoundLength(SOUND_PICK);
       if (!GetSP()->sp_bAmmoStays || (m_bPickupOnce||m_bRespawn)) {

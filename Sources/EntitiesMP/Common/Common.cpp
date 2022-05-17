@@ -12,6 +12,9 @@
 #include "ModelsMP/Player/SeriousSam/Head.h"
 extern INDEX ent_bReportBrokenChains;
 
+// [Cecil] RND: Damage up
+#include "EntitiesMP/PlayerWeapons.h"
+
 void CCompMessageID::Clear(void)
 {
   cmi_fnmFileName.Clear();
@@ -320,6 +323,9 @@ void SpawnHitTypeEffect(CEntity *pen, enum BulletHitType bhtType, BOOL bSound, F
         if( bhtType == BHT_BRUSH_SNOW)          {ese.betType = BET_BULLETSTAINSNOWNOSOUND;};
       }
 
+      // [Cecil] RND: Effects
+      ese.betType = RandomEffect_internal(pen, ese.betType, ERE_HIT);
+
       ese.vNormal = vHitNormal;
       ese.colMuliplier = C_WHITE|CT_OPAQUE;
       // reflect direction arround normal
@@ -356,7 +362,7 @@ void SpawnHitTypeEffect(CEntity *pen, enum BulletHitType bhtType, BOOL bSound, F
       if( fDistance>0.01f && !(pen->IRnd()%2) )
       {
         // spawn bullet exit wound blood patch
-        ese.betType = BET_BLOODSPILL;
+        ese.betType = RandomEffect_internal(pen, BET_BLOODSPILL, ERE_EXP); // [Cecil] RND: Effects
         if( bhtType == BHT_ACID)
         {
           ese.colMuliplier = BLOOD_SPILL_GREEN;
@@ -1398,6 +1404,22 @@ FLOAT GetSeriousDamageMultiplier( CEntity *pen)
   const TIME tmNow = _pTimer->CurrentTick();
   const TIME tmDamage = ((CPlayer*)pen)->m_tmSeriousDamage;
   if( tmDamage>tmNow) return 4.0f;
+
+  // [Cecil] RND: R/L, G/L and Laser
+  if (DamageUp()) {
+    INDEX iWeapon = ((CPlayer*)pen)->GetPlayerWeapons()->m_iCurrentWeapon;
+    switch (iWeapon) {
+      case WEAPON_KNIFE:
+      case WEAPON_CHAINSAW:
+      case WEAPON_COLT:
+      case WEAPON_DOUBLECOLT:
+      case WEAPON_ROCKETLAUNCHER:
+      case WEAPON_GRENADELAUNCHER:
+      case WEAPON_LASER:
+        return 4.0f;
+    }
+  }
+
   return 1.0f;
 }
 

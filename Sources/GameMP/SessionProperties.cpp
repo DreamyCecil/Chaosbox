@@ -150,6 +150,9 @@ void CGame::SetSinglePlayerSession(CSessionProperties &sp)
 
   sp.sp_iBlood = Clamp( gam_iBlood, 0L, 3L);
   sp.sp_bGibs  = gam_bGibs;
+
+  // [Cecil] Set mod options
+  SetChaosboxOptions(sp);
 }
 
 // set properties for a quick start session
@@ -234,6 +237,9 @@ void CGame::SetMultiPlayerSession(CSessionProperties &sp)
       sp.sp_iFragLimit = 0;
     }
   }
+
+  // [Cecil] Set mod options
+  SetChaosboxOptions(sp);
 }
 
 BOOL IsMenuEnabled(const CTString &strMenuName)

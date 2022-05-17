@@ -119,14 +119,16 @@ procedures:
       // auto play sound
       on (EBegin) : {
         if (m_bAutoStart) {
-          m_soSound.Set3DParameters(FLOAT(m_rFallOffRange), FLOAT(m_rHotSpotRange), m_fVolume, 1.0f);
+          // [Cecil] RND: Pitch
+          m_soSound.Set3DParameters(FLOAT(m_rFallOffRange), FLOAT(m_rHotSpotRange), m_fVolume, RandomPitch());
           PlaySound(m_soSound, m_fnSound, m_iPlayType);
         }
         resume;
       }
       // play sound
       on (EStart) : {
-        m_soSound.Set3DParameters(FLOAT(m_rFallOffRange), FLOAT(m_rHotSpotRange), m_fVolume, 1.0f);
+        // [Cecil] RND: Pitch
+        m_soSound.Set3DParameters(FLOAT(m_rFallOffRange), FLOAT(m_rHotSpotRange), m_fVolume, RandomPitch());
         PlaySound(m_soSound, m_fnSound, m_iPlayType);
         resume;
       }

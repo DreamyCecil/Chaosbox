@@ -11,9 +11,15 @@
 #define DECL_DLL 
 #endif
 
-#include "..\Global.h"
-#include "..\Common\Flags.h"
-#include "..\Common\Common.h"
-#include "..\Common\Particles.h"
-#include "..\Common\EmanatingParticles.h"
-#include "..\Common\GameInterface.h"
+#include "../Global.h"
+#include "../Common/Flags.h"
+#include "../Common/Common.h"
+#include "../Common/Particles.h"
+#include "../Common/EmanatingParticles.h"
+#include "../Common/GameInterface.h"
+
+// [Cecil] Chaosbox
+#include "Chaosbox/Chaosbox.h"
+#include "Chaosbox/ModModule.h"
+
+#include "Chaosbox/Randomized/Randomized.h"

@@ -219,7 +219,8 @@ functions:
     FLOAT3D vBodySpeed = en_vCurrentTranslationAbsolute-en_vGravityDir*(en_vGravityDir%en_vCurrentTranslationAbsolute);
 
     // spawn debris
-    Debris_Begin(EIBT_BONES, DPT_NONE, BET_NONE, fEntitySize, vNormalizedDamage, vBodySpeed, 5.0f, 2.0f);
+    // [Cecil] RND: Effects
+    Debris_Begin(EIBT_BONES, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), fEntitySize, vNormalizedDamage, vBodySpeed, 5.0f, 2.0f);
     
     Debris_Spawn(this, this, MODEL_BONEMAN_BODY, TEXTURE_BONEMAN, 0, 0, 0, 0, 0.0f,
       FLOAT3D(FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f));
@@ -249,10 +250,12 @@ procedures:
     StartModelAnim(BONEMAN_ANIM_ATTACKCLOSELOOP, 0);
     DeactivateRunningSound();
     autowait(0.35f);
-    ShootProjectile(PRT_BONEMAN_FIRE, FIRE_RIGHT_HAND, ANGLE3D(0, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_BONEMAN_FIRE, ERP_ENEMY), FIRE_RIGHT_HAND, ANGLE3D(0, 0, 0));
     PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
     autowait(0.45f);
-    ShootProjectile(PRT_BONEMAN_FIRE, FIRE_LEFT_HAND, ANGLE3D(0, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootProjectile(RandomProjectile(PRT_BONEMAN_FIRE, ERP_ENEMY), FIRE_LEFT_HAND, ANGLE3D(0, 0, 0));
     PlaySound(m_soSound, SOUND_FIRE, SOF_3D);
     autowait(FRnd()/3+0.6f);
 
@@ -390,7 +393,7 @@ procedures:
 
     // set stretch factors for height and width
     CEnemyBase::SizeModel();
-    m_soFeet.Set3DParameters(80.0f, 5.0f, 1.0f, 1.0f);
+    m_soFeet.Set3DParameters(80.0f, 5.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     m_bRunSoundPlaying = FALSE;
 
     // continue behavior in base class

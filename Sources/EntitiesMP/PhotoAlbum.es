@@ -61,7 +61,7 @@ procedures:
     // right cover
     CModelObject &mo2=GetModelObject()->GetAttachmentModel(BOOK_ATTACHMENT_PAGE02)->amo_moModelObject;
     mo2.PlayAnim(COVERPAGES_ANIM_RIGHTOPENING, 0);
-    m_soPage.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
+    m_soPage.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soPage, SOUND_PAGE, SOF_3D);
     // wait book to open
     autowait( GetModelObject()->GetAnimLength(BOOK_ANIM_OPENING));

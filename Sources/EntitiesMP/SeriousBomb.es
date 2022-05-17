@@ -97,7 +97,7 @@ procedures:
     if (esb.penOwner) {
       m_penOwner = esb.penOwner;
       
-      m_soBlow.Set3DParameters(500.0f, 250.0f, 3.0f, 1.0f);
+      m_soBlow.Set3DParameters(500.0f, 250.0f, 3.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soBlow, SOUND_BLOW, SOF_3D);
       if(_pNetwork->IsPlayerLocal(m_penOwner)) {IFeel_PlayEffect("SeriousBombBlow");}
       

@@ -361,7 +361,7 @@ functions:
   void EnemyPostInit(void) 
   {
     // set sound default parameters
-    m_soSound.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
+    m_soSound.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   };
 
 procedures:

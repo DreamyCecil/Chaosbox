@@ -56,7 +56,7 @@ functions:
         
         // play sound
         m_soSound.Set3DParameters(200.0f, 100.0f, 1.0f, 
-          Clamp(1.0f+(m_iCountFrom-m_fNumber)/m_iCountFrom*2.0f, 1.0f, 3.0f) );
+          Clamp(1.0f+(m_iCountFrom-m_fNumber)/m_iCountFrom*2.0f, 1.0f, 3.0f) * RandomPitch()); // [Cecil] RND: Pitch
         if( iDigit==0 && iOldAnim!=iAnim /*iOldAnim==1 && iAnim==0 */&& !m_soSound.IsPlaying())
         {
           PlaySound(m_soSound, SOUND_TICK, SOF_3D|SOF_VOLUMETRIC);

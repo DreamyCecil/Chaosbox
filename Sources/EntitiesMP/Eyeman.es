@@ -387,7 +387,7 @@ procedures:
       // spawn blood cloud
       ESpawnEffect eSpawnEffect;
       eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-      eSpawnEffect.betType = BET_BLOODEXPLODE;
+      eSpawnEffect.betType = RandomEffect(BET_BLOODEXPLODE, ERE_EXP); // [Cecil] RND: Effects
       eSpawnEffect.vStretch = FLOAT3D(1,1,1);
       CPlacement3D plOne = GetPlacement();
       GetEntityPointRatio(
@@ -533,7 +533,7 @@ procedures:
     m_fFlyAttackFireTime = 2.0f;
     m_fFlyCloseFireTime = 0.5f;
     m_fFlyIgnoreRange = 200.0f;
-    m_soMumble.Set3DParameters(25.0f, 0.0f, 1.0f, 1.0f);
+    m_soMumble.Set3DParameters(25.0f, 0.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
 
     // continue behavior in base class
     jump CEnemyFly::MainLoop();

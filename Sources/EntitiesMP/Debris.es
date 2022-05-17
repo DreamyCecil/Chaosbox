@@ -205,7 +205,7 @@ functions:
     CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_BOMB;
+    eSpawnEffect.betType = RandomEffect(BET_BOMB, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(0.3f,0.3f,0.3f);
     penExplosion->Initialize(eSpawnEffect);
   }
@@ -327,7 +327,7 @@ procedures:
             ese.colMuliplier = C_WHITE|CT_OPAQUE;
             ese.vStretch = FLOAT3D(m_fDustStretch,m_fDustStretch,m_fDustStretch);
             ese.vNormal = FLOAT3D(0,1,0);
-            ese.betType = BET_DUST_FALL;
+            ese.betType = RandomEffect(BET_DUST_FALL, ERE_HIT); // [Cecil] RND: Effects
             CEntityPointer penFX = CreateEntity(plDust, CLASS_BASIC_EFFECT);
             penFX->Initialize(ese);
           }

@@ -94,6 +94,9 @@ properties:
  93 INDEX m_iFirstRandomAnimation "First random animation" 'R' = -1,
 100 FLOAT m_fMaxTessellationLevel "Max tessellation level" = 0.0f,
 
+// [Cecil] RND: Model reloading
+200 BOOL m_bReloaded = FALSE,
+
 {
   CTFileName m_fnOldModel;  // used for remembering last selected model (not saved at all)
 }
@@ -102,6 +105,18 @@ components:
   1 class   CLASS_BLOOD_SPRAY     "Classes\\BloodSpray.ecl",
 
 functions:
+  // [Cecil] RND: Reload models
+  void ReloadModel(void) {
+    if (!m_bReloaded) {
+      m_bReloaded = TRUE;
+
+      m_fnModel = CTFileName(RandomModel(this, m_fnModel));
+      m_fnTexture = CTFileName(RandomTexture(this, m_fnTexture));
+      m_fnOldModel = "";
+      InitModelHolder();
+    }
+  };
+
   void Precache(void) {
     PrecacheClass(CLASS_BLOOD_SPRAY, 0);
   };
@@ -502,10 +517,13 @@ functions:
       m_fnBump = CTString("");
     }
 
-    if (m_bActive) {
-      InitAsModel();
-    } else {
-      InitAsEditorModel();
+    // [Cecil] RND: Don't initialize if reloading
+    if (!m_bReloaded) {
+      if (m_bActive) {
+        InitAsModel();
+      } else {
+        InitAsEditorModel();
+      }
     }
     // set appearance
     SetModel(m_fnModel);

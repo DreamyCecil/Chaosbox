@@ -665,7 +665,7 @@ functions:
     AddAttachment(0, MDL_PARTICLES_EXPLOSION, TXT_PARTICLES_EXPLOSION);
     RandomBanking();
     SetNonLoopingTexAnims();
-    m_soEffect.Set3DParameters(150.0f, 3.0f, 1.0f, 1.0f);
+    m_soEffect.Set3DParameters(150.0f, 3.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_EXPLOSION, SOF_3D);
     m_fSoundTime = GetSoundLength(SOUND_EXPLOSION);
     m_fWaitTime = 0.95f;
@@ -692,7 +692,7 @@ functions:
     SetModelMainTexture(TXT_GRENADE_EXPLOSION);
     SetNonLoopingTexAnims();
     FLOAT fSizeFactor = m_vStretch.MaxNorm();
-    m_soEffect.Set3DParameters(50.0f*fSizeFactor, 10.0f*fSizeFactor, 1.0f*fSizeFactor, 1.0f);
+    m_soEffect.Set3DParameters(50.0f*fSizeFactor, 10.0f*fSizeFactor, 1.0f*fSizeFactor, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_EXPLOSION, SOF_3D);
     m_fSoundTime = GetSoundLength(SOUND_EXPLOSION);
     m_fWaitTime = 0.95f;
@@ -705,7 +705,7 @@ functions:
     SetPredictable(TRUE);
     SetModel(MODEL_BULLET_HIT);
     SetModelMainTexture(TEXTURE_BULLET_HIT);
-    m_soEffect.Set3DParameters(50.0f, 10.0f, 1.0f, 1.0f);
+    m_soEffect.Set3DParameters(50.0f, 10.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_GIZMO_SPLASH, SOF_3D);
     m_fSoundTime = GetSoundLength(SOUND_GIZMO_SPLASH);
     m_fWaitTime = 0.95f;
@@ -786,7 +786,7 @@ functions:
     AddAttachment(0, MDL_PARTICLES_EXPLOSION, TXT_PARTICLES_EXPLOSION);
     RandomBanking();
     SetNonLoopingTexAnims();
-    m_soEffect.Set3DParameters(150.0f, 3.0f, 1.0f, 1.0f);
+    m_soEffect.Set3DParameters(150.0f, 3.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_EXPLOSION, SOF_3D);
     m_fSoundTime = GetSoundLength(SOUND_EXPLOSION);
     m_fWaitTime = 0.95f;
@@ -817,11 +817,11 @@ functions:
     RandomBanking();
     if( bLoVolume)
     {
-      m_soEffect.Set3DParameters(150.0f, 3.0f, 0.5f, 1.0f);
+      m_soEffect.Set3DParameters(150.0f, 3.0f, 0.5f, RandomPitch()); // [Cecil] RND: Pitch
     }
     else
     {
-      m_soEffect.Set3DParameters(150.0f, 3.0f, 1.0f, 1.0f);
+      m_soEffect.Set3DParameters(150.0f, 3.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     }
 
     PlaySound(m_soEffect, SOUND_EXPLOSION, SOF_3D);
@@ -931,7 +931,7 @@ functions:
     mo.PlayAnim(TELEPORT_ANIM_ACTIVATE, 0);
     RandomBanking();
     FLOAT fSize = m_vStretch.MaxNorm();
-    m_soEffect.Set3DParameters(40.0f*fSize, 10.0f*fSize, 1.0f, 1.0f);
+    m_soEffect.Set3DParameters(40.0f*fSize, 10.0f*fSize, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_TELEPORT, SOF_3D);
     m_fSoundTime = GetSoundLength(SOUND_TELEPORT);
     m_fWaitTime = 0.8f;
@@ -960,7 +960,7 @@ functions:
   {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_SAND, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_SAND);
     }
@@ -985,7 +985,7 @@ functions:
   {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_SAND, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_SAND);
     }
@@ -1011,7 +1011,7 @@ functions:
   {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_STONE, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_STONE);
     }
@@ -1038,7 +1038,7 @@ functions:
   {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_WATER, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_WATER);
     }
@@ -1073,7 +1073,7 @@ functions:
   void BulletStainGrass(BOOL bSound) {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_GRASS, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_GRASS);
     }
@@ -1098,7 +1098,7 @@ functions:
   void BulletStainWood(BOOL bSound) {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_WOOD, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_WOOD);
     }
@@ -1123,7 +1123,7 @@ functions:
   void BulletStainSnow(BOOL bSound) {
     if( bSound)
     {
-      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f);
+      m_soEffect.Set3DParameters(20.0f, 10.0f, 1.0f, 1.0f+FRnd()*0.2f * RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soEffect, SOUND_BULLET_SNOW, SOF_3D);
       m_fSoundTime = GetSoundLength(SOUND_BULLET_SNOW);
     }
@@ -1175,7 +1175,7 @@ functions:
       else               { SetModelColor( RGBAToColor( 0,250,0,255)); }
     }
     //RandomBanking();
-    m_soEffect.Set3DParameters(7.5f, 5.0f, 1.0f, 1.0f);
+    m_soEffect.Set3DParameters(7.5f, 5.0f, 1.0f, 1.0f * RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soEffect, SOUND_BULLET_FLESH, SOF_3D);
     m_fSoundTime = GetSoundLength(SOUND_BULLET_FLESH);
     m_fWaitTime = 0.25f;

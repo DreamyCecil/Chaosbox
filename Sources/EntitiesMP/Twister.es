@@ -281,7 +281,7 @@ procedures:
     //wait for some randome time
     autowait(FRnd()*0.25f);
  
-    m_soSpin.Set3DParameters(50.0f, 10.0f, 1.0f, 1.0f);
+    m_soSpin.Set3DParameters(50.0f, 10.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(m_soSpin, SOUND_SPIN, SOF_3D|SOF_LOOP);
     
     // immediately rotate

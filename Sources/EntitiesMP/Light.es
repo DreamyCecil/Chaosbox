@@ -90,6 +90,39 @@ components:
     6 texture TEXTURE_SPOT_LIGHT         "Models\\Editor\\SpotLight.tex",
 
 functions:
+  // [Cecil] Random light
+  export void RandomLight(void) {
+    /*UBYTE ubR = (m_colColor & 0xFF000000) >> 24;
+    UBYTE ubG = (m_colColor & 0x00FF0000) >> 16;
+    UBYTE ubB = (m_colColor & 0x0000FF00) >> 8;
+    UBYTE ubA = (m_colColor & 0x000000FF);
+
+    UBYTE ubBrightness = Max(Max(ubR, ubG), ubB);
+    UBYTE ubMin = Min(Min(ubR, ubG), ubB);
+
+    COLOR colAdd = ((ubBrightness-ubMin) << 24) | ((ubBrightness-ubMin) << 16) | ((ubBrightness-ubMin) << 8);
+    m_colColor = (IRnd() % 0x7F7F7F00);
+    m_colColor = AddColors(m_colColor, colAdd);*/
+
+    if (GetSP()->sp_RND.iTypeBased & RND_LIGHTS && !m_bBackground) {
+      m_bDarkLight = (IRnd() % 3 == 0);
+    }
+
+    const UBYTE ubLimit = (m_bDarkLight ? 0xFF : 0x7F);
+
+    UBYTE ubA = (m_colColor & 0xFF);
+    COLOR col = RGBToColor(IRnd() % ubLimit, IRnd() % ubLimit, IRnd() % ubLimit);
+    m_colColor = col | ubA;
+
+    ubA = (m_colAmbient & 0xFF);
+    col = RGBToColor(IRnd() % ubLimit, IRnd() % ubLimit, IRnd() % ubLimit);
+    m_colAmbient = col | ubA;
+
+    CLightSource lsNew;
+    SetupLightSource(lsNew);
+    m_lsLightSource.SetLightSource(lsNew);
+  };
+
   /* Get anim data for given animation property - return NULL for none. */
   CAnimData *GetAnimData(SLONG slPropertyOffset) 
   {

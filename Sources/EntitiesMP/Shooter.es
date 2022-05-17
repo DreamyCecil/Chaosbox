@@ -169,7 +169,7 @@ functions:
     // init and launch flame
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_SHOOTER_FLAME;
+    eLaunch.prtType = RandomProjectile(PRT_SHOOTER_FLAME, ERP_PLAYER); // [Cecil] RND: Projectiles
     penFlame->Initialize(eLaunch);
     // link last flame with this one (if not NULL or deleted)
     if (m_penFlame!=NULL && !(m_penFlame->GetFlags()&ENF_DELETED)) {
@@ -190,7 +190,8 @@ functions:
     // if sound entity exists
     if (m_penSoundLaunch!=NULL) {
       CSoundHolder &sh = (CSoundHolder&)*m_penSoundLaunch;
-      m_soLaunch.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, 1.0f);
+      // [Cecil] RND: Pitch
+      m_soLaunch.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, RandomPitch());
       PlaySound(m_soLaunch, sh.m_fnSound, sh.m_iPlayType);
     }
   };
@@ -239,7 +240,8 @@ procedures:
     
     switch (m_sftType) {
       case SFT_WOODEN_DART:
-        ShootProjectile(PRT_SHOOTER_WOODEN_DART, FLOAT3D (0.0f, 0.0f, 0.0f), ANGLE3D (0.0f, 0.0f, 0.0f));
+        // [Cecil] RND: Projectiles
+        ShootProjectile(RandomProjectile(PRT_SHOOTER_WOODEN_DART, ERP_PLAYER), FLOAT3D (0.0f, 0.0f, 0.0f), ANGLE3D (0.0f, 0.0f, 0.0f));
         break;
       case SFT_GAS:
         break;
@@ -247,7 +249,8 @@ procedures:
         ShootCannonball();
         break;
       case SFT_FIREBALL:
-        ShootProjectile(PRT_SHOOTER_FIREBALL, FLOAT3D (0.0f, 0.0f, 0.0f), ANGLE3D (0.0f, 0.0f, 0.0f));
+        // [Cecil] RND: Projectiles
+        ShootProjectile(RandomProjectile(PRT_SHOOTER_FIREBALL, ERP_PLAYER), FLOAT3D (0.0f, 0.0f, 0.0f), ANGLE3D (0.0f, 0.0f, 0.0f));
         break;
     }
     

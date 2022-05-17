@@ -172,7 +172,7 @@ functions:
     CEntityPointer penProjectile = CreateEntity(plRocket, CLASS_PROJECTILE);
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_GUFFY_PROJECTILE;
+    eLaunch.prtType = RandomProjectile(PRT_GUFFY_PROJECTILE, ERP_ENEMY); // [Cecil] RND: Projectiles
     penProjectile->Initialize(eLaunch);
   };
   
@@ -180,9 +180,10 @@ functions:
   void EnemyPostInit(void) 
   {
     // set sound default parameters
-    m_soSound.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire1.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soSound.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire1.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
   };
 
   // damage anim
@@ -241,16 +242,20 @@ procedures:
     BOOL bEnemyRight = fLookRight % (m_penEnemy->GetPlacement().pl_PositionVector - GetPlacement().pl_PositionVector);
 
     if (bEnemyRight>=0) {  // enemy is to the right of guffy
-      ShootProjectile(PRT_GUFFY_PROJECTILE, FIRE_LEFT_ARM*m_fSize, ANGLE3D(0, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_GUFFY_PROJECTILE, ERP_ENEMY), FIRE_LEFT_ARM*m_fSize, ANGLE3D(0, 0, 0));
       PlaySound(m_soFire1, SOUND_FIRE, SOF_3D);
       
-      ShootProjectile(PRT_GUFFY_PROJECTILE, FIRE_RIGHT_ARM*m_fSize, ANGLE3D(-9, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_GUFFY_PROJECTILE, ERP_ENEMY), FIRE_RIGHT_ARM*m_fSize, ANGLE3D(-9, 0, 0));
       PlaySound(m_soFire2, SOUND_FIRE, SOF_3D);
     } else { // enemy is to the left of guffy
-      ShootProjectile(PRT_GUFFY_PROJECTILE, FIRE_LEFT_ARM*m_fSize, ANGLE3D(9, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_GUFFY_PROJECTILE, ERP_ENEMY), FIRE_LEFT_ARM*m_fSize, ANGLE3D(9, 0, 0));
       PlaySound(m_soFire1, SOUND_FIRE, SOF_3D);
       
-      ShootProjectile(PRT_GUFFY_PROJECTILE, FIRE_RIGHT_ARM*m_fSize, ANGLE3D(0, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_GUFFY_PROJECTILE, ERP_ENEMY), FIRE_RIGHT_ARM*m_fSize, ANGLE3D(0, 0, 0));
       PlaySound(m_soFire2, SOUND_FIRE, SOF_3D);
     }
     

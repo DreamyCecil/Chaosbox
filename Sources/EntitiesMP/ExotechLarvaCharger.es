@@ -193,7 +193,7 @@ procedures:
     
     autowait(0.05f);
 
-    m_soSound.Set3DParameters(m_rSound, m_rSound/2.0f, 2.0f, 1.0f);
+    m_soSound.Set3DParameters(m_rSound, m_rSound/2.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
     m_bActive = FALSE;
     m_bBeamActive = FALSE;
 

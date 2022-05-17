@@ -219,6 +219,14 @@ functions:
   {
     if (!GetSP()->sp_bAllowArmor && m_penTarget==NULL) {
       Destroy();
+      return;
+    }
+
+    // [Cecil] RND: Change type
+    if (GetSP()->sp_RND.iRandom & RND_ITEMS && !m_bRandomized) {
+      m_EaitType = ArmorItemType(RndNumber(this, RND_ITEMS, en_ulID, m_EaitType) % 6);
+      m_bRandomized = TRUE;
+      Reinitialize();
     }
   }
 
@@ -257,7 +265,7 @@ procedures:
       }
 
       // play the pickup sound
-      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, 1.0f);
+      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soPick, m_iSoundComponent, SOF_3D);
       m_fPickSoundLen = GetSoundLength(m_iSoundComponent);
 

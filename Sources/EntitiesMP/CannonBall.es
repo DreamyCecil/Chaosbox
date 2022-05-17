@@ -285,11 +285,13 @@ void Explosion(FLOAT3D vCenter,
     ese.colMuliplier = C_WHITE|CT_OPAQUE;
     if( bHasLight)
     {
-      ese.betType = BET_CANNON;
+      // [Cecil] RND: Effects
+      ese.betType = RandomEffect(BET_CANNON, ERE_EXP);
     }
     else
     {
-      ese.betType = BET_CANNON_NOLIGHT;
+      // [Cecil] RND: Effects
+      ese.betType = RandomEffect(BET_CANNON_NOLIGHT, ERE_EXP);
     }
     ese.vStretch = vStretchExplosion;
     CPlacement3D plHandle = GetPlacement();
@@ -307,7 +309,8 @@ void Explosion(FLOAT3D vCenter,
       {
         // wall stain
         ese.colMuliplier = C_WHITE|CT_OPAQUE;
-        ese.betType = BET_CANNONEXPLOSIONSTAIN;
+        // [Cecil] RND: Effects
+        ese.betType = RandomEffect(BET_CANNONEXPLOSIONSTAIN, ERE_WAVE);
         ese.vNormal = FLOAT3D(vPlaneNormal);
         ese.vStretch = vStretchShockwave;
         SpawnEffect(CPlacement3D(vOnPlane, ANGLE3D(0, 0, 0)), ese);
@@ -316,7 +319,8 @@ void Explosion(FLOAT3D vCenter,
       {
         // shock wave horizontal
         ese.colMuliplier = C_WHITE|CT_OPAQUE;
-        ese.betType = BET_CANNONSHOCKWAVE;
+        // [Cecil] RND: Effects
+        ese.betType = RandomEffect(BET_CANNONSHOCKWAVE, ERE_WAVE);
         ese.vNormal = FLOAT3D(vPlaneNormal);
         ese.vStretch = vStretchShockwave;
         SpawnEffect(CPlacement3D(vOnPlane, ANGLE3D(0, 0, 0)), ese);
@@ -424,7 +428,7 @@ void BounceSound(FLOAT fSpeed) {
   }
   CSoundObject &so = (&m_soBounce0)[m_iNextChannel];
   m_iNextChannel = (m_iNextChannel+1)%5;
-  so.Set3DParameters(70.0f, 10.0f, fVolume, 1.0f);
+  so.Set3DParameters(70.0f, 10.0f, fVolume, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(so, SOUND_BALL_BOUNCE, SOF_3D);
 };
 

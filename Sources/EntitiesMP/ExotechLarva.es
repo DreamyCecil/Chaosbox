@@ -784,12 +784,13 @@ functions:
   // adjust sound and watcher parameters here if needed
   void EnemyPostInit(void) 
   {
-    m_soFire1.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
-    m_soFire2.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
-    m_soFire3.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
-    m_soVoice.Set3DParameters(600.0f, 150.0f, 2.0f, 1.0f);
-    m_soChirp.Set3DParameters(150.0f, 50.0f, 2.0f, 1.0f);
-    m_soLaser.Set3DParameters(300.0f, 200.0f, 3.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soFire1.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
+    m_soFire2.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
+    m_soFire3.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
+    m_soVoice.Set3DParameters(600.0f, 150.0f, 2.0f, RandomPitch());
+    m_soChirp.Set3DParameters(150.0f, 50.0f, 2.0f, RandomPitch());
+    m_soLaser.Set3DParameters(300.0f, 200.0f, 3.0f, RandomPitch());
   }
 
   void FireLaser(void)
@@ -867,20 +868,20 @@ functions:
     if (m_bRenderLeftLaser) {
       ESpawnEffect eSpawnEffect;
       eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-      eSpawnEffect.betType = BET_CANNON;
+      eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
       eSpawnEffect.vStretch = FLOAT3D(m_fStretch*0.5, m_fStretch*0.5, m_fStretch*0.5);
       CEntityPointer penExplosion = CreateEntity(CPlacement3D(m_vLeftLaserTarget,
         ANGLE3D(0.0f, 0.0f, 0.0f)), CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
       
         // explosion debris
-      eSpawnEffect.betType = BET_EXPLOSION_DEBRIS;
+      eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
       penExplosion = CreateEntity(CPlacement3D(m_vLeftLaserTarget, 
         ANGLE3D(0.0f, 0.0f, 0.0f)), CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
 
       // explosion smoke
-      eSpawnEffect.betType = BET_EXPLOSION_SMOKE;
+      eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
       penExplosion = CreateEntity(CPlacement3D(m_vLeftLaserTarget, 
         ANGLE3D(0.0f, 0.0f, 0.0f)), CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
@@ -892,20 +893,20 @@ functions:
     if (m_bRenderRightLaser) {
       ESpawnEffect eSpawnEffect;
       eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-      eSpawnEffect.betType = BET_CANNON;
+      eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
       eSpawnEffect.vStretch = FLOAT3D(m_fStretch*0.5, m_fStretch*0.5, m_fStretch*0.5);
       CEntityPointer penExplosion = CreateEntity(CPlacement3D(m_vLeftLaserTarget,
         ANGLE3D(0.0f, 0.0f, 0.0f)), CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
       
       // explosion debris
-      eSpawnEffect.betType = BET_EXPLOSION_DEBRIS;
+      eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
       penExplosion = CreateEntity(CPlacement3D(m_vLeftLaserTarget, 
         ANGLE3D(0.0f, 0.0f, 0.0f)), CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
 
       // explosion smoke
-      eSpawnEffect.betType = BET_EXPLOSION_SMOKE;
+      eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
       penExplosion = CreateEntity(CPlacement3D(m_vLeftLaserTarget, 
         ANGLE3D(0.0f, 0.0f, 0.0f)), CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
@@ -984,7 +985,7 @@ procedures:
     ShakeItBaby(_pTimer->CurrentTick(), 0.5f, FALSE);
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNON;
+    eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(m_fStretch*0.5, m_fStretch*0.5, m_fStretch*0.5);
     CEntityPointer penExplosion = CreateEntity(pl, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
@@ -993,7 +994,7 @@ procedures:
     ShakeItBaby(_pTimer->CurrentTick(), 0.5f, FALSE);
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNON;
+    eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(m_fStretch, m_fStretch, m_fStretch);
     CPlacement3D plMiddle;
     plMiddle.pl_PositionVector = (m_plExpArmPos.pl_PositionVector +  m_plExpGunPos.pl_PositionVector)/2.0f;
@@ -1007,11 +1008,11 @@ procedures:
     ShakeItBaby(_pTimer->CurrentTick(), 1.0f, FALSE);
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNON;
+    eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(m_fStretch*1.5,m_fStretch*1.5,m_fStretch*1.5);
     CEntityPointer penExplosion = CreateEntity(pl, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
-    eSpawnEffect.betType = BET_ROCKET;
+    eSpawnEffect.betType = RandomEffect(BET_ROCKET, ERE_EXP); // [Cecil] RND: Effects
     penExplosion = CreateEntity(m_plExpGunPos, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);  
 
@@ -1053,7 +1054,7 @@ procedures:
 
       ESpawnEffect eSpawnEffect;
       eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-      eSpawnEffect.betType = BET_CANNON;
+      eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
       eSpawnEffect.vStretch = FLOAT3D(vExpSize, vExpSize, vExpSize);
       CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
       penExplosion->Initialize(eSpawnEffect);
@@ -1068,7 +1069,7 @@ procedures:
     plExplosion.pl_PositionVector   = FLOAT3D(0.0f,-1.5f+LARVA_HANDLE_TRANSLATE, 1.5f)*m_fStretch + GetPlacement().pl_PositionVector;
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNON;
+    eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(m_fStretch, m_fStretch, m_fStretch)*2.0f;
     CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
@@ -1079,7 +1080,7 @@ procedures:
     penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
     plExplosion.pl_PositionVector   = GetPlacement().pl_PositionVector;
-    eSpawnEffect.betType = BET_ROCKET;
+    eSpawnEffect.betType = RandomEffect(BET_ROCKET, ERE_EXP); // [Cecil] RND: Effects
     penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
     // end debris
@@ -1087,7 +1088,8 @@ procedures:
     FLOAT3D vTranslation = m_vExpDamage;
     CPlacement3D plDebris = GetPlacement();
     plDebris.pl_PositionVector += FLOAT3D(0.0f, LARVA_HANDLE_TRANSLATE, 0.0f);
-    Debris_Begin(EIBT_FLESH, DPT_BLOODTRAIL, BET_BLOODSTAIN, 1.0f, m_vExpDamage, en_vCurrentTranslationAbsolute, 5.0f, 2.0f);
+    // [Cecil] RND: Effects
+    Debris_Begin(EIBT_FLESH, DPT_BLOODTRAIL, RandomEffect(BET_BLOODSTAIN, ERE_WAVE), 1.0f, m_vExpDamage, en_vCurrentTranslationAbsolute, 5.0f, 2.0f);
     Debris_Spawn_Independent(this, this, MODEL_DEBRIS_BODY, TEXTURE_BODY, 0, 0, 0, 0, m_fStretch,
       plDebris, vTranslation, ANGLE3D(45.0f, 230.0f, 0.0f));
     vTranslation += FLOAT3D(FRnd()*4.0f-2.0f, FRnd()*4.0f-2.0f, FRnd()*4.0f-2.0f);
@@ -1103,12 +1105,12 @@ procedures:
     
     // explosion
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_EXPLOSION_DEBRIS;
+    eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(1,1,1);
     penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
     // explosion smoke
-    eSpawnEffect.betType = BET_EXPLOSION_SMOKE;
+    eSpawnEffect.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
     penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
 
@@ -1148,7 +1150,8 @@ procedures:
       while(m_iRnd>0) {
         if (m_bLeftArmActive) {
           PlaySound(m_soFire1, SOUND_FIRE_PLASMA, SOF_3D);
-          ShootProjectile(PRT_LARVA_PLASMA, m_vFirePosLeftPlasmaRel, ANGLE3D(0, 0, 0));
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_LARVA_PLASMA, ERP_ENEMY), m_vFirePosLeftPlasmaRel, ANGLE3D(0, 0, 0));
           RemoveAttachmentFromModel(*PlasmaLeftModel(), PLASMAGUN_ATTACHMENT_PROJECTILE);
           autowait(0.25f);
           PlasmaLeftModel()->PlayAnim(PLASMAGUN_ANIM_SPAWNING, 0);  
@@ -1159,7 +1162,8 @@ procedures:
         }
         if (m_bRightArmActive) {
           PlaySound(m_soFire2, SOUND_FIRE_PLASMA, SOF_3D);
-          ShootProjectile(PRT_LARVA_PLASMA, m_vFirePosRightPlasmaRel, ANGLE3D(0, 0, 0));
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_LARVA_PLASMA, ERP_ENEMY), m_vFirePosRightPlasmaRel, ANGLE3D(0, 0, 0));
           RemoveAttachmentFromModel(*PlasmaRightModel(), PLASMAGUN_ATTACHMENT_PROJECTILE);
           autowait(0.25f);
           PlasmaRightModel()->PlayAnim(PLASMAGUN_ANIM_SPAWNING, 0);  

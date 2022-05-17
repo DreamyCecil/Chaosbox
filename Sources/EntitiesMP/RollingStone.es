@@ -211,7 +211,7 @@ void BounceSound(FLOAT fSpeed) {
   }
   CSoundObject &so = (&m_soBounce0)[m_iNextChannel];
   m_iNextChannel = (m_iNextChannel+1)%5;
-  so.Set3DParameters(200.0f*m_fStretch, 100.0f*m_fStretch, fVolume, fPitch);
+  so.Set3DParameters(200.0f*m_fStretch, 100.0f*m_fStretch, fVolume, fPitch * RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(so, SOUND_BOUNCE, SOF_3D);
 };
 
@@ -229,7 +229,7 @@ void RollSound(FLOAT fSpeed)
     }
     return;
   }
-  m_soRoll.Set3DParameters(200.0f*m_fStretch, 100.0f*m_fStretch, fVolume, fPitch);
+  m_soRoll.Set3DParameters(200.0f*m_fStretch, 100.0f*m_fStretch, fVolume, fPitch * RandomPitch()); // [Cecil] RND: Pitch
 
   if (!m_bRollPlaying) {
     PlaySound(m_soRoll, SOUND_ROLL, SOF_3D|SOF_LOOP);
@@ -325,7 +325,8 @@ procedures:
         GetBoundingBox(box);
         FLOAT fEntitySize = box.Size().MaxNorm();
         
-        Debris_Begin(EIBT_ROCK, DPT_NONE, BET_NONE, fEntitySize, FLOAT3D(1.0f,2.0f,3.0f), FLOAT3D(0,0,0), 1.0f, 0.0f);
+        // [Cecil] RND: Effects
+        Debris_Begin(EIBT_ROCK, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), fEntitySize, FLOAT3D(1.0f,2.0f,3.0f), FLOAT3D(0,0,0), 1.0f, 0.0f);
         for(INDEX iDebris = 0; iDebris<12; iDebris++) {
           Debris_Spawn(this, this, MODEL_STONE, TEXTURE_STONE, 0, 0, 0, IRnd()%4, 0.15f,
             FLOAT3D(FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f));

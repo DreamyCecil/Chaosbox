@@ -241,7 +241,7 @@ functions:
     CEntityPointer penProjectile = CreateEntity(plRocket, CLASS_PROJECTILE);
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_WALKER_ROCKET;
+    eLaunch.prtType = RandomProjectile(PRT_WALKER_ROCKET, ERP_ENEMY); // [Cecil] RND: Projectiles
     penProjectile->Initialize(eLaunch);
   };
   // fire death laser
@@ -253,7 +253,7 @@ functions:
     CEntityPointer penProjectile = CreateEntity(plLaser, CLASS_PROJECTILE);
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_CYBORG_LASER;
+    eLaunch.prtType = RandomProjectile(PRT_CYBORG_LASER, ERP_ENEMY); // [Cecil] RND: Projectiles
     penProjectile->Initialize(eLaunch);
   };
 
@@ -263,12 +263,13 @@ functions:
   void EnemyPostInit(void) 
   {
     // set sound default parameters
-    m_soSound.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFeet.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire1.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire3.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
-    m_soFire4.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soSound.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFeet.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire1.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire3.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
+    m_soFire4.Set3DParameters(160.0f, 50.0f, 1.0f, RandomPitch());
   };
 
 /************************************************************
@@ -319,7 +320,8 @@ procedures:
     // sergeant 4 rockets
     if (m_EwcChar==WLC_SERGEANT) {
       StartModelAnim(WALKER_ANIM_FIRERIGHT, AOF_LOOPING);
-      ShootProjectile(PRT_WALKER_ROCKET, FIRE_RIGHT_ARM*m_fSize, ANGLE3D(0, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_WALKER_ROCKET, ERP_ENEMY), FIRE_RIGHT_ARM*m_fSize, ANGLE3D(0, 0, 0));
       PlaySound(m_soFire1, SOUND_SERGEANT_FIRE_ROCKET, SOF_3D);
       if (GetSP()->sp_gdGameDifficulty<=CSessionProperties::GD_EASY) {
         m_fLockOnEnemyTime = 1.0f;
@@ -328,7 +330,8 @@ procedures:
       }
       autocall CEnemyBase::LockOnEnemy() EReturn;
       StartModelAnim(WALKER_ANIM_FIRELEFT, AOF_LOOPING);
-      ShootProjectile(PRT_WALKER_ROCKET, FIRE_LEFT_ARM*m_fSize, ANGLE3D(0, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_WALKER_ROCKET, ERP_ENEMY), FIRE_LEFT_ARM*m_fSize, ANGLE3D(0, 0, 0));
       PlaySound(m_soFire2, SOUND_SERGEANT_FIRE_ROCKET, SOF_3D);
 
 //      m_fLockOnEnemyTime = 0.25f;
@@ -343,10 +346,12 @@ procedures:
       while(m_iLoopCounter>0) {
         if (m_iLoopCounter%2) {
           StartModelAnim(WALKER_ANIM_FIRELEFT, AOF_LOOPING);
-          ShootProjectile(PRT_CYBORG_LASER, FIRE_LEFT_ARM*m_fSize, ANGLE3D(0, 0, 0));
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_CYBORG_LASER, ERP_ENEMY), FIRE_LEFT_ARM*m_fSize, ANGLE3D(0, 0, 0));
         } else {
           StartModelAnim(WALKER_ANIM_FIRERIGHT, AOF_LOOPING);
-          ShootProjectile(PRT_CYBORG_LASER, FIRE_RIGHT_ARM*m_fSize, ANGLE3D(0, 0, 0));
+          // [Cecil] RND: Projectiles
+          ShootProjectile(RandomProjectile(PRT_CYBORG_LASER, ERP_ENEMY), FIRE_RIGHT_ARM*m_fSize, ANGLE3D(0, 0, 0));
         }
         INDEX iChannel = m_iLoopCounter%4;
         if (iChannel==0) {
@@ -436,7 +441,7 @@ procedures:
     ese.colMuliplier = C_WHITE|CT_OPAQUE;
     ese.vStretch = FLOAT3D(1.5,1,1)*fStretch;
     ese.vNormal = FLOAT3D(0,1,0);
-    ese.betType = BET_DUST_FALL;
+    ese.betType = RandomEffect(BET_DUST_FALL, ERE_HIT); // [Cecil] RND: Effects
     CPlacement3D plSmoke=plFX;
     plSmoke.pl_PositionVector+=FLOAT3D(0,0.35f*ese.vStretch(2),0);
     CEntityPointer penFX = CreateEntity(plSmoke, CLASS_BASIC_EFFECT);

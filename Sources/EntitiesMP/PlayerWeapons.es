@@ -1835,11 +1835,12 @@ functions:
     CPlayer &pl = (CPlayer&)*m_penPlayer;
 
     // initialize sound 3D parameters
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.0f, 1.0f);
-    pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 1.0f, 1.0f);
-    pl.m_soWeapon2.Set3DParameters(50.0f, 5.0f, 1.0f, 1.0f);
-    pl.m_soWeapon3.Set3DParameters(50.0f, 5.0f, 1.0f, 1.0f);
-    pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 0.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.0f, RandomPitch());
+    pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 1.0f, RandomPitch());
+    pl.m_soWeapon2.Set3DParameters(50.0f, 5.0f, 1.0f, RandomPitch());
+    pl.m_soWeapon3.Set3DParameters(50.0f, 5.0f, 1.0f, RandomPitch());
+    pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 0.0f, RandomPitch());
   };
 
 
@@ -2197,7 +2198,7 @@ functions:
     // init and launch grenade
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = m_penPlayer;
-    eLaunch.prtType = PRT_GRENADE;
+    eLaunch.prtType = RandomProjectile(PRT_GRENADE, ERP_PL_THROW); // [Cecil] RND: Projectiles
     eLaunch.fSpeed = 20.0f+iPower*5.0f;
     penGrenade->Initialize(eLaunch);
   };
@@ -2214,7 +2215,7 @@ functions:
     // init and launch rocket
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = m_penPlayer;
-    eLaunch.prtType = PRT_ROCKET;
+    eLaunch.prtType = RandomProjectile(PRT_ROCKET, ERP_PLAYER); // [Cecil] RND: Projectiles
     penRocket->Initialize(eLaunch);
   };
 
@@ -2265,7 +2266,7 @@ functions:
     // init and launch flame
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = m_penPlayer;
-    eLaunch.prtType = PRT_FLAME;
+    eLaunch.prtType = RandomProjectile(PRT_FLAME, ERP_PLAYER); // [Cecil] RND: Projectiles
     penFlame->Initialize(eLaunch);
     // link last flame with this one (if not NULL or deleted)
     if (m_penFlame!=NULL && !(m_penFlame->GetFlags()&ENF_DELETED)) {
@@ -2315,7 +2316,7 @@ functions:
     // init and launch laser projectile
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = m_penPlayer;
-    eLaunch.prtType = PRT_LASER_RAY;
+    eLaunch.prtType = RandomProjectile(PRT_LASER_RAY, ERP_PLAYER); // [Cecil] RND: Projectiles
     penLaser->Initialize(eLaunch);
   };
 
@@ -2407,7 +2408,14 @@ functions:
     ULONG ulOldWeapons = m_iAvailableWeapons;
     // give/take weapons
     m_iAvailableWeapons &= ~iTakeWeapons;
-    m_iAvailableWeapons |= 0x03|iGiveWeapons;
+
+    // [Cecil] RND: Random weapons
+    if (GetSP()->sp_RND.iRandom & RND_ITEMS) {
+      m_iAvailableWeapons |= 0x03|(RndNumber(this, RND_ITEMS, en_ulID, iGiveWeapons) % 16383);
+    } else {
+      m_iAvailableWeapons |= 0x03|iGiveWeapons;
+    }
+
     m_iAvailableWeapons &= WEAPONS_ALLAVAILABLEMASK;
     // m_iAvailableWeapons &= ~WEAPONS_DISABLEDMASK;
     // find which weapons are new
@@ -3693,7 +3701,7 @@ procedures:
       // start engine sound if chainsaw
       if (m_iCurrentWeapon==WEAPON_CHAINSAW) {
         CPlayer &pl = (CPlayer&)*m_penPlayer;
-        pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 1.0f, 1.0f);        
+        pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
         PlaySound(pl.m_soWeaponAmbient, SOUND_CS_IDLE, SOF_3D|SOF_VOLUMETRIC|SOF_LOOP|SOF_SMOOTHCHANGE);                
         if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("ChainsawIdle");}
       }
@@ -3877,7 +3885,7 @@ procedures:
       case WEAPON_CHAINSAW: {
         m_iAnim = CHAINSAW_ANIM_ACTIVATE;
         CPlayer &pl = (CPlayer&)*m_penPlayer;
-        pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 1.0f, 1.0f);        
+        pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
         PlaySound(pl.m_soWeaponAmbient, SOUND_CS_BRINGUP, SOF_3D|SOF_VOLUMETRIC|SOF_LOOP);        
         break; }
       case WEAPON_LASER:
@@ -4369,7 +4377,7 @@ procedures:
       m_moWeaponSecond.PlayAnim(GetSP()->sp_bCooperative ? HANDWITHAMMO_ANIM_FIRE : HANDWITHAMMO_ANIM_FIREFAST, 0);
       // sound
       CPlayer &pl = (CPlayer&)*m_penPlayer;
-      pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, 1.0f);      // fire
+      pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(pl.m_soWeapon0, SOUND_DOUBLESHOTGUN_FIRE, SOF_3D|SOF_VOLUMETRIC);
 
       if( hud_bShowWeapon)
@@ -4446,7 +4454,7 @@ procedures:
     m_iBulletsOnFireStart = m_iBullets;
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);      // stop possible sounds
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, 1.0f);      // fire
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(pl.m_soWeapon0, SOUND_TOMMYGUN_FIRE, SOF_LOOP|SOF_3D|SOF_VOLUMETRIC);
     PlayLightAnim(LIGHT_ANIM_TOMMYGUN, AOF_LOOPING);
     GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRESHORT, AOF_LOOPING);
@@ -4478,7 +4486,7 @@ procedures:
       }
     }
 
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.0f, 1.0f);      // mute fire
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlayLightAnim(LIGHT_ANIM_NONE, 0);
     GetAnimator()->FireAnimationOff();
     jump Idle();
@@ -4567,9 +4575,9 @@ procedures:
       // sound
       CPlayer &pl = (CPlayer&)*m_penPlayer;
       if (GetSP()->sp_bCooperative) {
-        pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, 1.0f);
+        pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, RandomPitch()); // [Cecil] RND: Pitch
       } else if (TRUE) {
-        pl.m_soWeapon0.Set3DParameters(250.0f, 75.0f, 1.5f, 1.0f);
+        pl.m_soWeapon0.Set3DParameters(250.0f, 75.0f, 1.5f, RandomPitch()); // [Cecil] RND: Pitch
       }
       PlaySound(pl.m_soWeapon0, SOUND_SNIPER_FIRE, SOF_3D|SOF_VOLUMETRIC);
       if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("SniperFire");}
@@ -4642,9 +4650,10 @@ procedures:
 
     PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);      // stop possible sounds
     // initialize sound 3D parameters
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 2.0f, 1.0f);      // fire
-    pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 1.0f, 1.0f);      // spinup/spindown/spin
-    pl.m_soWeapon2.Set3DParameters(50.0f, 5.0f, 1.0f, 1.0f);      // turn on/off click
+    // [Cecil] RND: Pitch
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 2.0f, RandomPitch());      // fire
+    pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 1.0f, RandomPitch());      // spinup/spindown/spin
+    pl.m_soWeapon2.Set3DParameters(50.0f, 5.0f, 1.0f, RandomPitch());      // turn on/off click
   
     // spin start sounds
     PlaySound(pl.m_soWeapon2, SOUND_MINIGUN_CLICK, SOF_3D|SOF_VOLUMETRIC);
@@ -4786,7 +4795,7 @@ procedures:
     GetAnimator()->FireAnimationOff();
     // stop fire sound
     CPlayer &pl = (CPlayer&)*m_penPlayer;
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.0f, 1.0f);      // mute fire
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.0f, RandomPitch()); // [Cecil] RND: Pitch
     PlayLightAnim(LIGHT_ANIM_NONE, AOF_LOOPING);
     // start spin down
     jump MiniGunSpinDown();
@@ -5045,8 +5054,9 @@ procedures:
     autowait(m_moWeapon.GetAnimLength(FLAMER_ANIM_FIRESTART));
     // play fire sound
     CPlayer &pl = (CPlayer&)*m_penPlayer;
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 2.0f, 0.31f);
-    pl.m_soWeapon2.Set3DParameters(50.0f, 5.0f, 2.0f, 0.3f);
+    // [Cecil] RND: Pitch
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 2.0f, 0.31f * RandomPitch());
+    pl.m_soWeapon2.Set3DParameters(50.0f, 5.0f, 2.0f, 0.3f * RandomPitch());
     PlaySound(pl.m_soWeapon0, SOUND_FL_FIRE, SOF_3D|SOF_LOOP|SOF_VOLUMETRIC);
     if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("FlamethrowerFire");}
     PlaySound(pl.m_soWeapon2, SOUND_FL_START, SOF_3D|SOF_VOLUMETRIC);
@@ -5104,7 +5114,7 @@ procedures:
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     
     // set the firing sound level
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, 1.0f);
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, RandomPitch()); // [Cecil] RND: Pitch
     PlaySound(pl.m_soWeapon0, SOUND_CS_BEGINFIRE, SOF_3D|SOF_VOLUMETRIC);
     if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("ChainsawBeginFire");}
 
@@ -5125,7 +5135,7 @@ procedures:
     // firing
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     // mute the chainsaw engine sound
-    pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 0.5f, 1.0f);        
+    pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 0.5f, RandomPitch()); // [Cecil] RND: Pitch
     
     PlaySound(pl.m_soWeapon0, SOUND_CS_FIRE, SOF_3D|SOF_LOOP|SOF_VOLUMETRIC|SOF_SMOOTHCHANGE);
     if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_StopEffect("ChainsawIdle");}
@@ -5156,7 +5166,7 @@ procedures:
     if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("ChainsawIdle");}
 //    PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC/*|SOF_SMOOTHCHANGE*/);
     // restore volume to engine sound
-    pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 1.0f, 1.0f);        
+    pl.m_soWeaponAmbient.Set3DParameters(30.0f, 3.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
     
     m_moWeapon.PlayAnim(CHAINSAW_ANIM_FIRE2WAIT, 0);
     autowait(m_moWeapon.GetAnimLength(CHAINSAW_ANIM_FIRE2WAIT));
@@ -5284,12 +5294,12 @@ procedures:
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     if( m_iIronBalls&1)
     {
-      pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 3.0f, 1.0f);
+      pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 3.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(pl.m_soWeapon0, SOUND_CANNON_PREPARE, SOF_3D|SOF_VOLUMETRIC);
     }
     else
     {
-      pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 3.0f, 1.0f);
+      pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 3.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(pl.m_soWeapon1, SOUND_CANNON_PREPARE, SOF_3D|SOF_VOLUMETRIC);
     }
 
@@ -5307,12 +5317,12 @@ procedures:
     if( m_iIronBalls&1)
     {
       // turn off the sound
-      pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.0f, 1.0f);
+      pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.0f, RandomPitch()); // [Cecil] RND: Pitch
     }
     else
     {
       // turn off the sound
-      pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 0.0f, 1.0f);
+      pl.m_soWeapon1.Set3DParameters(50.0f, 5.0f, 0.0f, RandomPitch()); // [Cecil] RND: Pitch
     }
     
     // fire one ball
@@ -5333,12 +5343,12 @@ procedures:
       // adjust volume of cannon firing acording to launch power
       if( m_iIronBalls&1)
       {
-        pl.m_soWeapon2.Set3DParameters(fRange, fFalloff, 2.0f+iPower*0.05f, 1.0f);
+        pl.m_soWeapon2.Set3DParameters(fRange, fFalloff, 2.0f+iPower*0.05f, RandomPitch()); // [Cecil] RND: Pitch
         PlaySound(pl.m_soWeapon2, SOUND_CANNON, SOF_3D|SOF_VOLUMETRIC);
       }
       else
       {
-        pl.m_soWeapon3.Set3DParameters(fRange, fFalloff, 2.0f+iPower*0.05f, 1.0f);
+        pl.m_soWeapon3.Set3DParameters(fRange, fFalloff, 2.0f+iPower*0.05f, RandomPitch()); // [Cecil] RND: Pitch
         PlaySound(pl.m_soWeapon3, SOUND_CANNON, SOF_3D|SOF_VOLUMETRIC);
       }
 

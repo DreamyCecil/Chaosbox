@@ -670,7 +670,7 @@ functions:
     CEntityPointer penProjectile = CreateEntity(pl, CLASS_PROJECTILE);
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_LAVAMAN_BIG_BOMB;
+    eLaunch.prtType = RandomProjectile(PRT_LAVAMAN_BIG_BOMB, ERP_EN_THROW); // [Cecil] RND: Projectiles
     eLaunch.fSpeed = fLaunchSpeed;
     penProjectile->Initialize(eLaunch);
   }
@@ -704,7 +704,7 @@ functions:
         
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNONSHOCKWAVE;
+    eSpawnEffect.betType = RandomEffect(BET_CANNONSHOCKWAVE, ERE_HIT); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(fSize, fSize, fSize);
     penShockwave->Initialize(eSpawnEffect);
   }
@@ -917,17 +917,19 @@ functions:
   {
     if (m_EecChar==ELC_LARGE && m_EetType==ELT_LAVA)
     {
-      m_soBackground.Set3DParameters(400.0f, 0.0f, 1.0f, 1.0f);
-      m_soSound.Set3DParameters(400.0f, 50.0f, 1.0f, 1.0f);
-      m_soFireL.Set3DParameters(400.0f, 50.0f, 1.0f, 1.0f);
-      m_soFireR.Set3DParameters(400.0f, 50.0f, 1.0f, 1.0f);
+      // [Cecil] RND: Pitch
+      m_soBackground.Set3DParameters(400.0f, 0.0f, 1.0f, RandomPitch());
+      m_soSound.Set3DParameters(400.0f, 50.0f, 1.0f, RandomPitch());
+      m_soFireL.Set3DParameters(400.0f, 50.0f, 1.0f, RandomPitch());
+      m_soFireR.Set3DParameters(400.0f, 50.0f, 1.0f, RandomPitch());
     }
     else if (m_EecChar==ELC_BIG && m_EetType==ELT_LAVA)
     {
-      m_soBackground.Set3DParameters(150.0f, 15.0f, 0.5f, 1.0f);
-      m_soSound.Set3DParameters(200.0f, 0.0f, 1.0f, 1.0f);
-      m_soFireL.Set3DParameters(200.0f, 0.0f, 1.0f, 1.0f);
-      m_soFireR.Set3DParameters(200.0f, 0.0f, 1.0f, 1.0f);
+      // [Cecil] RND: Pitch
+      m_soBackground.Set3DParameters(150.0f, 15.0f, 0.5f, RandomPitch());
+      m_soSound.Set3DParameters(200.0f, 0.0f, 1.0f, RandomPitch());
+      m_soFireL.Set3DParameters(200.0f, 0.0f, 1.0f, RandomPitch());
+      m_soFireR.Set3DParameters(200.0f, 0.0f, 1.0f, RandomPitch());
     }
   };
 
@@ -1051,7 +1053,7 @@ procedures:
       CEntityPointer penProjectile = CreateEntity(pl, CLASS_PROJECTILE);
       ELaunchProjectile eLaunch;
       eLaunch.penLauncher = this;
-      eLaunch.prtType = PRT_LAVAMAN_BOMB;
+      eLaunch.prtType = RandomProjectile(PRT_LAVAMAN_BOMB, ERP_EN_THROW); // [Cecil] RND: Projectiles
       eLaunch.fSpeed = fLaunchSpeed;
       penProjectile->Initialize(eLaunch);
       PlaySound(m_soSound, SOUND_LAVA_FIRE, SOF_3D);
@@ -1062,7 +1064,8 @@ procedures:
       FLOAT tmWait = mo.GetAnimLength( mo.ao_iCurrentAnim )-mo.GetPassedTime();
       StartModelAnim(ELEMENTALLAVA_ANIM_ATTACKLEFTHAND, AOF_SMOOTHCHANGE);
       autowait(tmWait+0.8f);
-      ShootProjectile(PRT_LAVAMAN_STONE, LAVAMAN_FIRE_SMALL, ANGLE3D(0, 0, 0));
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_LAVAMAN_STONE, ERP_ENEMY), LAVAMAN_FIRE_SMALL, ANGLE3D(0, 0, 0));
       PlaySound(m_soSound, SOUND_LAVA_FIRE, SOF_3D);
     }
 
@@ -1087,11 +1090,11 @@ procedures:
     autowait(0.7f);
     // throw rocks
     if (m_EecChar==ELC_LARGE) {
-      ThrowRocks(PRT_LAVAMAN_STONE);
+      ThrowRocks(RandomProjectile(PRT_LAVAMAN_STONE, ERP_ENEMY)); // [Cecil] RND: Projectiles
     } else if (m_EecChar==ELC_BIG) {
-      ThrowRocks(PRT_LAVAMAN_STONE);
+      ThrowRocks(RandomProjectile(PRT_LAVAMAN_STONE, ERP_ENEMY)); // [Cecil] RND: Projectiles
     } else {
-      ThrowRocks(PRT_LAVAMAN_STONE);
+      ThrowRocks(RandomProjectile(PRT_LAVAMAN_STONE, ERP_ENEMY)); // [Cecil] RND: Projectiles
     }
     PlaySound(m_soSound, SOUND_LAVA_FIRE, SOF_3D);
     autowait(0.9f);

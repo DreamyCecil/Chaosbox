@@ -1000,7 +1000,8 @@ functions:
     m_vDesiredPosition = CalculatePredictedPosition(vWpnPipeAbs, vTarget, fSpeedSrc,
       vSpeedDst, GetPlacement().pl_PositionVector(2) );
     // shoot predicted propelled projectile
-    ShootPredictedProjectile(PRT_DEVIL_LASER, m_vDesiredPosition, vWpnPipeRel, ANGLE3D(0, fDeltaPitch, 0));
+    // [Cecil] RND: Projectiles
+    ShootPredictedProjectile(RandomProjectile(PRT_DEVIL_LASER, ERP_ENEMY), m_vDesiredPosition, vWpnPipeRel, ANGLE3D(0, fDeltaPitch, 0));
     //PlaySound(m_soSound, SOUND_FIRE, SOF_3D|SOF_LOOP);
     PlayLightAnim(LIGHT_ANIM_FIRE, AOF_LOOPING);
   };
@@ -1037,7 +1038,8 @@ functions:
     m_vDesiredPosition = CalculatePredictedPosition(vWpnPipeAbs, vTarget, fSpeedSrc,
       vSpeedDst, GetPlacement().pl_PositionVector(2) );
     // shoot predicted propelled projectile
-    ShootPredictedProjectile(PRT_DEVIL_ROCKET, m_vDesiredPosition, vWpnPipeRel, ANGLE3D(0, 0, 0));
+    // [Cecil] RND: Projectiles
+    ShootPredictedProjectile(RandomProjectile(PRT_DEVIL_ROCKET, ERP_ENEMY), m_vDesiredPosition, vWpnPipeRel, ANGLE3D(0, 0, 0));
     //PlaySound(m_soSound, SOUND_FIRE, SOF_3D|SOF_LOOP);
     PlayLightAnim(LIGHT_ANIM_FIRE, AOF_LOOPING);
 
@@ -1116,7 +1118,7 @@ functions:
     CEntityPointer penProjectile = CreateEntity(pl, CLASS_PROJECTILE);
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = this;
-    eLaunch.prtType = PRT_LAVAMAN_BIG_BOMB;
+    eLaunch.prtType = RandomProjectile(PRT_LAVAMAN_BIG_BOMB, ERP_EN_THROW); // [Cecil] RND: Projectiles
     eLaunch.fSpeed = fLaunchSpeed;
     penProjectile->Initialize(eLaunch);
   }
@@ -1184,7 +1186,7 @@ procedures:
  ************************************************************/
   DestroyCity()
   {
-    m_soSound.Set3DParameters(1000.0f, 500.0f, 3.0f, 1.0f);
+    m_soSound.Set3DParameters(1000.0f, 500.0f, 3.0f, RandomPitch()); // [Cecil] RND: Pitch
 
     while(TRUE)
     {
@@ -1496,17 +1498,18 @@ procedures:
 
   PreMainLoop(EVoid) : CEnemyBase::PreMainLoop
   {
-    m_soSound.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
-    m_soGrabLowerWeapons.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
-    m_soGrabUpperWeapons.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
-    m_soJumpIntoPyramid.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
-    m_soLeft.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
-    m_soRight.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
-    m_soWeapon0.Set3DParameters(1000.0f, 500.0f, 1.0f, 1.0f);
-    m_soWeapon1.Set3DParameters(1000.0f, 500.0f, 1.0f, 1.0f);
-    m_soWeapon2.Set3DParameters(1000.0f, 500.0f, 1.0f, 1.0f);
-    m_soWeapon3.Set3DParameters(1000.0f, 500.0f, 1.0f, 1.0f);
-    m_soWeapon4.Set3DParameters(1000.0f, 500.0f, 1.0f, 1.0f);
+    // [Cecil] RND: Pitch
+    m_soSound.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch());
+    m_soGrabLowerWeapons.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch());
+    m_soGrabUpperWeapons.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch());
+    m_soJumpIntoPyramid.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch());
+    m_soLeft.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch());
+    m_soRight.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch());
+    m_soWeapon0.Set3DParameters(1000.0f, 500.0f, 1.0f, RandomPitch());
+    m_soWeapon1.Set3DParameters(1000.0f, 500.0f, 1.0f, RandomPitch());
+    m_soWeapon2.Set3DParameters(1000.0f, 500.0f, 1.0f, RandomPitch());
+    m_soWeapon3.Set3DParameters(1000.0f, 500.0f, 1.0f, RandomPitch());
+    m_soWeapon4.Set3DParameters(1000.0f, 500.0f, 1.0f, RandomPitch());
 
     TurnOnPhysics();
 
@@ -2010,7 +2013,8 @@ procedures:
       m_tmLastPause = 0.45f;
       autowait( m_tmLastPause);
       // fire one guided projectile
-      ShootProjectile(PRT_DEVIL_GUIDED_PROJECTILE, MAGIC_PROJECTILE_EXIT, 
+      // [Cecil] RND: Projectiles
+      ShootProjectile(RandomProjectile(PRT_DEVIL_GUIDED_PROJECTILE, ERP_ENEMY), MAGIC_PROJECTILE_EXIT, 
         ANGLE3D( AngleDeg(10.0f*Cos(m_iFiredProjectiles*360.0/6.0f)), -AngleDeg(20.0f*Sin(m_iFiredProjectiles*180.0/6.0f)), 0));
       PlayWeaponSound( SOUND_ATTACK_BREATH_FIRE);
 
@@ -2428,7 +2432,7 @@ procedures:
         }
         if( m_dsDevilState==DS_DESTROYING_CITY)
         {
-          m_soSound.Set3DParameters(1000.0f, 500.0f, 2.0f, 1.0f);
+          m_soSound.Set3DParameters(1000.0f, 500.0f, 2.0f, RandomPitch()); // [Cecil] RND: Pitch
           m_dsDevilState = DS_ENEMY;
           if( m_dapAttackPower == DAP_NOT_ATTACKING)
           {

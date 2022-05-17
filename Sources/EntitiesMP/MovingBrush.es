@@ -478,7 +478,8 @@ functions:
     // if sound entity exists
     if (m_penSoundStart!=NULL) {
       CSoundHolder &sh = (CSoundHolder&)*m_penSoundStart;
-      m_soStart.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, 1.0f);
+      // [Cecil] RND: Pitch
+      m_soStart.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, RandomPitch());
       PlaySound(m_soStart, sh.m_fnSound, sh.m_iPlayType);
     }
   };
@@ -488,7 +489,8 @@ functions:
     // if sound entity exists
     if (m_penSoundStop!=NULL) {
       CSoundHolder &sh = (CSoundHolder&)*m_penSoundStop;
-      m_soStop.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, 1.0f);
+      // [Cecil] RND: Pitch
+      m_soStop.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, RandomPitch());
       PlaySound(m_soStop, sh.m_fnSound, sh.m_iPlayType);
     }
   };
@@ -498,7 +500,8 @@ functions:
     // if sound entity exists
     if (m_penSoundFollow!=NULL) {
       CSoundHolder &sh = (CSoundHolder&)*m_penSoundFollow;
-      m_soFollow.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, 1.0f);
+      // [Cecil] RND: Pitch
+      m_soFollow.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), sh.m_fVolume, RandomPitch());
       PlaySound(m_soFollow, sh.m_fnSound, sh.m_iPlayType);
     }
   };
@@ -959,7 +962,8 @@ procedures:
         {
           FLOAT fEntitySize = pow(box.Size()(1)*box.Size()(2)*box.Size()(3)/m_ctDebrises, 1.0f/3.0f)*m_fCubeFactor;
           
-          Debris_Begin(EIBT_ROCK, DPT_NONE, BET_NONE, fEntitySize, FLOAT3D(1.0f,2.0f,3.0f),
+          // [Cecil] RND: Effects
+          Debris_Begin(EIBT_ROCK, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), fEntitySize, FLOAT3D(1.0f,2.0f,3.0f),
             FLOAT3D(0,0,0), 1.0f+m_fCandyEffect/2.0f, m_fCandyEffect, m_colDebrises);
           for(INDEX iDebris = 0; iDebris<m_ctDebrises; iDebris++) {
             Debris_Spawn(this, this, MODEL_STONE, TEXTURE_STONE, 0, 0, 0, IRnd()%4, 1.0f,

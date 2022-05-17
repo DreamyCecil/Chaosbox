@@ -96,7 +96,7 @@ void InitializeProjectile(void) {
 
   ModelChangeNotify();
   // play the flying sound
-  m_soEffect.Set3DParameters(50.0f, 10.0f, 1.0f, 1.0f);
+  m_soEffect.Set3DParameters(50.0f, 10.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
   PlaySound(m_soEffect, SOUND_LARVETTE, SOF_3D|SOF_LOOP);
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -30.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
@@ -115,7 +115,7 @@ void LarvaTailExplosion(void) {
 
   // explosion
   ese.colMuliplier = C_WHITE|CT_OPAQUE;
-  ese.betType = BET_ROCKET;
+  ese.betType = RandomEffect(BET_ROCKET, ERE_EXP); // [Cecil] RND: Effects
   ese.vStretch = FLOAT3D(1,1,1);
   SpawnEffect(GetPlacement(), ese);
   // spawn sound event in range
@@ -124,26 +124,26 @@ void LarvaTailExplosion(void) {
   }
 
   // explosion debris
-  ese.betType = BET_EXPLOSION_DEBRIS;
+  ese.betType = RandomEffect(BET_EXPLOSION_DEBRIS, ERE_EXP); // [Cecil] RND: Effects
   SpawnEffect(GetPlacement(), ese);
 
   // explosion smoke
-  ese.betType = BET_EXPLOSION_SMOKE;
+  ese.betType = RandomEffect(BET_EXPLOSION_SMOKE, ERE_EXP); // [Cecil] RND: Effects
   SpawnEffect(GetPlacement(), ese);
 
   // on plane
   if (GetNearestPolygon(vPoint, vPlaneNormal, fDistanceToEdge)) {
     if ((vPoint-GetPlacement().pl_PositionVector).Length() < 3.5f) {
       // stain
-      ese.betType = BET_EXPLOSIONSTAIN;
+      ese.betType = RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // shock wave
-      ese.betType = BET_SHOCKWAVE;
+      ese.betType = RandomEffect(BET_SHOCKWAVE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint, ANGLE3D(0, 0, 0)), ese);
       // second explosion on plane
-      ese.betType = BET_ROCKET_PLANE;
+      ese.betType = RandomEffect(BET_ROCKET_PLANE, ERE_WAVE); // [Cecil] RND: Effects
       ese.vNormal = FLOAT3D(vPlaneNormal);
       SpawnEffect(CPlacement3D(vPoint+ese.vNormal/50.0f, ANGLE3D(0, 0, 0)), ese);
     }

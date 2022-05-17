@@ -135,7 +135,7 @@ functions:
     CPlacement3D pl = GetPlacement();
     ESpawnEffect eSpawnEffect;
     eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-    eSpawnEffect.betType = BET_CANNON;
+    eSpawnEffect.betType = RandomEffect(BET_CANNON, ERE_EXP); // [Cecil] RND: Effects
     eSpawnEffect.vStretch = FLOAT3D(m_fStretch*1.5f, m_fStretch*1.5f, m_fStretch*1.5f);
     CEntityPointer penExplosion = CreateEntity(pl, CLASS_BASIC_EFFECT);
     penExplosion->Initialize(eSpawnEffect);
@@ -198,7 +198,7 @@ procedures:
     
     autowait(0.05f);
 
-    m_soSound.Set3DParameters(100.0f, 50.0f, 3.5f, 1.0f);
+    m_soSound.Set3DParameters(100.0f, 50.0f, 3.5f, RandomPitch()); // [Cecil] RND: Pitch
     m_bActive = TRUE;
     m_fBurnTreshold = 0.66f*m_fMaxHealth;
     

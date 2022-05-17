@@ -30,6 +30,9 @@ properties:
  14 BOOL m_bDropped = FALSE,    // dropped by a player during a deathmatch game
  15 INDEX m_ulPickedMask = 0,   // mask for which players picked this item
  16 BOOL m_bFloating "Floating" 'F' = FALSE,
+ 
+ // [Cecil] RND: Randomized type
+ 50 BOOL m_bRandomized = FALSE,
 
 components:
   1 model   MODEL_ITEM      "Models\\Items\\ItemHolder\\ItemHolder.mdl",

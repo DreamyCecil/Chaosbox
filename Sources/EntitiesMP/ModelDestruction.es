@@ -176,7 +176,8 @@ functions:
     FLOAT fEntitySize = box.Size().MaxNorm();
     switch(m_ddtDebris) {
     case DDT_STONE: {
-      Debris_Begin(EIBT_ROCK, DPT_NONE, BET_NONE, fEntitySize, FLOAT3D(0,0,0), FLOAT3D(0,0,0), 1.0f, 0.0f);
+      // [Cecil] RND: Effects
+      Debris_Begin(EIBT_ROCK, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), fEntitySize, FLOAT3D(0,0,0), FLOAT3D(0,0,0), 1.0f, 0.0f);
       for(INDEX iDebris = 0; iDebris<m_ctDebris; iDebris++) {
         Debris_Spawn(penmhDestroyed, this, MODEL_STONE, TEXTURE_STONE, 0, 0, 0, IRnd()%4, m_fDebrisSize,
           FLOAT3D(FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f));
@@ -184,7 +185,8 @@ functions:
                     } break;
     case DDT_WOOD:
     {
-      Debris_Begin(EIBT_WOOD, DPT_NONE, BET_NONE, fEntitySize, FLOAT3D(0,0,0), FLOAT3D(0,0,0), 1.0f, 0.0f);
+      // [Cecil] RND: Effects
+      Debris_Begin(EIBT_WOOD, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), fEntitySize, FLOAT3D(0,0,0), FLOAT3D(0,0,0), 1.0f, 0.0f);
       for(INDEX iDebris = 0; iDebris<m_ctDebris; iDebris++)
       {
         Debris_Spawn(penmhDestroyed, this, MODEL_WOOD, TEXTURE_WOOD, 0, 0, 0, 0, m_fDebrisSize,
@@ -194,7 +196,8 @@ functions:
     }
     case DDT_CHILDREN_CUSTOM:
     {
-      Debris_Begin(EIBT_WOOD, DPT_NONE, BET_NONE, 1.0f, FLOAT3D(10,10,10), FLOAT3D(0,0,0), 5.0f, 2.0f);
+      // [Cecil] RND: Effects
+      Debris_Begin(EIBT_WOOD, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), 1.0f, FLOAT3D(10,10,10), FLOAT3D(0,0,0), 5.0f, 2.0f);
       // launch all children of model holder type
       FOREACHINLIST( CEntity, en_lnInParent, en_lhChildren, iten)
       {
@@ -248,7 +251,8 @@ functions:
       break;
     }
     case DDT_PALM: {
-      Debris_Begin(EIBT_WOOD, DPT_NONE, BET_NONE, fEntitySize, penmhDestroyed->m_vDamage*0.3f, FLOAT3D(0,0,0), 1.0f, 0.0f);
+      // [Cecil] RND: Effects
+      Debris_Begin(EIBT_WOOD, DPT_NONE, RandomEffect(BET_NONE, ERE_WAVE), fEntitySize, penmhDestroyed->m_vDamage*0.3f, FLOAT3D(0,0,0), 1.0f, 0.0f);
       Debris_Spawn(penmhDestroyed, this, MODEL_WOOD, TEXTURE_WOOD, 0, 0, 0, 0, m_fDebrisSize,
         FLOAT3D(0.5f, 0.2f, 0.5f));
       Debris_Spawn(penmhDestroyed, this, MODEL_WOOD, TEXTURE_WOOD, 0, 0, 0, 1, m_fDebrisSize,

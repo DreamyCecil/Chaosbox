@@ -1760,7 +1760,8 @@ functions:
       ULONG ulFleshModel   = MODEL_FLESH;
       if( iBloodType==2) { ulFleshTexture = TEXTURE_FLESH_RED; }
       // spawn debris
-      Debris_Begin(EIBT_FLESH, DPT_BLOODTRAIL, BET_BLOODSTAIN, m_fBlowUpSize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
+      // [Cecil] RND: Effects
+      Debris_Begin(EIBT_FLESH, DPT_BLOODTRAIL, RandomEffect(BET_BLOODSTAIN, ERE_WAVE), m_fBlowUpSize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
       for( INDEX iDebris = 0; iDebris<m_fBodyParts; iDebris++) {
         // flowerpower mode?
         if( iBloodType==3) {
@@ -1783,7 +1784,8 @@ functions:
     if( bGibs && m_bRobotBlowup)
     {
       // spawn debris
-      Debris_Begin(EIBT_ROBOT, DPR_SMOKETRAIL, BET_EXPLOSIONSTAIN, m_fBlowUpSize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
+      // [Cecil] RND: Effects
+      Debris_Begin(EIBT_ROBOT, DPR_SMOKETRAIL, RandomEffect(BET_EXPLOSIONSTAIN, ERE_WAVE), m_fBlowUpSize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
       for( INDEX iDebris = 0; iDebris<m_fBodyParts; iDebris++) {
         Debris_Spawn( this, this, MODEL_MACHINE, TEXTURE_MACHINE, 0, 0, 0, IRnd()%4, 0.2f,
                       FLOAT3D(FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f));
@@ -1793,7 +1795,7 @@ functions:
       CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
       ESpawnEffect eSpawnEffect;
       eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
-      eSpawnEffect.betType = BET_BOMB;
+      eSpawnEffect.betType = RandomEffect(BET_BOMB, ERE_EXP); // [Cecil] RND: Effects
       FLOAT fSize = m_fBlowUpSize*0.3f;
       eSpawnEffect.vStretch = FLOAT3D(fSize,fSize,fSize);
       penExplosion->Initialize(eSpawnEffect);
@@ -1831,10 +1833,10 @@ functions:
         ese.colMuliplier = C_WHITE|CT_OPAQUE;
         // stain
         if (bGrow) {
-          ese.betType    = BET_BLOODSTAINGROW;
+          ese.betType    = RandomEffect(BET_BLOODSTAINGROW, ERE_WAVE); // [Cecil] RND: Effects
           ese.vStretch   = FLOAT3D( fStretch*1.5f, fStretch*1.5f, 1.0f);
         } else {
-          ese.betType    = BET_BLOODSTAIN;
+          ese.betType    = RandomEffect(BET_BLOODSTAIN, ERE_WAVE); // [Cecil] RND: Effects
           ese.vStretch   = FLOAT3D( fStretch*0.75f, fStretch*0.75f, 1.0f);
         }
         ese.vNormal    = FLOAT3D( vPlaneNormal);
@@ -2883,7 +2885,7 @@ procedures:
           ese.colMuliplier = C_WHITE|CT_OPAQUE;
           ese.vStretch = m_vTacticsStartPosition;
           ese.vNormal = FLOAT3D(0,1,0);
-          ese.betType = BET_DUST_FALL;
+          ese.betType = RandomEffect(BET_DUST_FALL, ERE_HIT); // [Cecil] RND: Effects
           CPlacement3D plSmoke=plFX;
           plSmoke.pl_PositionVector+=FLOAT3D(0,0.35f*m_vTacticsStartPosition(2),0);
           CEntityPointer penFX = CreateEntity(plSmoke, CLASS_BASIC_EFFECT);
@@ -3180,7 +3182,7 @@ procedures:
     m_vStartPosition = GetPlacement().pl_PositionVector;
 
     // set sound default parameters
-    m_soSound.Set3DParameters(80.0f, 5.0f, 1.0f, 1.0f);
+    m_soSound.Set3DParameters(80.0f, 5.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
 
     // adjust falldown and step up values
     en_fStepUpHeight = m_fStepHeight+0.01f;

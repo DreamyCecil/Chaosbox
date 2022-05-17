@@ -85,7 +85,7 @@ procedures:
     // if health is received
     if (epass.penOther->ReceiveItem(eMessage)) {
       // play the pickup sound
-      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, 1.0f);
+      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soPick, m_iSoundComponent, SOF_3D);
       m_fPickSoundLen = GetSoundLength(m_iSoundComponent);
       jump CItem::ItemReceived();

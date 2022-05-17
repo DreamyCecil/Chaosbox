@@ -207,6 +207,14 @@ functions:
   {
     if (!GetSP()->sp_bAllowHealth && m_penTarget==NULL) {
       Destroy();
+      return;
+    }
+
+    // [Cecil] RND: Change type
+    if (GetSP()->sp_RND.iRandom & RND_ITEMS && !m_bRandomized) {
+      m_EhitType = HealthItemType(RndNumber(this, RND_ITEMS, en_ulID, m_EhitType) % 5);
+      m_bRandomized = TRUE;
+      Reinitialize();
     }
   }
 procedures:
@@ -243,7 +251,7 @@ procedures:
       }
 
       // play the pickup sound
-      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, 1.0f);
+      m_soPick.Set3DParameters(50.0f, 1.0f, 1.0f, RandomPitch()); // [Cecil] RND: Pitch
       PlaySound(m_soPick, m_iSoundComponent, SOF_3D);
       m_fPickSoundLen = GetSoundLength(m_iSoundComponent);
       if (!GetSP()->sp_bHealthArmorStays || (m_bPickupOnce||m_bRespawn)) {
