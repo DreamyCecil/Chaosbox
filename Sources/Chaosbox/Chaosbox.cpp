@@ -1,6 +1,23 @@
 #include "StdH.h"
 #include "ModModule.h"
 
+// Patcher
+#include "Chaosbox/Patcher/patcher.h"
+
+// [Cecil] Random mod names
+#define CT_MODNAMES 9
+static const char *_astrModNames[CT_MODNAMES] = {
+  "~ CHAOSBOX ~",
+  "- chaosbox -",
+  "= C#40580X =",
+  "0x4348414F53424F58",
+  "and the Box Of Chaos",
+  "- T H E   C H A O S   E N C O U N T E R -",
+  "- github.com/DreamyCecil/Chaosbox -",
+  "The Chaos: The Box",
+  "~ BAOSCHOX ~",
+};
+
 // [Cecil] Set options from all modules
 void SetChaosboxOptions(CSessionProperties &sp) {
   // Set options from each mod module
@@ -82,4 +99,7 @@ void ChaosboxInit(void) {
 
 // [Cecil] End Chaosbox
 void ChaosboxEnd(void) {
+  // Pick random mod name and resave it
+  CTString strModName = _astrModNames[rand() % CT_MODNAMES];
+  strModName.Save_t(CTFILENAME("Data\\Var\\ModName.var"));
 };
