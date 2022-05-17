@@ -1785,22 +1785,26 @@ static void PrintStats( CDrawPort *pdpDrawPort)
 
     // [Cecil] Slowdown: Display as much data as possible
     } else if (hud_bShowTime == 3) {
-      TIME tm = _pTimer->CurrentTick();
-      UBYTE ubSec  = (UBYTE)fmod(tm, 60.0f);
-      UBYTE ubMin  = (UBYTE)fmod(tm/60.0f, 60.0f);
+      DOUBLE tm = _pTimer->CurrentTick();
+      UBYTE ubSec  = (UBYTE)fmod(tm, 60.0);
+      UBYTE ubMin  = (UBYTE)fmod(tm/60.0, 60.0);
 
-      TIME tmHours = tm/3600.0f;
-      UBYTE ubHour = (UBYTE)fmod(tmHours, 60.0f);
+      DOUBLE tmHours = tm / 3600.0;
+      UBYTE ubHour = (UBYTE)fmod(tmHours, 60.0);
 
-      TIME tmDays = tmHours/24.0f;
-      UWORD uwDays = (UBYTE)fmod(tmDays, 365.0f);
+      DOUBLE tmDays = tmHours / 24.0;
+      UWORD uwDays = (UBYTE)fmod(tmDays, 365.2422);
 
-      TIME tmYears = tmDays/365.0f;
-      UWORD uwYears = (UBYTE)fmod(tmYears, 1000.0f);
+      DOUBLE tmYears = tmDays / 365.2422;
+      UWORD uwYears = (UBYTE)fmod(tmYears, 1000.0);
 
-      FLOAT fMillennia = tmYears * 0.001f;
+      DOUBLE fMillennia = tmYears * 0.001;
 
-      strTime.PrintF("%.0fmil %03dy %dd - %02d:%02d:%02d", fMillennia, uwYears, uwDays, ubHour, ubMin, ubSec);
+      if (fMillennia >= 1.0) {
+        strTime.PrintF("%.0f millennia %03d yrs %d d - %02d:%02d:%02d", fMillennia, uwYears, uwDays, ubHour, ubMin, ubSec);
+      } else {
+        strTime.PrintF("%d yrs %d d - %02d:%02d:%02d", uwYears, uwDays, ubHour, ubMin, ubSec);
+      }
 
     // [Cecil] Default
     } else {
