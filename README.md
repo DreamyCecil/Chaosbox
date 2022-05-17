@@ -1,30 +1,20 @@
-# Serious Sam SDK v1.07
-This is the original Serious Sam SDK v1.07 by Croteam released in 2002 that includes the following projects:
+# Chaosbox
+This is the source code of a mod for classic Serious Sam: The Second Encounter v1.07 that consists out of many smaller mods and ideas, which when combined together, give you quite a chaotic gameplay experience. 
+Based on [Serious Sam SDK v1.07 for Visual Studio 2013](https://github.com/DreamyCecil/SeriousSam_SDK107)
 
-* `EntitiesMP` All the entity logic
-* `GameGUIMP` Common GUI things for game tools
-* `GameMP` All the game logic
-
-The original source code of these projects remains untouched, however the project files were created for Visual Studio 2013 and 2019.
+**Chaosbox modules:**
+- `Randomized` - taking roots from semi-public **Tiny Mod Pack** mods, this mod introduces options for randomizing specific elements of the world, ranging from randomly pitched sounds to random enemy spawns and more.
+- `Single Specimen` - originally planned as a part of **Tiny Mod Pack**, this mod adds an option to replace every single enemy on a map with only one specific type, be it a Beheaded Kamikaze or a Reptiloid Highlander.
+- `Shrunk` - taking roots from aforementioned **Tiny Mod Pack**, this mod adds options for resizing the player and every enemy in the game.
+- `Shuffled` - taking roots from **Tiny Mod Pack**, this mod adds ability to shuffle game resources such as textures and sounds around in a chaotic manner, making everything look and sound totally ridiculous.
+- `Slowdown Bug: Ultra Deluxe` - the latest addition to Chaosbox, which was a standalone mod that adds an option to add a specific amount of time to the in-game timer as a 32-bit floating point number, making logic and even animations break down more and more with time.
 
 Building
 --------
 
-To compile the source code under 1.10 engine configurations (`Debug_110` or `Release_110`), no additional steps are required.
+To compile the source code, you'll need to use a compiler from Microsoft Visual C++ 6.0.
 
-To compile the source code under 1.07 engine configurations, you'll need to use a compiler from Microsoft Visual C++ 6.0.
-
-1. Download and install `Microsoft Visual C++ 6.0` with Service Pack 6. It may not run on your OS or finish the installation at all, you'll have to go to the installation place (e.g. `C:\Program Files (x86)\Microsoft Visual Studio\VC98`) and see if there is anything.
-2. Download and install `Visual Studio 2010` (only C++ tools are enough).
-3. Then install a Visual Studio of your choice (2013 or newer).
-4. Now you need to download and install [Daffodil](https://github.com/DreamyCecil/SeriousSam_SDK107/releases/download/daffodil/daffodil.zip). It's a set of configuration files that allows newer Visual Studios to target older VC compilers.
-You may only use newer Visual Studios as long as the 2010 one is also installed, otherwise it won't work.
-
-Now you are able to build the entire solution (`.sln` file) but make sure that all of the projects have `v60` set as their platform toolset (**Project properties** -> **Configuration Properties** -> **General** -> **Platform Toolset**).
-
-**NOTE:** Debugging tools from newer studios are unable to use program database files (`.pdb`) that are generated with `v60`, making traditional debugging impossible. If you wish to debug your code normally, consider using `Microsoft Visual C++ 6.0` or `Visual Studio 2010` (select its debugger after the crash or attach it to the process) and enable `Program Database` as debug information format (**Project properties** -> **Configuration Properties** -> **C/C++** -> **General**), which rebuilds the entire project every time. If you can't use either for some reason, base your project on Serious Engine v1.10 and then port the code back to this project.
-
-Remember to **not** use spaces in the path to the solution.
+Full guide: https://github.com/DreamyCecil/SeriousSam_SDK107#building
 
 Running
 -------
@@ -33,9 +23,9 @@ Once the project is compiled, there should be three libraries in the Bin folder:
 
 There are two ways to start the mod:
 1. Create a `.des` file in your Mods directory under the same name as this repository, open it in any text editor and type your mod name in it. Then you'll be able to launch your mod from the game's `Mods` list.
-2. Open `ModStart.bat` and `EditorStart.bat` from the Bin folder in any text editor and replace `SeriousSam_SDK107` with the name of your mod. After that just run any of the `.bat` files to open the editor or the mod.
+2. Run `ModStart.bat` or `EditorStart.bat` from the Bin folder to open the editor or the mod.
 
-When running a selected project, make sure the mod in project properties **Debugging** -> **Command Arguments** is set to your mod name instead of `SeriousSam_SDK107` (example: `+game MyMod`).
+When running a selected project, make sure the mod in project properties **Debugging** -> **Command Arguments** is set to your mod name instead of `Chaosbox` (example: `+game Chaosbox_Mod`).
 
 License
 -------
