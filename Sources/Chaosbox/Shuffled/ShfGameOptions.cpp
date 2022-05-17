@@ -1,8 +1,8 @@
 #include "StdH.h"
 
 // [Cecil] Shrunk: Option commands
-static INDEX shf_bShuffleTextures = TRUE;
-static INDEX shf_bShuffleSounds = TRUE;
+static INDEX shf_bShuffleTextures = FALSE;
+static INDEX shf_bShuffleSounds = FALSE;
 static INDEX shf_iShuffleMusic = 2;
 static INDEX shf_iShuffleVoice = 2;
 static INDEX shf_bGlobalReshuffle = FALSE;
@@ -25,8 +25,8 @@ class CShuffledModule : public CModModule {
     
     // [Cecil] Shuffled: Reset options
     virtual void ResetSymbols(void) {
-      shf_bShuffleTextures = TRUE;
-      shf_bShuffleSounds = TRUE;
+      shf_bShuffleTextures = FALSE;
+      shf_bShuffleSounds = FALSE;
       shf_iShuffleMusic = 2;
       shf_iShuffleVoice = 2;
       shf_bGlobalReshuffle = FALSE;

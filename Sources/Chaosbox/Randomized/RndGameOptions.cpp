@@ -1,16 +1,16 @@
 #include "StdH.h"
 
 // [Cecil] RND: Option commands
-static INDEX rnd_iSoundPitch = 1;
-static INDEX rnd_iSpawners = 1;
-static INDEX rnd_iEnemyProjectiles = 1;
-static INDEX rnd_iPlayerProjectiles = 1;
-static INDEX rnd_iModels = 1;
-static INDEX rnd_iTextures = 1;
-static INDEX rnd_iStretch = 1;
-static INDEX rnd_iEffects = 1;
-static INDEX rnd_iItems = 1;
-static INDEX rnd_iLightColors = 1;
+static INDEX rnd_iSoundPitch = 0;
+static INDEX rnd_iSpawners = 0;
+static INDEX rnd_iEnemyProjectiles = 0;
+static INDEX rnd_iPlayerProjectiles = 0;
+static INDEX rnd_iModels = 0;
+static INDEX rnd_iTextures = 0;
+static INDEX rnd_iStretch = 0;
+static INDEX rnd_iEffects = 0;
+static INDEX rnd_iItems = 0;
+static INDEX rnd_iLightColors = 0;
 static INDEX rnd_bDamageUp = FALSE;
 
 class CRndModule : public CModModule {
@@ -37,16 +37,16 @@ class CRndModule : public CModModule {
     
     // [Cecil] RND: Reset options
     virtual void ResetSymbols(void) {
-      rnd_iSoundPitch = 1;
-      rnd_iSpawners = 1;
-      rnd_iEnemyProjectiles = 1;
-      rnd_iPlayerProjectiles = 1;
-      rnd_iModels = 1;
-      rnd_iTextures = 1;
-      rnd_iStretch = 1;
-      rnd_iEffects = 1;
-      rnd_iItems = 1;
-      rnd_iLightColors = 1;
+      rnd_iSoundPitch = 0;
+      rnd_iSpawners = 0;
+      rnd_iEnemyProjectiles = 0;
+      rnd_iPlayerProjectiles = 0;
+      rnd_iModels = 0;
+      rnd_iTextures = 0;
+      rnd_iStretch = 0;
+      rnd_iEffects = 0;
+      rnd_iItems = 0;
+      rnd_iLightColors = 0;
       rnd_bDamageUp = FALSE;
     };
 

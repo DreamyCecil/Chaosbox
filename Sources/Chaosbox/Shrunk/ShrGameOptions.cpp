@@ -1,8 +1,8 @@
 #include "StdH.h"
 
 // [Cecil] Shrunk: Option commands
-static FLOAT shr_fPlayerSize = 0.2f;
-static FLOAT shr_fEnemySize = 0.2f;
+static FLOAT shr_fPlayerSize = 1.0f;
+static FLOAT shr_fEnemySize = 1.0f;
 static INDEX shr_bPlayerSpeed = FALSE;
 static INDEX shr_bEnemySpeed = FALSE;
 static INDEX shr_bProjSpeed = FALSE;
@@ -25,8 +25,8 @@ class CShrunkModule : public CModModule {
     
     // [Cecil] Shrunk: Reset options
     virtual void ResetSymbols(void) {
-      shr_fPlayerSize = 0.2f;
-      shr_fEnemySize = 0.2f;
+      shr_fPlayerSize = 1.0f;
+      shr_fEnemySize = 1.0f;
       shr_bPlayerSpeed = FALSE;
       shr_bEnemySpeed = FALSE;
       shr_bProjSpeed = FALSE;
