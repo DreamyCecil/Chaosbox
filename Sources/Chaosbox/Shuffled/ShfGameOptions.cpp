@@ -9,6 +9,11 @@ static INDEX shf_bGlobalReshuffle = FALSE;
 
 class CShuffledModule : public CModModule {
   public:
+    // [Cecil] Shuffled: Get module name
+    virtual CTString GetName(void) {
+      return "Shuffled";
+    };
+
     // [Cecil] Shuffled: Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user INDEX shf_bShuffleTextures;", &shf_bShuffleTextures);
@@ -25,6 +30,11 @@ class CShuffledModule : public CModModule {
       shf_iShuffleMusic = 2;
       shf_iShuffleVoice = 2;
       shf_bGlobalReshuffle = FALSE;
+    };
+
+    // [Cecil] Shuffled: Check if the module will work in the game
+    virtual BOOL ModuleActive(void) {
+      return (shf_bShuffleTextures || shf_bShuffleSounds);
     };
 
     // [Cecil] Shuffled: Set custom options

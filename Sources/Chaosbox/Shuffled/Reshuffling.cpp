@@ -30,10 +30,11 @@ static void ReloadSounds(void) {
 }
 
 // Excluded resources from reshuffling
-#define CT_EXCLUDE 3
+#define CT_EXCLUDE 4
 static const CTString _astrExclude[CT_EXCLUDE] = {
   "Fonts\\",
   "Textures\\Interface",
+  "Textures\\Logo",
   "TexturesMP\\Interface",
 };
 

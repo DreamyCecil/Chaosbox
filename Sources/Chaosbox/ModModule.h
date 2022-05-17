@@ -5,11 +5,20 @@
 // [Cecil] Module for initializing a certain mod
 class DECL_DLL CModModule {
   public:
+    // Get module name
+    virtual CTString GetName(void) {
+      static const CTString strUnknown = "<unknown>";
+      return strUnknown;
+    };
+
     // Declare mod symbols
     virtual void DeclareSymbols(void) {};
     
     // Reset symbols to their initial values
     virtual void ResetSymbols(void) {};
+
+    // Check if the module will work in the game
+    virtual BOOL ModuleActive(void) { return FALSE; };
     
     // Set mod options
     virtual void SetOptions(CSessionProperties &sp) {};

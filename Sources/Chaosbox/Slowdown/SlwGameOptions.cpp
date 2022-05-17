@@ -55,6 +55,11 @@ static FLOAT tmr_fAddTime = 0.0f;
 
 class CSlowdownModule : public CModModule {
   public:
+    // [Cecil] Slowdown: Get module name
+    virtual CTString GetName(void) {
+      return "Slowdown Bug: Ultra Deluxe";
+    };
+
     // [Cecil] Slowdown: Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user FLOAT tmr_fAddTime;", &tmr_fAddTime);
@@ -70,6 +75,11 @@ class CSlowdownModule : public CModModule {
     // [Cecil] Slowdown: Reset options
     virtual void ResetSymbols(void) {
       tmr_fAddTime = 0.0f;
+    };
+
+    // [Cecil] Slowdown: Check if the module will work in the game
+    virtual BOOL ModuleActive(void) {
+      return (tmr_fAddTime != 0.0f);
     };
 
     // [Cecil] Slowdown: Set custom options

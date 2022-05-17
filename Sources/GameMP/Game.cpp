@@ -2911,6 +2911,8 @@ void CGame::LCDRenderClouds1(void)
                        PIX2D( iXR*_pdp_SE->GetWidth()/640, iYB*_pdp_SE->GetWidth()/640));
     _pdp_SE->PutTexture(&_toLeftD, box, SE_COL_BLUE_NEUTRAL|200);
   
+    // [Cecil] Display active modules
+    DisplayActiveModules(_pdp_SE);
   }
 
   MEXaabbox2D boxBcgClouds1;

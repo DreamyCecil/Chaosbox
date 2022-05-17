@@ -15,6 +15,11 @@ static INDEX rnd_bDamageUp = FALSE;
 
 class CRndModule : public CModModule {
   public:
+    // [Cecil] RND: Get module name
+    virtual CTString GetName(void) {
+      return "Randomized";
+    };
+
     // [Cecil] RND: Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user INDEX rnd_iSoundPitch;", &rnd_iSoundPitch);
@@ -43,6 +48,20 @@ class CRndModule : public CModModule {
       rnd_iItems = 1;
       rnd_iLightColors = 1;
       rnd_bDamageUp = FALSE;
+    };
+
+    // [Cecil] RND: Check if the module will work in the game
+    virtual BOOL ModuleActive(void) {
+      return (rnd_iSoundPitch > 0
+           || rnd_iSpawners > 0
+           || rnd_iEnemyProjectiles > 0
+           || rnd_iPlayerProjectiles > 0
+           || rnd_iModels > 0
+           || rnd_iTextures > 0
+           || rnd_iStretch > 0
+           || rnd_iEffects > 0
+           || rnd_iItems > 0
+           || rnd_iLightColors > 0);
     };
 
     // [Cecil] RND: Set custom options

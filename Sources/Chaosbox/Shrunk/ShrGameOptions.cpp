@@ -9,6 +9,11 @@ static INDEX shr_bProjSpeed = FALSE;
 
 class CShrunkModule : public CModModule {
   public:
+    // [Cecil] Shrunk: Get module name
+    virtual CTString GetName(void) {
+      return "Shrunk";
+    };
+
     // [Cecil] Shrunk: Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user FLOAT shr_fPlayerSize;", &shr_fPlayerSize);
@@ -25,6 +30,11 @@ class CShrunkModule : public CModModule {
       shr_bPlayerSpeed = FALSE;
       shr_bEnemySpeed = FALSE;
       shr_bProjSpeed = FALSE;
+    };
+
+    // [Cecil] Shrunk: Check if the module will work in the game
+    virtual BOOL ModuleActive(void) {
+      return (shr_fPlayerSize != 1.0f || shr_fEnemySize != 1.0f);
     };
 
     // [Cecil] Shrunk: Set custom options
