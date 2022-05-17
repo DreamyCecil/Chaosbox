@@ -27,7 +27,7 @@ enum ESpecimenEnemy {
   SPCE_WOMAN          = 23,
 };
 
-// [Cecil] Specimen
+// Session properties
 struct SSpecimen {
   INDEX iSpecimen;
   BOOL bSetHealth : 1;

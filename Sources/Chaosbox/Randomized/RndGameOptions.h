@@ -17,7 +17,7 @@ enum ERndOptions {
   OPT_DAMAGEUP = (1 << 0), // 4x damage for melee, colts, r/l, g/l and laser rifle
 };
 
-// [Cecil] RND
+// Session properties
 struct SRandomizer {
   ULONG iRandom    : 10;
   ULONG iTypeBased : 10;

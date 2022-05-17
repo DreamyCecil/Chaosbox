@@ -1,6 +1,6 @@
 #pragma once
 
-// [Cecil] Mod options
+// Mod options
 #include "Randomized/RndGameOptions.h"
 #include "SingleSpecimen/SpcGameOptions.h"
 #include "Slowdown/SlwGameOptions.h"

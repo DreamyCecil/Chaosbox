@@ -11,7 +11,7 @@
 #include "EntitiesMP/Walker.h"
 #include "EntitiesMP/Woman.h"
 
-// [Cecil] Specimen: Create specimen enemy
+// Create specimen enemy
 CEntity *CreateSpecimen(CWorld *pwo) {
   const INDEX i = GetSP()->sp_Specimen.iSpecimen;
 

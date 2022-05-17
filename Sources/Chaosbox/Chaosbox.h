@@ -1,13 +1,13 @@
 #pragma once
 
-// [Cecil] Set options from all modules
+// Set options from all modules
 DECL_DLL void SetChaosboxOptions(CSessionProperties &sp);
 
-// [Cecil] Display active modules
+// Display active modules
 DECL_DLL void DisplayActiveModules(CDrawPort *pdp);
 
-// [Cecil] Initialize Chaosbox
+// Initialize Chaosbox
 DECL_DLL void ChaosboxInit(void);
 
-// [Cecil] End Chaosbox
+// End Chaosbox
 DECL_DLL void ChaosboxEnd(void);

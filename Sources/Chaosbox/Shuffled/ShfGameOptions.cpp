@@ -1,6 +1,6 @@
 #include "StdH.h"
 
-// [Cecil] Shrunk: Option commands
+// Option commands
 static INDEX shf_bShuffleTextures = FALSE;
 static INDEX shf_bShuffleSounds = FALSE;
 static INDEX shf_iShuffleMusic = 2;
@@ -9,12 +9,12 @@ static INDEX shf_bGlobalReshuffle = FALSE;
 
 class CShuffledModule : public CModModule {
   public:
-    // [Cecil] Shuffled: Get module name
+    // Get module name
     virtual CTString GetName(void) {
       return "Shuffled";
     };
 
-    // [Cecil] Shuffled: Declare symbols
+    // Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user INDEX shf_bShuffleTextures;", &shf_bShuffleTextures);
       _pShell->DeclareSymbol("persistent user INDEX shf_bShuffleSounds;", &shf_bShuffleSounds);
@@ -23,7 +23,7 @@ class CShuffledModule : public CModModule {
       _pShell->DeclareSymbol("persistent user INDEX shf_bGlobalReshuffle;", &shf_bGlobalReshuffle);
     };
     
-    // [Cecil] Shuffled: Reset options
+    // Reset options
     virtual void ResetSymbols(void) {
       shf_bShuffleTextures = FALSE;
       shf_bShuffleSounds = FALSE;
@@ -32,12 +32,12 @@ class CShuffledModule : public CModModule {
       shf_bGlobalReshuffle = FALSE;
     };
 
-    // [Cecil] Shuffled: Check if the module will work in the game
+    // Check if the module will work in the game
     virtual BOOL ModuleActive(void) {
       return (shf_bShuffleTextures || shf_bShuffleSounds);
     };
 
-    // [Cecil] Shuffled: Set custom options
+    // Set custom options
     virtual void SetOptions(CSessionProperties &sp) {
       // Resources
       sp.sp_Shuffled.ubShuffle = 0;

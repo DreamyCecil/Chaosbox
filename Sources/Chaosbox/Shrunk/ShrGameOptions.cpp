@@ -1,6 +1,6 @@
 #include "StdH.h"
 
-// [Cecil] Shrunk: Option commands
+// Option commands
 static FLOAT shr_fPlayerSize = 1.0f;
 static FLOAT shr_fEnemySize = 1.0f;
 static INDEX shr_bPlayerSpeed = FALSE;
@@ -9,12 +9,12 @@ static INDEX shr_bProjSpeed = FALSE;
 
 class CShrunkModule : public CModModule {
   public:
-    // [Cecil] Shrunk: Get module name
+    // Get module name
     virtual CTString GetName(void) {
       return "Shrunk";
     };
 
-    // [Cecil] Shrunk: Declare symbols
+    // Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user FLOAT shr_fPlayerSize;", &shr_fPlayerSize);
       _pShell->DeclareSymbol("persistent user FLOAT shr_fEnemySize;", &shr_fEnemySize);
@@ -23,7 +23,7 @@ class CShrunkModule : public CModModule {
       _pShell->DeclareSymbol("persistent user INDEX shr_bProjSpeed;", &shr_bProjSpeed);
     };
     
-    // [Cecil] Shrunk: Reset options
+    // Reset options
     virtual void ResetSymbols(void) {
       shr_fPlayerSize = 1.0f;
       shr_fEnemySize = 1.0f;
@@ -32,12 +32,12 @@ class CShrunkModule : public CModModule {
       shr_bProjSpeed = FALSE;
     };
 
-    // [Cecil] Shrunk: Check if the module will work in the game
+    // Check if the module will work in the game
     virtual BOOL ModuleActive(void) {
       return (shr_fPlayerSize != 1.0f || shr_fEnemySize != 1.0f);
     };
 
-    // [Cecil] Shrunk: Set custom options
+    // Set custom options
     virtual void SetOptions(CSessionProperties &sp) {
       sp.sp_Shrunk.fPlayerSize = ClampDn(shr_fPlayerSize, 0.01f);
       sp.sp_Shrunk.fEnemySize  = ClampDn(shr_fEnemySize,  0.01f);

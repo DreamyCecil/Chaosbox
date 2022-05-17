@@ -5,7 +5,7 @@ enum EShrunkOpts {
   SHR_PROJ_SPEED = (1 << 2), // Multiply projectile speed using the launcher's size
 };
 
-// [Cecil] Shrunk
+// Session properties
 struct SShrunk {
   FLOAT fPlayerSize;
   FLOAT fEnemySize;

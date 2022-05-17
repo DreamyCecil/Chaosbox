@@ -2,7 +2,7 @@
 
 #include "GameMP/SessionProperties.h"
 
-// [Cecil] Module for initializing a certain mod
+// Module for initializing a certain mod
 class DECL_DLL CModModule {
   public:
     // Get module name
@@ -24,10 +24,10 @@ class DECL_DLL CModModule {
     virtual void SetOptions(CSessionProperties &sp) {};
 };
 
-// [Cecil] Stack of all mod modules
+// Stack of all mod modules
 extern CDynamicContainer<CModModule> _aModModules;
 
-// [Cecil] Initialization method
+// Initialization method
 #define MODULE_INIT(_ModulePrefix) \
   static C##_ModulePrefix##Module *_p##_ModulePrefix##Module = NULL; \
   extern void Init##_ModulePrefix(void) { \

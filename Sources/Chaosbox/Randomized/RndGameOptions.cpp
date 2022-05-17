@@ -1,6 +1,6 @@
 #include "StdH.h"
 
-// [Cecil] RND: Option commands
+// Option commands
 static INDEX rnd_iSoundPitch = 0;
 static INDEX rnd_iSpawners = 0;
 static INDEX rnd_iEnemyProjectiles = 0;
@@ -15,12 +15,12 @@ static INDEX rnd_bDamageUp = FALSE;
 
 class CRndModule : public CModModule {
   public:
-    // [Cecil] RND: Get module name
+    // Get module name
     virtual CTString GetName(void) {
       return "Randomized";
     };
 
-    // [Cecil] RND: Declare symbols
+    // Declare symbols
     virtual void DeclareSymbols(void) {
       _pShell->DeclareSymbol("persistent user INDEX rnd_iSoundPitch;", &rnd_iSoundPitch);
       _pShell->DeclareSymbol("persistent user INDEX rnd_iSpawners;", &rnd_iSpawners);
@@ -35,7 +35,7 @@ class CRndModule : public CModModule {
       _pShell->DeclareSymbol("persistent user INDEX rnd_iLightColors;", &rnd_iLightColors);
     };
     
-    // [Cecil] RND: Reset options
+    // Reset options
     virtual void ResetSymbols(void) {
       rnd_iSoundPitch = 0;
       rnd_iSpawners = 0;
@@ -50,7 +50,7 @@ class CRndModule : public CModModule {
       rnd_bDamageUp = FALSE;
     };
 
-    // [Cecil] RND: Check if the module will work in the game
+    // Check if the module will work in the game
     virtual BOOL ModuleActive(void) {
       return (rnd_iSoundPitch > 0
            || rnd_iSpawners > 0
@@ -64,7 +64,7 @@ class CRndModule : public CModModule {
            || rnd_iLightColors > 0);
     };
 
-    // [Cecil] RND: Set custom options
+    // Set custom options
     virtual void SetOptions(CSessionProperties &sp) {
       sp.sp_RND.iRandom    = (rnd_iSoundPitch > 0        ? RND_PITCH : 0)
                            | (rnd_iSpawners > 0          ? RND_ENEMIES : 0)

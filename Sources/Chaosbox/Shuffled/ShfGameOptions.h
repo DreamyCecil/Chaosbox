@@ -10,7 +10,7 @@ enum EShuffleSnd {
   SHFS_SET     = (1 << 1),
 };
 
-// [Cecil] Shrunk
+// Session properties
 struct SShuffled {
   UBYTE ubShuffle       : 2;
   UBYTE ubShuffleMusic  : 2;

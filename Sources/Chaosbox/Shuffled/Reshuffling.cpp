@@ -55,7 +55,7 @@ static const CTString _astrVoice[CT_VOICE] = {
   "SoundsMP\\Player\\Quotes\\",
 };
 
-// [Cecil] Shuffled: Get array of available textures
+// Get array of available textures
 CStaticArray<CTString> GetTextures(void) {
   CStaticArray<CTString> astr;
 
@@ -74,7 +74,7 @@ CStaticArray<CTString> GetTextures(void) {
   return astr;
 };
 
-// [Cecil] Shuffled: Get array of available sounds
+// Get array of available sounds
 CStaticArray<CTString> GetSounds(void) {
   CStaticArray<CTString> astr;
 
@@ -93,7 +93,7 @@ CStaticArray<CTString> GetSounds(void) {
   return astr;
 };
 
-// [Cecil] Shuffled: Check if the resource is included
+// Check if the resource is included
 BOOL IncludedRes(CTString strResource, BOOL bSet) {
   // General excludes
   for (INDEX i = 0; i < CT_EXCLUDE; i++) {
@@ -123,7 +123,7 @@ BOOL IncludedRes(CTString strResource, BOOL bSet) {
   return TRUE;
 };
 
-// [Cecil] Shuffled: Check if the resource exists
+// Check if the resource exists
 BOOL ResourceExists(CStaticArray<SResource> &aRes, CEntityComponent *pec) {
   for (INDEX i = 0; i < aRes.Count(); i++) {
     if (aRes[i].pec == pec) {
@@ -134,7 +134,7 @@ BOOL ResourceExists(CStaticArray<SResource> &aRes, CEntityComponent *pec) {
   return FALSE;
 };
 
-// [Cecil] Shuffled: Get all possible resources from the world
+// Get all possible resources from the world
 void ListResources(CEntity *pen, CStaticArray<SResource> *paTex, CStaticArray<SResource> *paSound) {
   // For all entities in this world
   FOREACHINDYNAMICCONTAINER(pen->GetWorld()->wo_cenEntities, CEntity, iten){
@@ -175,7 +175,7 @@ void ListResources(CEntity *pen, CStaticArray<SResource> *paTex, CStaticArray<SR
   }
 };
 
-// [Cecil] Shuffled: Reshuffle textures
+// Reshuffle textures
 void ShuffleTextures(CEntity *pen) {
   /*INDEX ctTextures = _pTextureStock->st_ctObjects.Count();
 
@@ -255,7 +255,7 @@ void ShuffleTextures(CEntity *pen) {
   _pShell->Execute("RefreshTextures();");
 };
 
-// [Cecil] Shuffled: Reshuffle sounds
+// Reshuffle sounds
 void ShuffleSounds(CEntity *pen) {
   /*INDEX ctSounds = _pSoundStock->st_ctObjects.Count();
 
@@ -335,7 +335,7 @@ void ShuffleSounds(CEntity *pen) {
   ReloadSounds();
 };
 
-// [Cecil] Shuffled: Reshuffle everything
+// Reshuffle everything
 void ShuffleResources(CEntity *pen) {
   if (GetSP()->sp_Shuffled.ubShuffle & SHFR_TEXTURES) {
     CPrintF("^cffff50Shuffling textures\n");

@@ -1,4 +1,4 @@
-// [Cecil] Slowdown
+// Session properties
 struct SSlowdown {
   FLOAT fAddTime;
 };

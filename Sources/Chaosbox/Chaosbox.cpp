@@ -4,7 +4,7 @@
 // Patcher
 #include "Chaosbox/Patcher/patcher.h"
 
-// [Cecil] Random mod names
+// Random mod names
 #define CT_MODNAMES 9
 static const char *_astrModNames[CT_MODNAMES] = {
   "~ CHAOSBOX ~",
@@ -18,7 +18,7 @@ static const char *_astrModNames[CT_MODNAMES] = {
   "~ BAOSCHOX ~",
 };
 
-// [Cecil] Set options from all modules
+// Set options from all modules
 void SetChaosboxOptions(CSessionProperties &sp) {
   // Set options from each mod module
   FOREACHINDYNAMICCONTAINER(_aModModules, CModModule, itMod) {
@@ -28,7 +28,7 @@ void SetChaosboxOptions(CSessionProperties &sp) {
 
 static INDEX _iMenuLogoHook = 0;
 
-// [Cecil] Display active modules
+// Display active modules
 void DisplayActiveModules(CDrawPort *pdp) {
   // Hook it up to the menu logo rendering and only display modules in the main menu
   if (_iMenuLogoHook <= 0) {
@@ -58,7 +58,7 @@ void DisplayActiveModules(CDrawPort *pdp) {
 typedef void (CDrawPort::*CPutTexFunc)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const;
 static CPutTexFunc _pPutTexFunc = (void (CDrawPort::*)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const)&CDrawPort::PutTexture;
 
-// [Cecil] Drawport patches
+// Drawport patches
 class CCecilDrawPort : public CDrawPort {
   public:
     void P_PutTexture(CTextureObject *pTO, const PIXaabbox2D &boxScreen, const MEXaabbox2D &boxTexture,
@@ -75,7 +75,7 @@ class CCecilDrawPort : public CDrawPort {
     };
 };
 
-// [Cecil] Initialize Chaosbox
+// Initialize Chaosbox
 void ChaosboxInit(void) {
   // Initialize modules
   extern void InitRnd(void);
@@ -97,7 +97,7 @@ void ChaosboxInit(void) {
   }
 };
 
-// [Cecil] End Chaosbox
+// End Chaosbox
 void ChaosboxEnd(void) {
   // Pick random mod name and resave it
   CTString strModName = _astrModNames[rand() % CT_MODNAMES];

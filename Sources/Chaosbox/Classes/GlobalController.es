@@ -54,7 +54,7 @@ functions:
     _penSpecimenEnemy = NULL;
   };
 
-  // [Cecil] Actions to perform at the beginning of each level
+  // Actions to perform at the beginning of each level
   void WorldStart(void) {
     // [Cecil] RND: Remember enemies
     GetTemplateEnemies();
