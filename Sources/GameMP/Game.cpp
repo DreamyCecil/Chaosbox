@@ -1778,13 +1778,41 @@ static void PrintStats( CDrawPort *pdpDrawPort)
     ULONG ulTime = (ULONG)tvNow.GetSeconds();
     // printout elapsed time
     CTString strTime;
-    if( ulTime >= (60*60)) {
-      // print hours
-      strTime.PrintF( "%02d:%02d:%02d", ulTime/(60*60), (ulTime/60)%60, ulTime%60);
+    
+    // [Cecil] Slowdown: Display just seconds
+    if (hud_bShowTime == 2) {
+      strTime.PrintF("%.2f seconds", _pTimer->CurrentTick());
+
+    // [Cecil] Slowdown: Display as much data as possible
+    } else if (hud_bShowTime == 3) {
+      TIME tm = _pTimer->CurrentTick();
+      UBYTE ubSec  = (UBYTE)fmod(tm, 60.0f);
+      UBYTE ubMin  = (UBYTE)fmod(tm/60.0f, 60.0f);
+
+      TIME tmHours = tm/3600.0f;
+      UBYTE ubHour = (UBYTE)fmod(tmHours, 60.0f);
+
+      TIME tmDays = tmHours/24.0f;
+      UWORD uwDays = (UBYTE)fmod(tmDays, 365.0f);
+
+      TIME tmYears = tmDays/365.0f;
+      UWORD uwYears = (UBYTE)fmod(tmYears, 1000.0f);
+
+      FLOAT fMillennia = tmYears * 0.001f;
+
+      strTime.PrintF("%.0fmil %03dy %dd - %02d:%02d:%02d", fMillennia, uwYears, uwDays, ubHour, ubMin, ubSec);
+
+    // [Cecil] Default
     } else {
-      // skip hours
-      strTime.PrintF( "%2d:%02d", ulTime/60, ulTime%60);
+      if( ulTime >= (60*60)) {
+        // print hours
+        strTime.PrintF( "%02d:%02d:%02d", ulTime/(60*60), (ulTime/60)%60, ulTime%60);
+      } else {
+        // skip hours
+        strTime.PrintF( "%2d:%02d", ulTime/60, ulTime%60);
+      }
     }
+
     pdpDrawPort->PutTextC( strTime, slDPWidth*0.5f, slDPHeight*0.06f, C_WHITE|CT_OPAQUE);
   }
 

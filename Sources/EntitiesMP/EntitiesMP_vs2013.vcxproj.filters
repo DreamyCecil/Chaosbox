@@ -80,6 +80,12 @@
     <Filter Include="Chaosbox\Shrunk">
       <UniqueIdentifier>{55fca2ba-0b6d-4097-b5d0-70c483bc8f38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chaosbox\Patcher">
+      <UniqueIdentifier>{36e3a965-855c-44e8-a543-a339d5836fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chaosbox\Slowdown">
+      <UniqueIdentifier>{bbf3f673-a4bb-45df-80a2-fcefb7a27bdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Common.cpp">
@@ -582,6 +588,12 @@
     </ClCompile>
     <ClCompile Include="..\Chaosbox\Shrunk\ShrGameOptions.cpp">
       <Filter>Chaosbox\Shrunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Patcher\patcher.cpp">
+      <Filter>Chaosbox\Patcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Slowdown\SlwGameOptions.cpp">
+      <Filter>Chaosbox\Slowdown</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1556,6 +1568,15 @@
     </ClInclude>
     <ClInclude Include="..\Chaosbox\ChaosboxMods.h">
       <Filter>Chaosbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Patcher\patcher.h">
+      <Filter>Chaosbox\Patcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Patcher\patcher_defines.h">
+      <Filter>Chaosbox\Patcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Slowdown\SlwGameOptions.h">
+      <Filter>Chaosbox\Slowdown</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

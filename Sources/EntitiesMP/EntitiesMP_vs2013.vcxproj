@@ -299,15 +299,19 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClCompile Include="..\Chaosbox\Chaosbox.cpp" />
     <ClCompile Include="..\Chaosbox\Classes\GlobalController.cpp" />
     <ClCompile Include="..\Chaosbox\ModModule.cpp" />
+    <ClCompile Include="..\Chaosbox\Patcher\patcher.cpp" />
     <ClCompile Include="..\Chaosbox\Randomized\RndGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Randomized\Randomized.cpp" />
     <ClInclude Include="..\Chaosbox\ChaosboxMods.h" />
     <ClInclude Include="..\Chaosbox\Classes\GlobalController.h" />
     <ClInclude Include="..\Chaosbox\Classes\GlobalController_tables.h" />
+    <ClInclude Include="..\Chaosbox\Patcher\patcher.h" />
+    <ClInclude Include="..\Chaosbox\Patcher\patcher_defines.h" />
     <ClInclude Include="..\Chaosbox\Randomized\RandomLists.h" />
     <ClCompile Include="..\Chaosbox\Shrunk\ShrGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Shuffled\ShfGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Shuffled\Reshuffling.cpp" />
+    <ClCompile Include="..\Chaosbox\Slowdown\SlwGameOptions.cpp" />
     <ClCompile Include="Common\Common.cpp" />
     <ClCompile Include="Common\EmanatingParticles.cpp" />
     <ClCompile Include="Common\HUD.cpp" />
@@ -568,6 +572,7 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClInclude Include="..\Chaosbox\Shrunk\ShrGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Shuffled\ShfGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Shuffled\Reshuffling.h" />
+    <ClInclude Include="..\Chaosbox\Slowdown\SlwGameOptions.h" />
     <ClInclude Include="Common\Common.h" />
     <ClInclude Include="Common\Flags.h" />
     <ClInclude Include="Common\GameInterface.h" />

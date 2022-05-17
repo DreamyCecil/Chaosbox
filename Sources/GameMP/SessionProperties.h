@@ -75,6 +75,7 @@ public:
   SRandomizer sp_RND;
   SShuffled sp_Shuffled;
   SShrunk sp_Shrunk;
+  SSlowdown sp_Slowdown;
 };
 
 // NOTE: never instantiate CSessionProperties, as its size is not fixed to the size defined in engine
