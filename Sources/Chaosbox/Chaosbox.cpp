@@ -93,7 +93,7 @@ void ChaosboxInit(void) {
   CPatch *pPatch = new CPatch(_pPutTexFunc, &CCecilDrawPort::P_PutTexture, true, true);
 
   if (!pPatch->ok()) {
-    FatalError("Cannot patch CDrawPort::PutTexture!");
+    WarningMessage("^cff0000Cannot patch CDrawPort::PutTexture!\n");
   }
 };
 

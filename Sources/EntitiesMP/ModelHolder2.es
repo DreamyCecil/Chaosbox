@@ -518,13 +518,14 @@ functions:
     }
 
     // [Cecil] RND: Don't initialize if reloading
-    if (!m_bReloaded) {
+    if (!m_bReloaded || (GetRenderType() != RT_MODEL && GetRenderType() != RT_EDITORMODEL)) {
       if (m_bActive) {
         InitAsModel();
       } else {
         InitAsEditorModel();
       }
     }
+
     // set appearance
     SetModel(m_fnModel);
     INDEX iAnim=m_iModelAnimation;
@@ -724,6 +725,9 @@ procedures:
   }
   Main()
   {
+    // [Cecil] Not reloaded on creation
+    m_bReloaded = FALSE;
+
     // initialize the model
     InitModelHolder();
 

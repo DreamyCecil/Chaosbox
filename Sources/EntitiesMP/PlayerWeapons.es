@@ -5372,7 +5372,8 @@ procedures:
       TM_START = _pTimer->CurrentTick();
       m_fWeaponDrawPowerOld = m_fWeaponDrawPower;
       while (m_fWeaponDrawPower>0.0f ||
-        ((_pTimer->CurrentTick()-TM_START)<m_moWeapon.GetAnimLength(CANNON_ANIM_FIRE)) )
+        // [Cecil] 'current - wait < initial' instead of 'current - initial < wait'
+        (_pTimer->CurrentTick() - m_moWeapon.GetAnimLength(CANNON_ANIM_FIRE) < TM_START) )
       {
         autowait(_pTimer->TickQuantum);
         m_fWeaponDrawPowerOld = m_fWeaponDrawPower;
