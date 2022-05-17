@@ -21,5 +21,4 @@
 // [Cecil] Chaosbox
 #include "Chaosbox/Chaosbox.h"
 #include "Chaosbox/ModModule.h"
-
-#include "Chaosbox/Randomized/Randomized.h"
+#include "Chaosbox/ChaosboxMods.h"

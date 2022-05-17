@@ -144,62 +144,6 @@ CTString RandomTexture(CEntity *pen, const CTString &strTex) {
   return strFile;
 };
 
-/*BOOL CheckPath(CTString str, CTString strPrefix) {
-  if (strnicmp(str.str_String, strPrefix, strlen(strPrefix)) != 0) {
-    return FALSE;
-  }
-  return TRUE;
-};
-
-BOOL IncludedTextures(CTString str) {
-  for (INDEX i = 0; i < 3; i++) {
-    if (CheckPath(str, _astrExclude[i])) {
-      return FALSE;
-    }
-  }
-  
-  return TRUE;
-};
-
-void ShuffleTextures(CEntity *pen) {
-  INDEX ctTextures = _pTextureStock->st_ctObjects.Count();
-  if (ctTextures <= 0) {
-    return;
-  }
-  
-  CDynamicContainer<CTString> astrTextures;
-  astrTextures.New(ctTextures);
-  
-  for (INDEX i = 0; i < ctTextures; i++) {
-    CTString *pstr = new CTString(_pTextureStock->st_ctObjects[i].ser_FileName);
-    astrTextures.Add(pstr);
-    
-    _pTextureStock->st_ctObjects[i].MarkUsed();
-  }
-  
-  INDEX ctLoop = astrTextures.Count();
-  
-  for (INDEX iSet = 0; iSet < ctLoop; iSet++) {
-    INDEX ct = astrTextures.Count();
-    
-    CTString strFirst = astrTextures[0];
-    INDEX iTex = RndNumber(pen, RND_TEXTURES, 0, strFirst.GetHash()) % ct;
-    
-    CTString *pstr = astrTextures.Pointer(iTex);
-    
-    CTFileName *pfnFile = &_pTextureStock->st_ctObjects[iSet].ser_FileName;
-    
-    if (IncludedTextures(*pfnFile)) {
-      *pfnFile = CTFileName(*pstr);
-    }
-    
-    astrTextures.Remove(pstr);
-    delete pstr;
-  }
-  
-  _pShell->Execute("RefreshTextures();");
-};*/
-
 // Replace entity pointer to an enemy
 BOOL SEnemyProperties::ReplaceEnemy(CEntity *penEnemySpawner, CEntityPointer &penSpawn) {
   ASSERT(IsDerivedFromClass(penEnemySpawner, "Enemy Spawner") && IsDerivedFromClass(penSpawn, "Enemy Base"));

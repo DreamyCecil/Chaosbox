@@ -74,6 +74,9 @@
     <Filter Include="Chaosbox\Classes">
       <UniqueIdentifier>{939da0e0-706e-4b43-a807-b28d6e241b11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chaosbox\Shuffled">
+      <UniqueIdentifier>{c1503b98-11ea-482b-a7d3-1074bc5d2105}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Common.cpp">
@@ -553,7 +556,7 @@
     <ClCompile Include="WorldSettingsController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Chaosbox\Randomized\GameOptions.cpp">
+    <ClCompile Include="..\Chaosbox\Randomized\RndGameOptions.cpp">
       <Filter>Chaosbox\Randomized</Filter>
     </ClCompile>
     <ClCompile Include="..\Chaosbox\Randomized\Randomized.cpp">
@@ -567,6 +570,12 @@
     </ClCompile>
     <ClCompile Include="..\Chaosbox\Classes\GlobalController.cpp">
       <Filter>Chaosbox\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Shuffled\ShfGameOptions.cpp">
+      <Filter>Chaosbox\Shuffled</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Chaosbox\Shuffled\Reshuffling.cpp">
+      <Filter>Chaosbox\Shuffled</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1509,7 +1518,7 @@
     <ClInclude Include="..\Chaosbox\Randomized\Randomized.h">
       <Filter>Chaosbox\Randomized</Filter>
     </ClInclude>
-    <ClInclude Include="..\Chaosbox\Randomized\GameOptions.h">
+    <ClInclude Include="..\Chaosbox\Randomized\RndGameOptions.h">
       <Filter>Chaosbox\Randomized</Filter>
     </ClInclude>
     <ClInclude Include="..\Chaosbox\Chaosbox.h">
@@ -1529,6 +1538,15 @@
     </ClInclude>
     <ClInclude Include="..\Chaosbox\Classes\GlobalController_tables.h">
       <Filter>Chaosbox\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Shuffled\ShfGameOptions.h">
+      <Filter>Chaosbox\Shuffled</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\Shuffled\Reshuffling.h">
+      <Filter>Chaosbox\Shuffled</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Chaosbox\ChaosboxMods.h">
+      <Filter>Chaosbox\Randomized</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

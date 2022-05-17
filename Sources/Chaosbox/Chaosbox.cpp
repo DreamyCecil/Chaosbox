@@ -13,7 +13,9 @@ void SetChaosboxOptions(CSessionProperties &sp) {
 void ChaosboxInit(void) {
   // Initialize modules
   extern void InitRnd(void);
+  extern void InitShuffled(void);
   InitRnd();
+  InitShuffled();
 };
 
 // [Cecil] End Chaosbox

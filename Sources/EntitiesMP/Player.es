@@ -49,6 +49,9 @@ extern void JumpFromBouncer(CEntity *penToBounce, CEntity *penBouncer);
 #define GENDER_FEMALE   1
 #define GENDEROFFSET    100   // sound components for genders are offset by this value
 
+// [Cecil] Shuffled: Reshuffling button
+static BOOL _bReshuffle = FALSE;
+static BOOL _bLastReshuffle = FALSE;
 %}
 
 enum PlayerViewType {
@@ -255,7 +258,8 @@ static void KillAllEnemies(CEntity *penKiller)
 #define PLACT_SNIPER_ZOOMOUT      (1L<<11)
 #define PLACT_SNIPER_USE          (1L<<12)
 #define PLACT_FIREBOMB            (1L<<13)
-#define PLACT_SELECT_WEAPON_SHIFT (14)
+#define PLACT_SHUFFLE             (1L<<14) // [Cecil] Shuffled
+#define PLACT_SELECT_WEAPON_SHIFT (27) // [Cecil] Use 5 bits
 #define PLACT_SELECT_WEAPON_MASK  (0x1FL<<PLACT_SELECT_WEAPON_SHIFT)
                                      
 #define MAX_WEAPONS 30
@@ -542,6 +546,18 @@ DECL_DLL void ctl_ComposeActionPacket(const CPlayerCharacter &pc, CPlayerAction 
   if(pctlCurrent.bSniperZoomIn)  paAction.pa_ulButtons |= PLACT_SNIPER_ZOOMIN;
   if(pctlCurrent.bSniperZoomOut) paAction.pa_ulButtons |= PLACT_SNIPER_ZOOMOUT;
   if(pctlCurrent.bFireBomb)      paAction.pa_ulButtons |= PLACT_FIREBOMB;
+  
+  // [Cecil] Shuffled: Send button state for reshuffling resources
+  if (GetSP()->sp_Shuffled.bGlobalReshuffle || _pNetwork->IsServer()) {
+    _bReshuffle = (!_bLastReshuffle && GetKeyState(VK_F10) & 0x8000);
+
+    if (_bReshuffle) {
+      CPrintF("Sending shuffle\n");
+      paAction.pa_ulButtons |= PLACT_SHUFFLE;
+    }
+
+    _bLastReshuffle = (GetKeyState(VK_F10) & 0x8000);
+  }
 
   // if userorcomp just pressed
   if(pctlCurrent.bUseOrComputer && !pctlCurrent.bUseOrComputerLast) {
@@ -4550,6 +4566,14 @@ functions:
     if( ulButtonsNow&PLACT_CENTER_VIEW) {
       // center view with speed of 45 degrees per 1/20 seconds
       paAction.pa_aRotation(2) += Clamp( -en_plViewpoint.pl_OrientationAngle(2)/_pTimer->TickQuantum, -900.0f, +900.0f);
+    }
+
+    // [Cecil] Shuffled: Reshuffle resources
+    if (ulNewButtons & PLACT_SHUFFLE) {
+      if (GetSP()->sp_Shuffled.bGlobalReshuffle || _pNetwork->IsPlayerLocal(this)) {
+        CPrintF("Reshuffling\n");
+        ShuffleResources(this);
+      }
     }
   };
 

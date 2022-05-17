@@ -41,7 +41,6 @@ DECL_DLL void RandomStretch(CEntity *pen);
 // Resource shuffling
 DECL_DLL CTString RandomModel(CEntity *pen, const CTString &strModel);
 DECL_DLL CTString RandomTexture(CEntity *pen, const CTString &strTex);
-//DECL_DLL void ShuffleTextures(CEntity *pen);
 
 // Stronger weapons
 DECL_DLL inline BOOL DamageUp(void) {

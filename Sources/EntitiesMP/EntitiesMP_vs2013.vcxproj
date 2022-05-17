@@ -146,6 +146,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>user32.lib</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>copy vs2013\Release\$(TargetName).dll $(SolutionDir)..\Bin\ &gt;nul
@@ -193,6 +194,7 @@ copy vs2013\Release\$(TargetName).lib $(SolutionDir)..\Bin\ &gt;nul</Command>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>user32.lib</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>copy vs2013\Release_110\$(TargetName).dll $(SolutionDir)..\Bin\ &gt;nul
@@ -237,7 +239,7 @@ copy vs2013\Release_110\$(TargetName).lib $(SolutionDir)..\Bin\ &gt;nul</Command
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>EngineD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>user32.lib;EngineD.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <CustomBuildStep>
@@ -283,7 +285,7 @@ copy vs2013\Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>EngineD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>user32.lib;EngineD.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>copy vs2013\Debug_110\$(TargetName).dll $(SolutionDir)..\Bin\Debug\ &gt;nul
@@ -297,11 +299,14 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClCompile Include="..\Chaosbox\Chaosbox.cpp" />
     <ClCompile Include="..\Chaosbox\Classes\GlobalController.cpp" />
     <ClCompile Include="..\Chaosbox\ModModule.cpp" />
-    <ClCompile Include="..\Chaosbox\Randomized\GameOptions.cpp" />
+    <ClCompile Include="..\Chaosbox\Randomized\RndGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Randomized\Randomized.cpp" />
+    <ClInclude Include="..\Chaosbox\ChaosboxMods.h" />
     <ClInclude Include="..\Chaosbox\Classes\GlobalController.h" />
     <ClInclude Include="..\Chaosbox\Classes\GlobalController_tables.h" />
     <ClInclude Include="..\Chaosbox\Randomized\RandomLists.h" />
+    <ClCompile Include="..\Chaosbox\Shuffled\ShfGameOptions.cpp" />
+    <ClCompile Include="..\Chaosbox\Shuffled\Reshuffling.cpp" />
     <ClCompile Include="Common\Common.cpp" />
     <ClCompile Include="Common\EmanatingParticles.cpp" />
     <ClCompile Include="Common\HUD.cpp" />
@@ -557,8 +562,10 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClInclude Include="..\Chaosbox\Chaosbox.h" />
     <ClInclude Include="..\Chaosbox\ModModule.h" />
     <ClInclude Include="..\Chaosbox\ModOptions.h" />
-    <ClInclude Include="..\Chaosbox\Randomized\GameOptions.h" />
+    <ClInclude Include="..\Chaosbox\Randomized\RndGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Randomized\Randomized.h" />
+    <ClInclude Include="..\Chaosbox\Shuffled\ShfGameOptions.h" />
+    <ClInclude Include="..\Chaosbox\Shuffled\Reshuffling.h" />
     <ClInclude Include="Common\Common.h" />
     <ClInclude Include="Common\Flags.h" />
     <ClInclude Include="Common\GameInterface.h" />
