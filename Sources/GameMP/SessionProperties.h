@@ -76,6 +76,7 @@ public:
   SShuffled sp_Shuffled;
   SShrunk sp_Shrunk;
   SSlowdown sp_Slowdown;
+  SSpecimen sp_Specimen;
 };
 
 // NOTE: never instantiate CSessionProperties, as its size is not fixed to the size defined in engine

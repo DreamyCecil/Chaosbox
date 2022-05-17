@@ -13,10 +13,12 @@ void SetChaosboxOptions(CSessionProperties &sp) {
 void ChaosboxInit(void) {
   // Initialize modules
   extern void InitRnd(void);
+  extern void InitSpecimen(void);
   extern void InitSlowdown(void);
   extern void InitShrunk(void);
   extern void InitShuffled(void);
   InitRnd();
+  InitSpecimen();
   InitSlowdown();
   InitShrunk();
   InitShuffled();

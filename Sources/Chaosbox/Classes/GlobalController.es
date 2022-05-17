@@ -3,6 +3,8 @@
 #include "StdH.h"
 
 #include "EntitiesMP/Player.h"
+
+// [Cecil] RND: Randomize these classes
 #include "EntitiesMP/EnemyBase.h"
 #include "EntitiesMP/ModelHolder2.h"
 #include "EntitiesMP/Light.h"
@@ -12,6 +14,9 @@ extern CEntity *_penGlobalController = NULL;
 
 // [Cecil] RND: List of template enemies
 extern CDynamicContainer<CEntity> _cenEnemies = CDynamicContainer<CEntity>();
+
+// [Cecil] Specimen: Specific enemy to spawn
+extern CEntity *_penSpecimenEnemy = NULL;
 %}
 
 class export CGlobalController : CRationalEntity {
@@ -44,12 +49,18 @@ functions:
 
     // Reset pointer
     _penGlobalController = NULL;
+
+    // [Cecil] Specimen: Reset enemy
+    _penSpecimenEnemy = NULL;
   };
 
   // [Cecil] Actions to perform at the beginning of each level
   void WorldStart(void) {
     // [Cecil] RND: Remember enemies
     GetTemplateEnemies();
+
+    // [Cecil] Specimen: Create specimen enemy
+    _penSpecimenEnemy = CreateSpecimen(GetWorld());
 
     // [Cecil] Shuffled: Reshuffle resources
     ShuffleResources(this);

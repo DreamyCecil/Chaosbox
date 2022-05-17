@@ -141,11 +141,27 @@ functions:
 
       CEntity *pen = NULL;
       if (bCopy) {
-        // [Cecil] RND: Replace target enemy
+        // [Cecil] Replace target enemy
         CEntityPointer penSpawn = m_penTarget;
 
         SEnemyProperties enp;
-        BOOL bReplaced = enp.ReplaceEnemy(this, penSpawn);
+        BOOL bReplaced = FALSE;
+        
+        // [Cecil] Specimen: Replace with a specific type
+        BOOL bSpecimen = (GetSP()->sp_Specimen.iSpecimen >= 0);
+
+        if (bSpecimen) {
+          bReplaced = TRUE;
+          enp.GatherProperties(penSpawn);
+
+          // Pick the specimen
+          extern CEntity *_penSpecimenEnemy;
+          penSpawn = _penSpecimenEnemy;
+          
+        // [Cecil] RND: Replace randomly
+        } else {
+          bReplaced = enp.ReplaceEnemy(this, penSpawn);
+        }
 
         // copy template entity
         pen = GetWorld()->CopyEntityInWorld(*penSpawn,
@@ -170,11 +186,23 @@ functions:
         }
         pen->Initialize();
 
-        // [Cecil] RND: Copy health
-        if (bReplaced) {
+        // [Cecil] Specimen: Reset name
+        if (bSpecimen) {
+          peb->m_strName = "Enemy Base";
+        }
+        
+        // [Cecil] RND
+        // [Cecil] Specimen
+        if (bReplaced && GetSP()->sp_Specimen.bSetHealth) {
+          // Copy original health
           peb->SetHealth(enp.fHealth);
           peb->m_fMaxHealth = peb->GetHealth();
         }
+
+        // [Cecil] Specimen: Multiply health
+        FLOAT fNewHealth = peb->GetHealth() * GetSP()->sp_Specimen.fMulHealth;
+        peb->SetHealth(fNewHealth);
+        peb->m_fMaxHealth = fNewHealth;
 
         // [Cecil] RND: Enemy stretch
         if (GetSP()->sp_RND.iRandom & RND_STRETCH) {
@@ -198,6 +226,11 @@ functions:
       FLOAT fA = FRnd()*360.0f;
       CPlacement3D pl(FLOAT3D(CosFast(fA)*fR, 0.05f, SinFast(fA)*fR), ANGLE3D(0, 0, 0));
       pl.RelativeToAbsolute(GetPlacement());
+
+      // [Cecil] Specimen: Adjust position for fish
+      if (GetSP()->sp_Specimen.iSpecimen == SPCE_FISH) {
+        pl.pl_PositionVector += FLOAT3D(0.0f, 1.0f, 0.0f) * GetRotationMatrix();
+      }
 
       // teleport back
       pen->Teleport(pl, m_bTelefrag);

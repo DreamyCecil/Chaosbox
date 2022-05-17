@@ -311,6 +311,8 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClCompile Include="..\Chaosbox\Shrunk\ShrGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Shuffled\ShfGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Shuffled\Reshuffling.cpp" />
+    <ClCompile Include="..\Chaosbox\SingleSpecimen\SpcGameOptions.cpp" />
+    <ClCompile Include="..\Chaosbox\SingleSpecimen\SpecimenEnemy.cpp" />
     <ClCompile Include="..\Chaosbox\Slowdown\SlwGameOptions.cpp" />
     <ClCompile Include="Common\Common.cpp" />
     <ClCompile Include="Common\EmanatingParticles.cpp" />
@@ -572,6 +574,8 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClInclude Include="..\Chaosbox\Shrunk\ShrGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Shuffled\ShfGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Shuffled\Reshuffling.h" />
+    <ClInclude Include="..\Chaosbox\SingleSpecimen\SpcGameOptions.h" />
+    <ClInclude Include="..\Chaosbox\SingleSpecimen\SpecimenEnemy.h" />
     <ClInclude Include="..\Chaosbox\Slowdown\SlwGameOptions.h" />
     <ClInclude Include="Common\Common.h" />
     <ClInclude Include="Common\Flags.h" />

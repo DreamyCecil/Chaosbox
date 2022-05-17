@@ -67,6 +67,9 @@ struct SEnemyProperties {
   // Replace entity pointer to an enemy
   BOOL ReplaceEnemy(CEntity *penEnemySpawner, CEntityPointer &penSpawn);
 
+  // Gather properties from an enemy
+  void GatherProperties(CEntity *pen);
+
   // Apply remembered properties to an enemy
   void ApplyProperties(CEntity *pen);
 };

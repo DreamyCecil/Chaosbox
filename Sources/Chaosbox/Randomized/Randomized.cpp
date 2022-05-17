@@ -154,9 +154,29 @@ BOOL SEnemyProperties::ReplaceEnemy(CEntity *penEnemySpawner, CEntityPointer &pe
   }
     
   CEnemySpawner &enSpawner = (CEnemySpawner &)*penEnemySpawner;
-  CEnemyBase &enEnemy = (CEnemyBase &)*penSpawn;
 
   // Gather enemy properties
+  GatherProperties(penSpawn);
+
+  // Replace pointer to an enemy
+  extern CDynamicContainer<CEntity> _cenEnemies;
+  INDEX ctTemplates = _cenEnemies.Count();
+
+  // If there are any templates and it's not a fish
+  if (ctTemplates > 0 && !IsOfClass(enSpawner.m_penTarget, "Fish")) {
+    INDEX iRandomEnemy = RndNumber(penEnemySpawner, RND_ENEMIES, enSpawner.en_ulID, enSpawner.m_penTarget->en_ulID) % ctTemplates;
+    penSpawn = _cenEnemies.Pointer(iRandomEnemy);
+  }
+
+  return TRUE;
+};
+
+// Gather properties from an enemy
+void SEnemyProperties::GatherProperties(CEntity *pen) {
+  ASSERT(IsDerivedFromClass(pen, "Enemy Base"));
+
+  CEnemyBase &enEnemy = (CEnemyBase &)*pen;
+
   penDeath   = enEnemy.m_penDeathTarget;
   penPatrol  = enEnemy.m_penMarker;
   fHealth    = enEnemy.m_fMaxHealth;
@@ -171,18 +191,6 @@ BOOL SEnemyProperties::ReplaceEnemy(CEntity *penEnemySpawner, CEntityPointer &pe
   fActivity  = enEnemy.m_fActivityRange;
   fSense     = enEnemy.m_fSenseRange;
   fView      = enEnemy.m_fViewAngle;
-
-  // Replace pointer to an enemy
-  extern CDynamicContainer<CEntity> _cenEnemies;
-  INDEX ctTemplates = _cenEnemies.Count();
-
-  // If there are any templates and it's not a fish
-  if (ctTemplates > 0 && !IsOfClass(enSpawner.m_penTarget, "Fish")) {
-    INDEX iRandomEnemy = RndNumber(penEnemySpawner, RND_ENEMIES, enSpawner.en_ulID, enSpawner.m_penTarget->en_ulID) % ctTemplates;
-    penSpawn = _cenEnemies.Pointer(iRandomEnemy);
-  }
-
-  return TRUE;
 };
 
 // Apply remembered properties to an enemy
