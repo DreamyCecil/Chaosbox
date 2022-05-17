@@ -3630,6 +3630,30 @@ procedures:
       default: ASSERTALWAYS("Unknown projectile type");
     }
 
+    // [Cecil] Shrunk: Stretch projectiles
+    if (IsDerivedFromClass(m_penLauncher, "Enemy Base") || IsOfClass(m_penLauncher, "Player")) {
+      FLOAT fSize = (IsOfClass(m_penLauncher, "Player") ? GetSP()->sp_Shrunk.fPlayerSize : GetSP()->sp_Shrunk.fEnemySize);
+      GetModelObject()->StretchModelRelative(FLOAT3D(fSize, fSize, fSize));
+      ModelChangeNotify();
+
+      // Multiply speed
+      if (GetSP()->sp_Shrunk.ulShrunk & SHR_PROJ_SPEED) {
+        switch (m_prtType) {
+          case PRT_GRENADE: case PRT_LASER_RAY:
+            en_vCurrentTranslationAbsolute *= fSize;
+            break;
+
+          default:
+            en_vDesiredTranslationRelative *= fSize;
+        }
+      }
+
+      if (fSize < 1.0f) {
+        fSize = 2.0f - ClampDn(fSize*2.0f - 1.0f, 0.0f); // 0.5 -> 0.0
+        GetModelObject()->StretchModelRelative(FLOAT3D(fSize, fSize, fSize));
+      }
+    }
+
     // setup light source
     if (m_bLightSource) { SetupLightSource(TRUE); }
 

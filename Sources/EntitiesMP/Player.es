@@ -1293,6 +1293,16 @@ components:
 
 
 functions:
+  // [Cecil] Shrunk: Player size
+  void PlayerSize(void) {
+    const FLOAT fSize = GetSP()->sp_Shrunk.fPlayerSize;
+
+    GetModelObject()->StretchModel(FLOAT3D(fSize, fSize, fSize));
+    m_moRender.StretchModel(FLOAT3D(fSize, fSize, fSize));
+
+    GetModelObject()->GetAttachmentModel(0)->amo_moModelObject.StretchModel(FLOAT3D(fSize, fSize, fSize));
+    m_moRender.GetAttachmentModel(0)->amo_moModelObject.StretchModel(FLOAT3D(fSize, fSize, fSize));
+  };
 
   INDEX GenderSound(INDEX iSound)
   {
@@ -1570,6 +1580,9 @@ functions:
     m_ulFlags |= PLF_SYNCWEAPON;
     // setup light source
     SetupLightSource();
+
+    // [Cecil] Shrunk: Apply player size
+    PlayerSize();
   };
 
   /* Get static light source information. */
@@ -2396,7 +2409,9 @@ functions:
     );
     // determine front clip plane
     plr_fFrontClipDistance = Clamp( plr_fFrontClipDistance, 0.05f, 0.50f);
-    FLOAT fFCD = plr_fFrontClipDistance;
+    // [Cecil] Shrunk: Multiply distance
+    const FLOAT fSize = GetSP()->sp_Shrunk.fPlayerSize;
+    FLOAT fFCD = plr_fFrontClipDistance * ClampUp(fSize * fSize, 1.0f);
     // adjust front clip plane if swimming
     if( m_pstState==PST_SWIM && iViewState==PVT_PLAYEREYES) { fFCD *= 0.6666f; }
     prPerspectiveProjection.FrontClipDistanceL() = fFCD;
@@ -3076,6 +3091,11 @@ functions:
 
     // ignore zero damages
     if (fDamageAmmount<=0) {
+      return;
+    }
+
+    // [Cecil] Shrunk: Ignore impacts if too big
+    if (dmtType == DMT_IMPACT && GetSP()->sp_Shrunk.fPlayerSize > 3.0f) {
       return;
     }
 
@@ -3802,6 +3822,9 @@ functions:
       }
       // attach weapon to new appearance
       GetPlayerAnimator()->SyncWeapon();
+
+      // [Cecil] Shrunk: Apply player size
+      PlayerSize();
     }
 
     BOOL b3RDPersonOld = ppsOrg->ps_ulFlags&PSF_PREFER3RDPERSON;
@@ -3972,6 +3995,14 @@ functions:
       vTranslation *= cht_fTranslationMultiplier;
     }
 
+    // [Cecil] Shrunk: Speed multiplier
+    if (GetSP()->sp_Shrunk.ulShrunk & SHR_PL_SPEED) {
+      FLOAT fMul = GetSP()->sp_Shrunk.fPlayerSize * 0.5f + 0.5f;
+      vTranslation(1) *= fMul;
+      vTranslation(2) *= Clamp(fMul, 1.0f, 4.0f);
+      vTranslation(3) *= fMul;
+    }
+
     // enable faster moving if holding knife in DM
     if( ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_KNIFE &&
          !GetSP()->sp_bCooperative) {
@@ -4068,7 +4099,7 @@ functions:
         case PST_STAND: {
           // if can stand here
           if (ChangeCollisionBoxIndexNow(PLAYER_COLLISION_BOX_STAND)) {
-            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightStand;
+            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightStand * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
             if (m_pstState==PST_CROUCH) {
               ((CPlayerAnimator&)*m_penAnimator).Rise();
             } else {
@@ -4082,7 +4113,7 @@ functions:
           // if can crouch here
           if (ChangeCollisionBoxIndexNow(PLAYER_COLLISION_BOX_CROUCH)) {
             m_pstState = PST_CROUCH;
-            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightCrouch;
+            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightCrouch * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
             ((CPlayerAnimator&)*m_penAnimator).Crouch();
           }
                         } break;
@@ -4092,7 +4123,7 @@ functions:
           if (ChangeCollisionBoxIndexNow(PLAYER_COLLISION_BOX_SWIMSMALL)) {
             ChangeCollisionBoxIndexWhenPossible(PLAYER_COLLISION_BOX_SWIM);
             m_pstState = PST_SWIM;
-            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightSwim;
+            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightSwim * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
             ((CPlayerAnimator&)*m_penAnimator).Swim();                   
             m_fSwimTime = _pTimer->CurrentTick();
           }
@@ -4103,7 +4134,7 @@ functions:
           if (ChangeCollisionBoxIndexNow(PLAYER_COLLISION_BOX_SWIMSMALL)) {
             ChangeCollisionBoxIndexWhenPossible(PLAYER_COLLISION_BOX_SWIM);
             m_pstState = PST_DIVE;
-            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightDive;
+            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightDive * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
             ((CPlayerAnimator&)*m_penAnimator).Swim();
           }
                         } break;
@@ -4112,7 +4143,7 @@ functions:
           // if can fall here
           if (ChangeCollisionBoxIndexNow(PLAYER_COLLISION_BOX_STAND)) {
             m_pstState = PST_FALL;
-            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightStand;
+            en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightStand * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
             ((CPlayerAnimator&)*m_penAnimator).Fall();
           }
                         } break;
@@ -4397,7 +4428,7 @@ functions:
     // set heading, pitch and banking from the normal rotation into the camera view rotation
     if (m_penView!=NULL) {
       ASSERT(IsPredicted()&&m_penView->IsPredicted()||IsPredictor()&&m_penView->IsPredictor()||!IsPredicted()&&!m_penView->IsPredicted()&&!IsPredictor()&&!m_penView->IsPredictor());
-      en_plViewpoint.pl_PositionVector = FLOAT3D(0, 1, 0);
+      en_plViewpoint.pl_PositionVector = FLOAT3D(0, 1, 0) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
       en_plViewpoint.pl_OrientationAngle += (ANGLE3D(
         (ANGLE)((FLOAT)paAction.pa_aRotation(1)*_pTimer->TickQuantum),
         (ANGLE)((FLOAT)paAction.pa_aRotation(2)*_pTimer->TickQuantum),
@@ -4753,14 +4784,14 @@ functions:
       if (m_ulFlags&PLF_ISZOOMING) {
         return this;
       }
-      if (((CPlayerView&)*m_pen3rdPersonView).m_fDistance>2.0f) {
+      if (((CPlayerView&)*m_pen3rdPersonView).m_fDistance>2.0f * GetSP()->sp_Shrunk.fPlayerSize) { // [Cecil] Shrunk
         return m_pen3rdPersonView;
       } else {
         return this;
       }
     // camera
     } else if (m_iViewState == PVT_PLAYERAUTOVIEW) {
-      if (((CPlayerView&)*m_penView).m_fDistance>2.0f) {
+      if (((CPlayerView&)*m_penView).m_fDistance>2.0f * GetSP()->sp_Shrunk.fPlayerSize) { // [Cecil] Shrunk
         return m_penView;
       } else {
         return this;
@@ -4990,7 +5021,7 @@ functions:
   {
     // set viewpoint position inside the entity
     en_plViewpoint.pl_OrientationAngle = ANGLE3D(0,0,0);
-    en_plViewpoint.pl_PositionVector = FLOAT3D(0.0f, plr_fViewHeightStand, 0.0f);
+    en_plViewpoint.pl_PositionVector = FLOAT3D(0.0f, plr_fViewHeightStand * GetSP()->sp_Shrunk.fPlayerSize, 0.0f); // [Cecil] Shrunk
     en_plLastViewpoint = en_plViewpoint;
 
     // clear properties
@@ -5114,7 +5145,7 @@ functions:
     Teleport(CPlacement3D(FLOAT3D(32000.0f+100.0f*iPlayer, 32000.0f, 0), ANGLE3D(0, 0, 0)));
     // force yourself to standing state
     ForceCollisionBoxIndexChange(PLAYER_COLLISION_BOX_STAND);
-    en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightStand;
+    en_plViewpoint.pl_PositionVector(2) = plr_fViewHeightStand * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
     ((CPlayerAnimator&)*m_penAnimator).m_bDisableAnimating = FALSE;
     ((CPlayerAnimator&)*m_penAnimator).Stand();
     m_pstState = PST_STAND;
@@ -5321,6 +5352,10 @@ functions:
     ValidateCharacter();
     SetPlayerAppearance(&m_moRender, &en_pcCharacter, strDummy, /*bPreview=*/FALSE);
     ParseGender(strDummy);
+
+    // [Cecil] Shrunk: Apply player size
+    PlayerSize();
+
     GetPlayerAnimator()->SetWeapon();
     m_ulFlags |= PLF_SYNCWEAPON;
 
@@ -6548,8 +6583,9 @@ procedures:
       return;
     }
 
-    //const FLOAT fSize = 2.1f/1.85f;
-    //GetModelObject()->StretchModel(FLOAT3D(fSize, fSize, fSize));
+    // [Cecil] Shrunk: Apply player size
+    PlayerSize();
+
     ModelChangeNotify();
 
     // wait a bit to allow other entities to start

@@ -305,6 +305,7 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClInclude Include="..\Chaosbox\Classes\GlobalController.h" />
     <ClInclude Include="..\Chaosbox\Classes\GlobalController_tables.h" />
     <ClInclude Include="..\Chaosbox\Randomized\RandomLists.h" />
+    <ClCompile Include="..\Chaosbox\Shrunk\ShrGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Shuffled\ShfGameOptions.cpp" />
     <ClCompile Include="..\Chaosbox\Shuffled\Reshuffling.cpp" />
     <ClCompile Include="Common\Common.cpp" />
@@ -564,6 +565,7 @@ copy vs2013\Debug_110\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Com
     <ClInclude Include="..\Chaosbox\ModOptions.h" />
     <ClInclude Include="..\Chaosbox\Randomized\RndGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Randomized\Randomized.h" />
+    <ClInclude Include="..\Chaosbox\Shrunk\ShrGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Shuffled\ShfGameOptions.h" />
     <ClInclude Include="..\Chaosbox\Shuffled\Reshuffling.h" />
     <ClInclude Include="Common\Common.h" />

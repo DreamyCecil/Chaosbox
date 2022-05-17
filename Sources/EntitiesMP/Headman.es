@@ -80,6 +80,22 @@ components:
  */
 
 functions:
+  // [Cecil] Shrunk: Projectile offset
+  void ProjectileOffset(FLOAT3D &vOffset) {
+    if (m_hdtType != HDT_FIRECRACKER) {
+      CEnemyBase::ProjectileOffset(vOffset);
+      return;
+    }
+
+    FLOAT fShrink = ShrinkFactor();
+
+    if (fShrink != 1.0f) {
+      vOffset(1) *= fShrink;
+      vOffset(2) *= (fShrink*0.5f + 0.5f);
+      vOffset(3) *= fShrink;
+    }
+  };
+
   // describe how this enemy killed player
   virtual CTString GetPlayerKillDescription(const CTString &strPlayerName, const EDeath &eDeath)
   {

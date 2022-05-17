@@ -52,6 +52,17 @@ components:
  57 sound   SOUND_RUN       "Models\\Enemies\\Boneman\\Sounds\\Run.wav",
 
 functions:
+  // [Cecil] Shrunk: Projectile offset
+  void ProjectileOffset(FLOAT3D &vOffset) {
+    FLOAT fShrink = ShrinkFactor();
+
+    if (fShrink != 1.0f) {
+      vOffset(1) *= fShrink;
+      vOffset(2) *= (fShrink*0.5f + 0.5f);
+      vOffset(3) *= fShrink;
+    }
+  };
+
   void Precache(void) {
     CEnemyBase::Precache();
     PrecacheSound(SOUND_IDLE );

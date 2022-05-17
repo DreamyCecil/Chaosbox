@@ -206,6 +206,27 @@ components:
 
 
 functions:
+  // [Cecil] Shrunk: Shrink factor
+  FLOAT ShrinkFactor(void) {
+    if (m_bBoss) {
+      return 1.0f;
+    }
+
+    return GetSP()->sp_Shrunk.fEnemySize;
+  };
+
+  // [Cecil] Shrunk: Projectile offset
+  virtual void ProjectileOffset(FLOAT3D &vOffset) {
+    FLOAT fShrink = ShrinkFactor();
+
+    if (fShrink != 1.0f) {
+      /*vOffset(1) *= fShrink;
+      FLOAT fVert = SgnNZ(vOffset(2));
+      vOffset(2) = ClampDn(Abs(vOffset(2)) * fShrink, 0.5f) * fVert;
+      vOffset(3) *= fShrink;*/
+      vOffset *= fShrink;
+    }
+  };
 
   void CEnemyBase(void)
   {
@@ -1537,6 +1558,11 @@ functions:
  ************************************************************/
   // can attack (shoot) at entity in plane - ground support
   BOOL CanAttackEnemy(CEntity *penTarget, FLOAT fCosAngle) {
+    // [Cecil] Shrunk: Attack all the time
+    if (ShrinkFactor() < 1.0f) {
+      return TRUE;
+    }
+
     if (IsInPlaneFrustum(penTarget, fCosAngle)) {
       if (IsVisibleCheckAll(penTarget)) {
         return TRUE;
@@ -1547,6 +1573,11 @@ functions:
 
   // close attack if possible
   virtual BOOL CanHitEnemy(CEntity *penTarget, FLOAT fCosAngle) {
+    // [Cecil] Shrunk: Attack all the time
+    if (ShrinkFactor() < 1.0f) {
+      return TRUE;
+    }
+
     if (IsInFrustum(penTarget, fCosAngle)) {
       return IsVisibleCheckAll(penTarget);
     }
@@ -1574,6 +1605,9 @@ functions:
   void PreparePropelledProjectile(CPlacement3D &plProjectile, FLOAT3D vShootTarget,
     FLOAT3D &vOffset, ANGLE3D &aOffset)
   {
+    // [Cecil] Shrunk: Adjust position
+    ProjectileOffset(vOffset);
+
     FLOAT3D vDiff = (vShootTarget - (GetPlacement().pl_PositionVector + vOffset*GetRotationMatrix())).SafeNormalize();
     
     // find orientation towards target
@@ -1598,6 +1632,21 @@ functions:
   void PrepareFreeFlyingProjectile(CPlacement3D &plProjectile, FLOAT3D vShootTarget,
     FLOAT3D &vOffset, ANGLE3D &aOffset)
   {
+    // [Cecil] Shrunk: Adjust position
+    /*if (!m_bBoss) {
+      FLOAT3D vShrink = FLOAT3D(GetSP()->sp_fShrinkSize, GetSP()->sp_fShrinkSize, GetSP()->sp_fShrinkSize);
+
+      FLOATmatrix3D mEnemy = GetRotationMatrix();
+      FLOAT3D vDir = FLOAT3D(0.0f, 1.0f, 2.5f);
+      vDir *= mA;
+      vDir *= !mA;
+
+      vOffset *= GetSP()->sp_fShrinkSize;
+    }*/
+
+    // [Cecil] Shrunk: Adjust position
+    ProjectileOffset(vOffset);
+
     FLOAT3D vDiff = (vShootTarget - (GetPlacement().pl_PositionVector + vOffset*GetRotationMatrix())).SafeNormalize();
     
     // find orientation towards target
@@ -1625,7 +1674,14 @@ functions:
     // target enemy body
     EntityInfo *peiTarget = (EntityInfo*) (m_penEnemy->GetEntityInfo());
     FLOAT3D vShootTarget;
-    GetEntityInfoPosition(m_penEnemy, peiTarget->vTargetCenter, vShootTarget);
+
+    // [Cecil] Shrunk: Multiply size
+    FLOAT vTarget[3];
+    vTarget[0] = peiTarget->vTargetCenter[0] * GetSP()->sp_Shrunk.fPlayerSize;
+    vTarget[1] = peiTarget->vTargetCenter[1] * GetSP()->sp_Shrunk.fPlayerSize;
+    vTarget[2] = peiTarget->vTargetCenter[2] * GetSP()->sp_Shrunk.fPlayerSize;
+
+    GetEntityInfoPosition(m_penEnemy, (FLOAT *)vTarget, vShootTarget);
 
     // launch
     CPlacement3D pl;
@@ -3164,6 +3220,26 @@ procedures:
     // this wait amount has to be lower than the one in music holder, so that the enemies are initialized before
     // they get counted
     autowait(_pTimer->TickQuantum);
+
+    // [Cecil] Shrunk: Shrink enemies
+    FLOAT fSize = ShrinkFactor();
+
+    if (fSize != 1.0f) {
+      GetModelObject()->StretchModelRelative(FLOAT3D(fSize, fSize, fSize));
+      ModelChangeNotify();
+
+      // Multiply speed
+      if (GetSP()->sp_Shrunk.ulShrunk & SHR_EN_SPEED) {
+        FLOAT fSpeedMul = (fSize * 0.5f + 0.5f);
+        m_fWalkSpeed      *= fSpeedMul;
+        m_fAttackRunSpeed *= fSpeedMul;
+        m_fCloseRunSpeed  *= fSpeedMul;
+        m_fAttackDistance *= fSpeedMul;
+        m_fCloseDistance  *= fSpeedMul;
+        m_fStopDistance   *= fSpeedMul;
+        m_fIgnoreRange    *= ClampDn(fSpeedMul, 1.0f);
+      }
+    }
 
     // spawn your watcher
     m_penWatcher = CreateEntity(GetPlacement(), CLASS_WATCHER);

@@ -1089,6 +1089,15 @@ functions:
         plPos(2) += Sin(tmPassed*270.0f*8)*0.01f*tmPassed/2.0f;
       }
     }
+
+    // [Cecil] Shrunk: Move forward
+    /*if (GetSP()->sp_Shrunk.fShrinkSize < 1.0f) {
+      plPos(3) -= (0.5f - GetSP()->sp_Shrunk.fShrinkSize*0.5f) * GetSP()->sp_Shrunk.fShrinkSize;
+
+    // [Cecil] Move down
+    } else {
+      plPos(2) += (0.25f - GetSP()->sp_Shrunk.fShrinkSize*0.25f) * (1.0f / GetSP()->sp_Shrunk.fShrinkSize);
+    }*/
   };
 
   // check target for time prediction updating
@@ -1524,6 +1533,11 @@ functions:
 
   // Set weapon model for current weapon.
   void SetCurrentWeaponModel(void) {
+    // [Cecil] Shrunk: Reset size
+    /*FLOAT fSize = 1.0f;
+    m_moWeapon.StretchModel(FLOAT3D(fSize, fSize, fSize));
+    m_moWeaponSecond.StretchModel(FLOAT3D(fSize, fSize, fSize));*/
+
     // WARNING !!! ---> Order of attachment must be the same with order in RenderWeaponModel()
     switch (m_iCurrentWeapon) {
       case WEAPON_NONE:
@@ -1671,6 +1685,11 @@ functions:
 //        AddAttachmentToModel(this, m_moWeapon, CANNON_ATTACHMENT_LIGHT, MODEL_CN_LIGHT, TEXTURE_CANNON, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
         break;
     }
+
+    // [Cecil] Shrunk: Shrink models
+    /*fSize = GetSP()->sp_Shrunk.fShrinkSize * 0.5f + 0.5f;
+    m_moWeapon.StretchModelRelative(FLOAT3D(fSize, fSize, fSize));
+    m_moWeaponSecond.StretchModelRelative(FLOAT3D(fSize, fSize, fSize));*/
   };
 
 
@@ -1697,17 +1716,13 @@ functions:
     // weapon handle
     if (!m_bMirrorFire) {
       plPos.pl_PositionVector = FLOAT3D( wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                         wpn_fZ[m_iCurrentWeapon]);
+                                         wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
     } else {
       plPos.pl_PositionVector = FLOAT3D( -wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                          wpn_fZ[m_iCurrentWeapon]);
+                                          wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
     }
     // weapon offset
-    if (!m_bMirrorFire) {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    } else {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    }
+    plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos * GetSP()->sp_Shrunk.fPlayerSize, ANGLE3D(0, 0, 0))); // [Cecil] Shrunk
     plPos.pl_PositionVector(1) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(2) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(3) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
@@ -1729,20 +1744,16 @@ functions:
     // weapon handle
     if (!m_bMirrorFire) {
       plPos.pl_PositionVector = FLOAT3D( wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                         wpn_fZ[m_iCurrentWeapon]);
+                                         wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
       if (m_bSniping) {
         plPos.pl_PositionVector = FLOAT3D( 0.0f, 0.0f, 0.0f );
       }
     } else {
       plPos.pl_PositionVector = FLOAT3D( -wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                          wpn_fZ[m_iCurrentWeapon]);
+                                          wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
     }
     // weapon offset
-    if (!m_bMirrorFire) {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    } else {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    }
+    plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos * GetSP()->sp_Shrunk.fPlayerSize, ANGLE3D(0, 0, 0))); // [Cecil] Shrunk
     plPos.pl_PositionVector(1) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(2) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(3) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
@@ -1766,20 +1777,16 @@ functions:
     // weapon handle
     if (!m_bMirrorFire) {
       plPos.pl_PositionVector = FLOAT3D( wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                         wpn_fZ[m_iCurrentWeapon]);
+                                         wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
       if (m_bSniping) {
         plPos.pl_PositionVector = FLOAT3D( 0.0f, 0.0f, 0.0f );
       }
     } else {
       plPos.pl_PositionVector = FLOAT3D( -wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                          wpn_fZ[m_iCurrentWeapon]);
+                                          wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
     }
     // weapon offset
-    if (!m_bMirrorFire) {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    } else {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    }
+    plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos * GetSP()->sp_Shrunk.fPlayerSize, ANGLE3D(0, 0, 0))); // [Cecil] Shrunk
     plPos.pl_PositionVector(1) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(2) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(3) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
@@ -1800,20 +1807,16 @@ functions:
     // weapon handle
     if (!m_bMirrorFire) {
       plPos.pl_PositionVector = FLOAT3D( wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                         wpn_fZ[m_iCurrentWeapon]);
+                                         wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
       if (m_bSniping) {
         plPos.pl_PositionVector = FLOAT3D( 0.0f, 0.0f, 0.0f );
       }
     } else {
       plPos.pl_PositionVector = FLOAT3D( -wpn_fX[m_iCurrentWeapon], wpn_fY[m_iCurrentWeapon],
-                                          wpn_fZ[m_iCurrentWeapon]);
+                                          wpn_fZ[m_iCurrentWeapon]) * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
     }
     // weapon offset
-    if (!m_bMirrorFire) {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    } else {
-      plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos, ANGLE3D(0, 0, 0)));
-    }
+    plPos.RelativeToAbsoluteSmooth(CPlacement3D(vPos * GetSP()->sp_Shrunk.fPlayerSize, ANGLE3D(0, 0, 0))); // [Cecil] Shrunk
     plPos.pl_PositionVector(1) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(2) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
     plPos.pl_PositionVector(3) *= SinFast(wpn_fFOV[m_iCurrentWeapon]/2) / SinFast(90.0f/2);
@@ -1851,6 +1854,9 @@ functions:
   // cut in front of you with knife
   BOOL CutWithKnife(FLOAT fX, FLOAT fY, FLOAT fRange, FLOAT fWide, FLOAT fThickness, FLOAT fDamage) 
   {
+    // [Cecil] Shrunk: Multiply range
+    fRange *= ClampDn(GetSP()->sp_Shrunk.fPlayerSize, 1.0f);
+
     // knife start position
     CPlacement3D plKnife;
     CalcWeaponPosition(FLOAT3D(fX, fY, 0), plKnife, TRUE);
@@ -1956,6 +1962,9 @@ functions:
   // cut in front of you with the chainsaw
   BOOL CutWithChainsaw(FLOAT fX, FLOAT fY, FLOAT fRange, FLOAT fWide, FLOAT fThickness, FLOAT fDamage) 
   {
+    // [Cecil] Multiply range
+    fRange *= ClampDn(GetSP()->sp_Shrunk.fPlayerSize, 1.0f);
+
     // knife start position
     CPlacement3D plKnife;
     CalcWeaponPosition(FLOAT3D(fX, fY, 0), plKnife, TRUE);
@@ -4889,7 +4898,7 @@ procedures:
       autowait(m_moWeapon.GetAnimLength(ROCKETLAUNCHER_ANIM_FIRE)-0.05f);
 
       CModelObject *pmo = &(m_moWeapon.GetAttachmentModel(ROCKETLAUNCHER_ATTACHMENT_ROCKET1)->amo_moModelObject);
-      pmo->StretchModel(FLOAT3D(1, 1, 1));
+      pmo->StretchModel(FLOAT3D(1, 1, 1)/* * (GetSP()->sp_Shrunk.fShrinkSize * 0.5f + 0.5f)*/); // [Cecil] Shrunk
 
       // no ammo -> change weapon
       if (m_iRockets<=0) { SelectNewWeapon(); }
@@ -5549,7 +5558,7 @@ procedures:
     // make sure we restore all rockets if we are holding the rocket launcher
     if (m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER) {
       CModelObject *pmo = &(m_moWeapon.GetAttachmentModel(ROCKETLAUNCHER_ATTACHMENT_ROCKET1)->amo_moModelObject);
-      if (pmo) { pmo->StretchModel(FLOAT3D(1, 1, 1)); }
+      if (pmo) { pmo->StretchModel(FLOAT3D(1, 1, 1)/* * (GetSP()->sp_Shrunk.fShrinkSize * 0.5f + 0.5f)*/); } // [Cecil] Shrunk
     }
     // kill all possible sounds, animations, etc
     ResetWeaponMovingOffset();

@@ -297,7 +297,7 @@ functions:
     // bullet start position
     CPlacement3D plBullet;
     plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
-    plBullet.pl_PositionVector = FLOAT3D(GUN_X, GUN_Y, 0);
+    plBullet.pl_PositionVector = FLOAT3D(GUN_X, GUN_Y, 0) * GetSP()->sp_Shrunk.fEnemySize; // [Cecil] Shrunk
     // offset are changed according to stretch factor
     if (m_smtType == SMT_MONSTER) {
       plBullet.pl_PositionVector*=STRETCH_MONSTER;
@@ -323,7 +323,7 @@ functions:
     // bullet start position
     CPlacement3D plBullet;
     plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
-    plBullet.pl_PositionVector = FLOAT3D(GUN_X, GUN_Y, 0);
+    plBullet.pl_PositionVector = FLOAT3D(GUN_X, GUN_Y, 0) * GetSP()->sp_Shrunk.fEnemySize; // [Cecil] Shrunk
     // offset are changed according to stretch factor
     if (m_smtType == SMT_MONSTER) {
       plBullet.pl_PositionVector*=STRETCH_MONSTER;

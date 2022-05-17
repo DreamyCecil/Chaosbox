@@ -74,6 +74,7 @@ public:
   // [Cecil] Mod options
   SRandomizer sp_RND;
   SShuffled sp_Shuffled;
+  SShrunk sp_Shrunk;
 };
 
 // NOTE: never instantiate CSessionProperties, as its size is not fixed to the size defined in engine

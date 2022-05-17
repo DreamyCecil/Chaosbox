@@ -93,12 +93,12 @@ functions:
     if (m_iViewType == VT_3RDPERSONVIEW) {
       // little above player eyes so it can be seen where he is firing
       pl.pl_OrientationAngle(2) -= 12.0f; //10.0f;
-      pl.pl_PositionVector(2) += 1.0f;
-      fDistance = 4.2f;//5.75f;
+      pl.pl_PositionVector(2) += 1.0f * GetSP()->sp_Shrunk.fPlayerSize; // [Cecil] Shrunk
+      fDistance = 4.2f * (GetSP()->sp_Shrunk.fPlayerSize * 0.75f + 0.25f); // [Cecil] Shrunk
       bFollowCrossHair = TRUE;
     // death
     } else if (m_iViewType == VT_PLAYERDEATH) {
-      fDistance = 3.5f;
+      fDistance = 3.5f * (GetSP()->sp_Shrunk.fPlayerSize * 0.75f + 0.25f); // [Cecil] Shrunk
       bFollowCrossHair = FALSE;
     }
 
@@ -109,7 +109,14 @@ functions:
     // make base placement to back out from
     FLOAT3D vBase;
     EntityInfo *pei= (EntityInfo*) (m_penOwner->GetEntityInfo());
-    GetEntityInfoPosition(m_penOwner, pei->vSourceCenter, vBase);
+
+    // [Cecil] Shrunk: Multiply size
+    FLOAT vCenter[3];
+    vCenter[0] = pei->vSourceCenter[0] * GetSP()->sp_Shrunk.fPlayerSize;
+    vCenter[1] = pei->vSourceCenter[1] * GetSP()->sp_Shrunk.fPlayerSize;
+    vCenter[2] = pei->vSourceCenter[2] * GetSP()->sp_Shrunk.fPlayerSize;
+
+    GetEntityInfoPosition(m_penOwner, (FLOAT *)vCenter, vBase);
 
     // create a set of rays to test
     FLOATmatrix3D m;
@@ -119,10 +126,11 @@ functions:
     FLOAT3D vFront = m.GetColumn(3);
 
     FLOAT3D vDest[5];
-    vDest[0] = vBase+vFront*fDistance+vUp*1.0f;
-    vDest[1] = vBase+vFront*fDistance-vUp*1.0f;
-    vDest[2] = vBase+vFront*fDistance+vRight*1.0f;
-    vDest[3] = vBase+vFront*fDistance-vRight*1.0f;
+    // [Cecil] Shrunk: Multiplied by size
+    vDest[0] = vBase+vFront*fDistance+vUp*1.0f * GetSP()->sp_Shrunk.fPlayerSize;
+    vDest[1] = vBase+vFront*fDistance-vUp*1.0f * GetSP()->sp_Shrunk.fPlayerSize;
+    vDest[2] = vBase+vFront*fDistance+vRight*1.0f * GetSP()->sp_Shrunk.fPlayerSize;
+    vDest[3] = vBase+vFront*fDistance-vRight*1.0f * GetSP()->sp_Shrunk.fPlayerSize;
     vDest[4] = vBase+vFront*fDistance;
 
     FLOAT fBack = 0;
