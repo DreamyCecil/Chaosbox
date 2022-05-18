@@ -1,4 +1,6 @@
 # Chaosbox
+*A portmanteau of the words "Chaos" and "Sandbox".*
+
 This is the source code of a mod for classic Serious Sam: The Second Encounter v1.07 that consists out of many smaller mods and ideas, which when combined together, give you quite a chaotic gameplay experience. 
 Based on [Serious Sam SDK v1.07 for Visual Studio 2013](https://github.com/DreamyCecil/SeriousSam_SDK107)
 

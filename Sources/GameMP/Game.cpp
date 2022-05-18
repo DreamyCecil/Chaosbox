@@ -2764,10 +2764,7 @@ static CTextureObject _toPointer;
 static CTextureObject _toBcgClouds;
 static CTextureObject _toBcgGrid;
 static CTextureObject _toBackdrop;
-static CTextureObject _toSamU;
-static CTextureObject _toSamD;
-static CTextureObject _toLeftU;
-static CTextureObject _toLeftD;
+static CTextureObject _toSam;
 
 static PIXaabbox2D _boxScreen_SE;
 static PIX _pixSizeI_SE;
@@ -2791,22 +2788,16 @@ void CGame::LCDInit(void)
 {
   try {
     _toBcgClouds.SetData_t(CTFILENAME("Textures\\General\\Background6.tex"));
-    _toPointer.SetData_t(CTFILENAME("TexturesMP\\General\\Pointer.tex",));
-    _toBcgGrid.SetData_t(CTFILENAME("TexturesMP\\General\\grid.tex"));
-    _toBackdrop.SetData_t(CTFILENAME("TexturesMP\\General\\MenuBack.tex"));
-    _toSamU.SetData_t(CTFILENAME("TexturesMP\\General\\SamU.tex"));
-    _toSamD.SetData_t(CTFILENAME("TexturesMP\\General\\SamD.tex"));
-    _toLeftU.SetData_t(CTFILENAME("TexturesMP\\General\\LeftU.tex"));
-    _toLeftD.SetData_t(CTFILENAME("TexturesMP\\General\\LeftD.tex"));
+    _toPointer.SetData_t(CTFILENAME("Textures\\Chaosbox\\Pointer.tex"));
+    _toBcgGrid.SetData_t(CTFILENAME("Textures\\Chaosbox\\Grid.tex"));
+    _toBackdrop.SetData_t(CTFILENAME("Textures\\Chaosbox\\MenuBack.tex"));
+    _toSam.SetData_t(CTFILENAME("Textures\\Chaosbox\\Sam.tex"));
     // force constant textures
     ((CTextureData*)_toBcgClouds.GetData())->Force(TEX_CONSTANT);
     ((CTextureData*)_toPointer  .GetData())->Force(TEX_CONSTANT);
     ((CTextureData*)_toBcgGrid  .GetData())->Force(TEX_CONSTANT);
     ((CTextureData*)_toBackdrop .GetData())->Force(TEX_CONSTANT);
-    ((CTextureData*)_toSamU     .GetData())->Force(TEX_CONSTANT);
-    ((CTextureData*)_toSamD     .GetData())->Force(TEX_CONSTANT);
-    ((CTextureData*)_toLeftU    .GetData())->Force(TEX_CONSTANT);
-    ((CTextureData*)_toLeftD    .GetData())->Force(TEX_CONSTANT);
+    ((CTextureData*)_toSam      .GetData())->Force(TEX_CONSTANT);
 
   } catch (char *strError) {
     FatalError("%s\n", strError);
@@ -2872,47 +2863,18 @@ void CGame::LCDRenderClouds1(void)
 
     PIXaabbox2D box;
         
-    // right character - Sam
+    // [Cecil] Full Sam texture
     INDEX iSize = 170;
     INDEX iYU = 120;
-    INDEX iYM = iYU + iSize;
-    INDEX iYB = iYM + iSize;
+    INDEX iYB = iYU + iSize + iSize;
     INDEX iXL = 420;
-    INDEX iXR = iXL + iSize*_pdp_SE->dp_fWideAdjustment;
+    INDEX iXR = iXL + iSize * _pdp_SE->dp_fWideAdjustment;
     
-    box = PIXaabbox2D( PIX2D( iXL*_pdp_SE->GetWidth()/640, iYU*_pdp_SE->GetHeight()/480) ,
-                       PIX2D( iXR*_pdp_SE->GetWidth()/640, iYM*_pdp_SE->GetHeight()/480));
-    _pdp_SE->PutTexture(&_toSamU, box, SE_COL_BLUE_NEUTRAL|255);
-    box = PIXaabbox2D( PIX2D( iXL*_pdp_SE->GetWidth()/640, iYM*_pdp_SE->GetHeight()/480) ,
-                       PIX2D( iXR*_pdp_SE->GetWidth()/640, iYB*_pdp_SE->GetHeight()/480));
-    _pdp_SE->PutTexture(&_toSamD, box, SE_COL_BLUE_NEUTRAL|255);
+    box = PIXaabbox2D(PIX2D(iXL * _pdp_SE->GetWidth() / 640, iYU * _pdp_SE->GetHeight() / 480),
+                      PIX2D(iXR * _pdp_SE->GetWidth() / 640, iYB * _pdp_SE->GetHeight() / 480));
 
-    iSize = 120;
-    iYU = 0;
-    iYM = iYU + iSize;
-    iYB = iYM + iSize;
-    iXL = -20;
-    iXR = iXL + iSize;
-    box = PIXaabbox2D( PIX2D( iXL*_pdp_SE->GetWidth()/640, iYU*_pdp_SE->GetWidth()/640) ,
-                       PIX2D( iXR*_pdp_SE->GetWidth()/640, iYM*_pdp_SE->GetWidth()/640));
-    _pdp_SE->PutTexture(&_toLeftU, box, SE_COL_BLUE_NEUTRAL|200);
-    box = PIXaabbox2D( PIX2D( iXL*_pdp_SE->GetWidth()/640, iYM*_pdp_SE->GetWidth()/640) ,
-                       PIX2D( iXR*_pdp_SE->GetWidth()/640, iYB*_pdp_SE->GetWidth()/640));
-    _pdp_SE->PutTexture(&_toLeftD, box, SE_COL_BLUE_NEUTRAL|200);
-    iYU = iYB;
-    iYM = iYU + iSize;
-    iYB = iYM + iSize;
-    iXL = -20;
-    iXR = iXL + iSize;
-    box = PIXaabbox2D( PIX2D( iXL*_pdp_SE->GetWidth()/640, iYU*_pdp_SE->GetWidth()/640) ,
-                       PIX2D( iXR*_pdp_SE->GetWidth()/640, iYM*_pdp_SE->GetWidth()/640));
-    _pdp_SE->PutTexture(&_toLeftU, box, SE_COL_BLUE_NEUTRAL|200);
-    box = PIXaabbox2D( PIX2D( iXL*_pdp_SE->GetWidth()/640, iYM*_pdp_SE->GetWidth()/640) ,
-                       PIX2D( iXR*_pdp_SE->GetWidth()/640, iYB*_pdp_SE->GetWidth()/640));
-    _pdp_SE->PutTexture(&_toLeftD, box, SE_COL_BLUE_NEUTRAL|200);
-  
-    // [Cecil] Display active modules
-    DisplayActiveModules(_pdp_SE);
+    static const char *strName = "SAM I AM";
+    _pdp_SE->PutTexture(&_toSam, box, CHAOSBOX_BLUE_NEUTRAL|255);
   }
 
   MEXaabbox2D boxBcgClouds1;
@@ -2922,6 +2884,11 @@ void CGame::LCDRenderClouds1(void)
   TiledTextureSE(_boxScreen_SE, 0.7f*_pdp_SE->GetWidth()/640.0f, 
     MEX2D(sin(_tmNow_SE*0.6f+1)*32,sin(_tmNow_SE*0.8f)*25),   boxBcgClouds1);
   _pdp_SE->PutTexture(&_toBcgClouds, _boxScreen_SE, boxBcgClouds1, C_BLACK|_ulA_SE>>2);
+  
+  // [Cecil] Display active modules
+  if (!_bPopup) {
+    DisplayActiveModules(_pdp_SE);
+  }
 }
 void CGame::LCDRenderCloudsForComp(void)
 {
@@ -2951,6 +2918,7 @@ void CGame::LCDDrawPointer(PIX pixI, PIX pixJ)
 {
   CDisplayMode dmCurrent;
   _pGfx->GetCurrentDisplayMode(dmCurrent);
+
   if (dmCurrent.IsFullScreen()) {
     while (ShowCursor(FALSE) >= 0);
   } else {
@@ -2959,63 +2927,63 @@ void CGame::LCDDrawPointer(PIX pixI, PIX pixJ)
     }
     return;
   }
-  PIX pixSizeI = _toPointer.GetWidth();
-  PIX pixSizeJ = _toPointer.GetHeight();
-  pixI-=1;
-  pixJ-=1;
-  _pdp_SE->PutTexture( &_toPointer, PIXaabbox2D( PIX2D(pixI, pixJ), PIX2D(pixI+pixSizeI, pixJ+pixSizeJ)),
-                    LCDFadedColor(C_WHITE|255));
 
-  //::LCDDrawPointer(pixI, pixJ);
+  // [Cecil] Own dimensions
+  PIX pixSizeI = 64;
+  PIX pixSizeJ = 64;
+  pixI -= 1;
+  pixJ -= 125 / (256 / pixSizeJ);
+  _pdp_SE->PutTexture(&_toPointer, PIXaabbox2D(PIX2D(pixI, pixJ), PIX2D(pixI + pixSizeI, pixJ + pixSizeJ)), LCDFadedColor(C_WHITE|255));
 }
+
 COLOR CGame::LCDGetColor(COLOR colDefault, const char *strName)
 {
   if (!strcmp(strName, "thumbnail border")) {
-    colDefault = SE_COL_BLUE_NEUTRAL|255;
+    colDefault = CHAOSBOX_BLUE_NEUTRAL|255;
   } else if (!strcmp(strName, "no thumbnail")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "popup box")) {
-    colDefault = SE_COL_BLUE_NEUTRAL|255;
+    colDefault = CHAOSBOX_BLUE_NEUTRAL|255;
   } else if (!strcmp(strName, "tool tip")) {
-    colDefault = SE_COL_ORANGE_LIGHT|255;
+    colDefault = CHAOSBOX_ORANGE_LIGHT|255;
   } else if (!strcmp(strName, "unselected")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "selected")) {
-    colDefault = SE_COL_ORANGE_LIGHT|255;
+    colDefault = CHAOSBOX_ORANGE_LIGHT|255;
   } else if (!strcmp(strName, "disabled selected")) {
-    colDefault = SE_COL_ORANGE_DARK_LT |255;
+    colDefault = CHAOSBOX_ORANGE_DARK_LT |255;
   } else if (!strcmp(strName, "disabled unselected")) {
-    colDefault = SE_COL_ORANGE_DARK|255;
+    colDefault = CHAOSBOX_ORANGE_DARK|255;
   } else if (!strcmp(strName, "label")) {
     colDefault = C_WHITE|255;
   } else if (!strcmp(strName, "title")) {
     colDefault = C_WHITE|255;
   } else if (!strcmp(strName, "editing")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "hilited")) {
-    colDefault = SE_COL_ORANGE_LIGHT|255;
+    colDefault = CHAOSBOX_ORANGE_LIGHT|255;
   } else if (!strcmp(strName, "hilited rectangle")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "edit fill")) {
-    colDefault = SE_COL_BLUE_DARK_LT|75;
+    colDefault = CHAOSBOX_BLUE_DARK_LT|75;
   } else if (!strcmp(strName, "editing cursor")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "model box")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "hiscore header")) {
-    colDefault = SE_COL_ORANGE_LIGHT|255;
+    colDefault = CHAOSBOX_ORANGE_LIGHT|255;
   } else if (!strcmp(strName, "hiscore data")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "hiscore last set")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "slider box")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "file info")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "display mode")) {
-    colDefault = SE_COL_ORANGE_NEUTRAL|255;
+    colDefault = CHAOSBOX_ORANGE_NEUTRAL|255;
   } else if (!strcmp(strName, "bcg fill")) {
-    colDefault = SE_COL_BLUE_DARK|255;
+    colDefault = CHAOSBOX_BLUE_DARK|255;
   }
   return ::LCDGetColor(colDefault, strName);
 }

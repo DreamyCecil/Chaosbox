@@ -60,10 +60,7 @@ Debug/
 
 # Generated configuration files
 *.plr
-Temp/ConsoleHistory.txt
-Temp/Profile_CSG.txt
-Temp/Profile_Open.txt
-Temp/*.wld
+Temp/*
 *.log
 *.rpt	# crashinfo
 *.gms

@@ -40,6 +40,7 @@ void DisplayActiveModules(CDrawPort *pdp) {
 
   pdp->SetFont(_pfdDisplayFont);
   pdp->SetTextScaling(fScaling);
+  pdp->SetTextCharSpacing(fScaling);
 
   CTString strModules = "Active modules:";
   
