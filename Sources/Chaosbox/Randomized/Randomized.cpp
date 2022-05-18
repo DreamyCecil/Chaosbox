@@ -37,12 +37,15 @@ FLOAT RndFloat(CEntity *pen, ULONG ulFlag, ULONG ulID, ULONG ulSpecial) {
 };
 
 FLOAT RandomPitch_internal(CEntity *pen) {
-  // from 0.75 to 1.5
+  // Base on simulation speed
+  FLOAT fPitch = _pNetwork->ga_fGameRealTimeFactor * _pNetwork->GetRealTimeFactor();
+
+  // From 0.75 to 1.5
   if (GetSP()->sp_RND.iRandom & RND_PITCH) {
-    return 0.75f + RndFloat(pen, RND_PITCH, pen->en_ulID, CLASS_ID(pen))*0.75f;
+    fPitch *= 0.75f + RndFloat(pen, RND_PITCH, pen->en_ulID, CLASS_ID(pen)) * 0.75f;
   }
   
-  return 1.0f;
+  return fPitch;
 };
 
 ProjectileType RandomProjectile_internal(CEntity *pen, ProjectileType eDefault, ERndProjectile eType) {
