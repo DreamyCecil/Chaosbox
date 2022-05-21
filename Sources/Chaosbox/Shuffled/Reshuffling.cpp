@@ -221,15 +221,20 @@ void ShuffleTextures(CEntity *pen) {
 
   INDEX ctTex = aTex.Count();
   INDEX ctLoop = _pTextureStock->st_ctObjects.Count();
+
+  // No textures
+  if (ctTex <= 0) {
+    return;
+  }
   
-  // set globally
+  // Set globally
   for (INDEX iSet = 0; iSet < ctLoop; iSet++) {
     INDEX iTex = pen->IRnd() % ctTex;
     
     CTString *pstr = &aTex[iTex].strFile;
     CTFileName *pfnFile = &_pTextureStock->st_ctObjects[iSet].ser_FileName;
     
-    // replace resource
+    // Replace resource
     if (IncludedRes(*pfnFile, FALSE)) {
       *pfnFile = CTFileName(*pstr);
     }
@@ -299,12 +304,17 @@ void ShuffleSounds(CEntity *pen) {
   CStaticArray<SResource> aSound;
   ListResources(pen, NULL, &aSound);
 
-  INDEX ctTex = aSound.Count();
+  INDEX ctSnd = aSound.Count();
   INDEX ctLoop = _pSoundStock->st_ctObjects.Count();
+
+  // No sounds
+  if (ctSnd <= 0) {
+    return;
+  }
   
   // Set globally
   for (INDEX iSet = 0; iSet < ctLoop; iSet++) {
-    INDEX iSound = pen->IRnd() % ctTex;
+    INDEX iSound = pen->IRnd() % ctSnd;
     
     CTString *pstr = &aSound[iSound].strFile;
     CTFileName *pfnFile = &_pSoundStock->st_ctObjects[iSet].ser_FileName;
@@ -325,7 +335,7 @@ void ShuffleSounds(CEntity *pen) {
     CTFileName *pfnFile = &aSound[iComp].pec->ec_fnmComponent;
     CTFileName fnRestore = *pfnFile;
     
-    // replace resource
+    // Replace resource
     if (IncludedRes(*pfnFile, FALSE)) {
       aSound[iSound].pec->Release();
       *pfnFile = CTFileName(*pstr);
