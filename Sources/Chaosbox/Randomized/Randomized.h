@@ -73,3 +73,6 @@ struct SEnemyProperties {
   // Apply remembered properties to an enemy
   void ApplyProperties(CEntity *pen);
 };
+
+// Find entity by its ID
+CEntity *FindEntityByID(CWorld *pwo, const INDEX &iEntityID);

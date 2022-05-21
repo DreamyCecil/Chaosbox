@@ -1,6 +1,9 @@
 304
 %{
 #include "StdH.h"
+
+// [Cecil] For getting the specimen enemy
+#include "Chaosbox/Classes/GlobalController.h"
 %}
 
 
@@ -155,8 +158,8 @@ functions:
           enp.GatherProperties(penSpawn);
 
           // Pick the specimen
-          extern CEntity *_penSpecimenEnemy;
-          penSpawn = _penSpecimenEnemy;
+          extern CEntity *_penGlobalController;
+          penSpawn = ((CGlobalController *)_penGlobalController)->m_penSpecimenEnemy;
           
         // [Cecil] RND: Replace randomly
         } else {

@@ -14,9 +14,6 @@ extern CEntity *_penGlobalController = NULL;
 
 // [Cecil] RND: List of template enemies
 extern CDynamicContainer<CEntity> _cenEnemies = CDynamicContainer<CEntity>();
-
-// [Cecil] Specimen: Specific enemy to spawn
-extern CEntity *_penSpecimenEnemy = NULL;
 %}
 
 class export CGlobalController : CRationalEntity {
@@ -25,6 +22,8 @@ thumbnail "";
 features  "IsImportant";
 
 properties:
+  // [Cecil] Specimen: Specific enemy to spawn
+  1 CEntityPointer m_penSpecimenEnemy,
 
 components:
 
@@ -33,6 +32,38 @@ functions:
   void CGlobalController(void) {
     // Set pointer to this entity
     _penGlobalController = this;
+  };
+  
+  // Write global controller
+  void Write_t(CTStream *ostr) {
+    CRationalEntity::Write_t(ostr);
+
+    // [Cecil] RND: Write template enemies
+    *ostr << _cenEnemies.Count();
+
+    FOREACHINDYNAMICCONTAINER(_cenEnemies, CEntity, iten) {
+      *ostr << (INDEX)iten->en_ulID;
+    }
+  };
+
+  // Read global controller
+  void Read_t(CTStream *istr) {
+    CRationalEntity::Read_t(istr);
+
+    // [Cecil] RND: Read template enemies
+    INDEX ctTemp;
+    *istr >> ctTemp;
+
+    while (--ctTemp >= 0) {
+      INDEX iEntity;
+      *istr >> iEntity;
+
+      CEntity *penTemp = FindEntityByID(GetWorld(), iEntity);
+
+      if (penTemp != NULL) {
+        _cenEnemies.Add(penTemp);
+      }
+    }
   };
 
   // Initialization
@@ -50,8 +81,8 @@ functions:
     // Reset pointer
     _penGlobalController = NULL;
 
-    // [Cecil] Specimen: Reset enemy
-    _penSpecimenEnemy = NULL;
+    // [Cecil] RND: Reset template enemies
+    _cenEnemies.Clear();
   };
 
   // Actions to perform at the beginning of each level
@@ -60,7 +91,7 @@ functions:
     GetTemplateEnemies();
 
     // [Cecil] Specimen: Create specimen enemy
-    _penSpecimenEnemy = CreateSpecimen(GetWorld());
+    m_penSpecimenEnemy = CreateSpecimen(GetWorld());
 
     // [Cecil] Shuffled: Reshuffle resources
     ShuffleResources(this);
