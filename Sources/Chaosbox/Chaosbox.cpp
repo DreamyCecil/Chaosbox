@@ -59,6 +59,9 @@ void DisplayActiveModules(CDrawPort *pdp) {
 typedef void (CDrawPort::*CPutTexFunc)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const;
 static CPutTexFunc _pPutTexFunc = (void (CDrawPort::*)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const)&CDrawPort::PutTexture;
 
+typedef void (CDrawPort::*CCenterTextFunc)(const CTString &, PIX, PIX, COLOR) const;
+static CCenterTextFunc _pCenterTextFunc = (void (CDrawPort::*)(const CTString &, PIX, PIX, COLOR) const)&CDrawPort::PutTextC;
+
 // Drawport patches
 class CCecilDrawPort : public CDrawPort {
   public:
@@ -73,6 +76,20 @@ class CCecilDrawPort : public CDrawPort {
 
       // [Cecil] Call original function
       (this->*_pPutTexFunc)(pTO, boxScreen, boxTexture, colUL, colUR, colDL, colDR);
+    };
+
+    void P_PutTextC(const CTString &strText, PIX pixX0, PIX pixY0, COLOR colBlend = 0xFFFFFFFF) const {
+      CTString strPutText = strText;
+      COLOR colText = colBlend;
+
+      // [Cecil] Add color to certain text
+      if (strText == TRANS("ADVANCED OPTIONS") || strText == TRANS("OPTIONS")) {
+        colText = AdjustColor(colBlend, 127, 255);
+        strPutText = "> " + strPutText + " <";
+      }
+
+      // [Cecil] Call original function
+      (this->*_pCenterTextFunc)(strPutText, pixX0, pixY0, colText);
     };
 };
 
@@ -95,6 +112,12 @@ void ChaosboxInit(void) {
 
   if (!pPatch->ok()) {
     WarningMessage("^cff0000Cannot patch CDrawPort::PutTexture!\n");
+  }
+
+  pPatch = new CPatch(_pCenterTextFunc, &CCecilDrawPort::P_PutTextC, true, true);
+
+  if (!pPatch->ok()) {
+    WarningMessage("^cff0000Cannot patch CDrawPort::PutTextC!\n");
   }
 };
 
