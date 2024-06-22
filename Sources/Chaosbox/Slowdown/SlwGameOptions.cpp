@@ -5,7 +5,7 @@
 
 // Original function
 typedef void (CSessionState::*CProcessFunc)(CNetworkMessage &);
-static CProcessFunc _pProcessFunc = &CSessionState::ProcessGameStreamBlock;
+static CProcessFunc _pProcessFunc = NULL;
 
 // Session state patch
 class CCecilSessionState : public CSessionState {
@@ -65,9 +65,10 @@ class CSlowdownModule : public CModModule {
       _pShell->DeclareSymbol("persistent user FLOAT tmr_fAddTime;", &tmr_fAddTime);
 
       // Initialize the patch
+      _pProcessFunc = &CSessionState::ProcessGameStreamBlock;
       CPatch *pPatch = new CPatch(_pProcessFunc, &CCecilSessionState::P_ProcessGameStreamBlock, true, true);
 
-      if (!pPatch->ok()) {
+      if (!pPatch->IsValid()) {
         FatalError("Cannot patch CSessionState::ProcessGameStreamBlock!");
       }
     };

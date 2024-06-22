@@ -1,14 +1,24 @@
-This patcher ("patcher.cpp", "patcher.h" and "patcher_defines.h" files) is made by armagedescu.
+This function patcher consists of three main files: "patcher.cpp", "patcher.h" and "patcher_defines.h".
+
+The source code has been heavily modified to be in a more consistent style and support patching of more instructions.
+It's also been integrated within Serious Engine 1 ecosystem for easier interaction with projects on that engine.
+
+- HOW TO USE -
+
+1. Include "patcher.cpp" in your project or inside another source file to compile it.
+2. Include "patcher.h" in the source file where you intend to use the patcher and use the CPatch class.
+
+- CREDITS -
+
+The original patcher is made by armagedescu.
+The modifications are by Dreamy Cecil.
 
 Original article with the download link.
 https://www.codeproject.com/Articles/34237/A-C-Style-of-Intercepting-Functions
+
+- LICENSE -
 
 The patcher is licensed under The Code Project Open License (CPOL).
 https://www.codeproject.com/info/cpol10.aspx
 
 A copy of the license is included as "CPOL.htm" file.
-
-
-
-Every other file aside from "patcher.cpp", "patcher.h", "patcher_defines.h" and "CPOL.htm" is a part of Chaosbox.
-https://github.com/DreamyCecil/Chaosbox

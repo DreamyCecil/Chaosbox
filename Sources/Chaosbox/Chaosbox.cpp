@@ -57,10 +57,10 @@ void DisplayActiveModules(CDrawPort *pdp) {
 
 // Original functions
 typedef void (CDrawPort::*CPutTexFunc)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const;
-static CPutTexFunc _pPutTexFunc = (void (CDrawPort::*)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const)&CDrawPort::PutTexture;
+static CPutTexFunc _pPutTexFunc = NULL;
 
 typedef void (CDrawPort::*CCenterTextFunc)(const CTString &, PIX, PIX, COLOR) const;
-static CCenterTextFunc _pCenterTextFunc = (void (CDrawPort::*)(const CTString &, PIX, PIX, COLOR) const)&CDrawPort::PutTextC;
+static CCenterTextFunc _pCenterTextFunc = NULL;
 
 // Drawport patches
 class CCecilDrawPort : public CDrawPort {
@@ -108,15 +108,17 @@ void ChaosboxInit(void) {
   InitShuffled();
 
   // Patch functions
+  _pPutTexFunc = (CPutTexFunc)&CDrawPort::PutTexture;
   CPatch *pPatch = new CPatch(_pPutTexFunc, &CCecilDrawPort::P_PutTexture, true, true);
 
-  if (!pPatch->ok()) {
+  if (!pPatch->IsValid()) {
     WarningMessage("^cff0000Cannot patch CDrawPort::PutTexture!\n");
   }
 
+  _pCenterTextFunc = (CCenterTextFunc)&CDrawPort::PutTextC;
   pPatch = new CPatch(_pCenterTextFunc, &CCecilDrawPort::P_PutTextC, true, true);
 
-  if (!pPatch->ok()) {
+  if (!pPatch->IsValid()) {
     WarningMessage("^cff0000Cannot patch CDrawPort::PutTextC!\n");
   }
 };

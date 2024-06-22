@@ -1,10 +1,10 @@
-////// patcher_defines.h //////////////
-
 #ifndef ____C_CPP_PATCHER_DEFINISIONS_INCL____
-#error Don't #include the file patcher_defines.h
+  #error Don't #include the file patcher_defines.h
 #endif
+
 #undef  ____C_CPP_PATCHER_DEFINISIONS_INCL____
 
+// N-class lists
 #define DEFINE_T_CLASSES_LIST_0
 #define DEFINE_T_CLASSES_LIST_1  DEFINE_T_CLASSES_LIST_0,  class TArg1
 #define DEFINE_T_CLASSES_LIST_2  DEFINE_T_CLASSES_LIST_1,  class TArg2
@@ -57,6 +57,7 @@
 #define DEFINE_T_CLASSES_LIST_49 DEFINE_T_CLASSES_LIST_48, class TArg49
 #define DEFINE_T_CLASSES_LIST_50 DEFINE_T_CLASSES_LIST_49, class TArg50*/
 
+// N-argument lists
 #define DEFINE_T_ARGS_N_0
 #define DEFINE_T_ARGS_N_1  TArg1
 #define DEFINE_T_ARGS_N_2  DEFINE_T_ARGS_N_1,   TArg2
@@ -109,47 +110,48 @@
 #define DEFINE_T_ARGS_N_49 DEFINE_T_ARGS_N_48,  TArg49
 #define DEFINE_T_ARGS_N_50 DEFINE_T_ARGS_N_49,  TArg50*/
 
+// Define functions with a specific amount of arguments
+#define DEFINE_2_N_ARGS_FUNCTIONS(_ArgCount, _Const) \
+  ReturnType (SourceType::*&pFuncSource)(DEFINE_T_ARGS_N_##_ArgCount) _Const, \
+  ReturnType (TargetType::* pFuncTarget)(DEFINE_T_ARGS_N_##_ArgCount) _Const
 
+// Define template with a specific amount of classes
+#define DEFINE_TEMPLATE(_ClassCount) \
+  template<class SourceType, class TargetType, class ReturnType DEFINE_T_CLASSES_LIST_##_ClassCount>
 
-#define DEFINE_2_N_ARGS_FUNCTIONS(N, _Const) TReturnVal (TClassSource::*&pfn_source)(DEFINE_T_ARGS_N_##N) _Const, TReturnVal (TClassTarget::*pfn_target) (DEFINE_T_ARGS_N_##N) _Const
-#define DEFINE_TEMPLATE(N) template<class TClassSource, class TClassTarget, class TReturnVal DEFINE_T_CLASSES_LIST_##N>
+// Define CPatch constructor for functions with a specific amount of arguments
+#define DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(_ArgCount, _Const) \
+  DEFINE_TEMPLATE(_ArgCount)                                       \
+  explicit CPatch(DEFINE_2_N_ARGS_FUNCTIONS(_ArgCount, _Const),    \
+    bool bPatchNow = true, bool bSetForever = false)               \
+  {                                                                \
+    SetDefaultArguments(bSetForever);                              \
+    HookClassFunctions(pFuncSource, pFuncTarget, bPatchNow);       \
+  }
+  
+// [Cecil] Don't care, didn't ask + you're a warning
+#pragma warning(disable: 4003)
 
+// [Cecil] Define for normal methods
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(0,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(1,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(2,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(3,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(4,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(5,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(6,);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(7,);
 
-#define DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(N, _Const) DEFINE_TEMPLATE(N)       \
-	explicit CPatch(DEFINE_2_N_ARGS_FUNCTIONS(N, _Const),                           \
-		bool patch_now = true, bool set_forever = false)                    \
-								: m_valid(false)                            \
-								, m_patched(false)                          \
-								, m_set_forever(set_forever)                \
-								, m_PatchInstructionSet(0)                  \
-								, m_RestorePatchSet(0)                      \
-	{                                                                       \
-		HookClassFunctions(pfn_source, pfn_target, patch_now, set_forever); \
-	}
+// [Cecil] Define for 'const' methods
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(0, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(1, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(2, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(3, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(4, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(5, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(6, const);
+DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(7, const);
 
-	// [Cecil] Don't care, didn't ask + you're a warning
-	#pragma warning(disable: 4003)
-
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(0,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(1,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(2,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(3,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(4,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(5,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(6,)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(7,)
-
-	// [Cecil] Define with 'const'
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(0, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(1, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(2, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(3, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(4, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(5, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(6, const)
-	DEFINE_CPATCH_CTOR_FUNCTION_WITH_N_ARGS(7, const)
-	
-
-////////////////// experimental, don't use //////////////////////////////////////
+// Experimental, don't use!
 #define DEFINE_T_CLASSES_LIST_MN(M, N) DEFINE_T_CLASSES_LIST_##(M), TArg##N
-#define DEFINE_TEMPLATE_MN(M,N) template<class TClassSource, class TClassTarget, class TReturnVal DEFINE_T_CLASSES_LIST_MN(M, N) > //DEFINE_T_CLASSES_LIST_##N>
+#define DEFINE_TEMPLATE_MN(M, N) template<class TClassSource, class TClassTarget, class TReturnVal DEFINE_T_CLASSES_LIST_MN(M, N) > //DEFINE_T_CLASSES_LIST_##N>
