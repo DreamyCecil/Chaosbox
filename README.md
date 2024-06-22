@@ -2,7 +2,7 @@
 *A portmanteau of the words "Chaos" and "Sandbox".*
 
 This is the source code of a mod for classic Serious Sam: The Second Encounter v1.07 that consists out of many smaller mods and ideas, which when combined together, give you quite a chaotic gameplay experience. 
-Based on [Serious Sam SDK v1.07 for Visual Studio 2013](https://github.com/DreamyCecil/SeriousSam_SDK107)
+Based on [this Mod SDK](https://github.com/DreamyCecil/SE1-ModSDK).
 
 **Chaosbox modules:**
 - `Randomized` - taking roots from semi-public **Tiny Mod Pack** mods, this mod introduces options for randomizing specific elements of the world, ranging from randomly pitched sounds to random enemy spawns and more.
@@ -11,15 +11,11 @@ Based on [Serious Sam SDK v1.07 for Visual Studio 2013](https://github.com/Dream
 - `Shuffled` - taking roots from **Tiny Mod Pack**, this mod adds ability to shuffle game resources such as textures and sounds around in a chaotic manner, making everything look and sound totally ridiculous.
 - `Slowdown Bug: Ultra Deluxe` - the latest addition to Chaosbox, which was a standalone mod that adds an option to add a specific amount of time to the in-game timer as a 32-bit floating point number, making logic and even animations break down more and more with time.
 
-Building
---------
+# Building
 
-To compile the source code, you'll need to use a compiler from Microsoft Visual C++ 6.0.
+Building instructions are available here: https://github.com/DreamyCecil/SE1-ModSDK/wiki/Building
 
-Full guide: https://github.com/DreamyCecil/SeriousSam_SDK107#building
-
-Running
--------
+# Running
 
 Once the project is compiled, there should be three libraries in the Bin folder: `EntitiesMP.dll`, `GameGUIMP.dll` and `GameMP.dll`.
 
@@ -29,8 +25,7 @@ There are two ways to start the mod:
 
 When running a selected project, make sure the mod in project properties **Debugging** -> **Command Arguments** is set to your mod name instead of `Chaosbox` (example: `+game Chaosbox_Mod`).
 
-License
--------
+# License
 
 Just like Croteam's [Serious Engine 1.10](https://github.com/Croteam-official/Serious-Engine) source code, Serious Sam SDK is licensed under the GNU GPL v2 (see LICENSE file).
 
