@@ -26,16 +26,8 @@ void SetChaosboxOptions(CSessionProperties &sp) {
   }
 };
 
-static INDEX _iMenuLogoHook = 0;
-
 // Display active modules
 void DisplayActiveModules(CDrawPort *pdp) {
-  // Hook it up to the menu logo rendering and only display modules in the main menu
-  if (_iMenuLogoHook <= 0) {
-    return;
-  }
-  _iMenuLogoHook--;
-
   const FLOAT fScaling = pdp->GetHeight() / 480.0f;
 
   pdp->SetFont(_pfdDisplayFont);
@@ -56,28 +48,12 @@ void DisplayActiveModules(CDrawPort *pdp) {
 };
 
 // Original functions
-typedef void (CDrawPort::*CPutTexFunc)(CTextureObject *, const PIXaabbox2D &, const MEXaabbox2D &, COLOR, COLOR, COLOR, COLOR) const;
-static CPutTexFunc _pPutTexFunc = NULL;
-
 typedef void (CDrawPort::*CCenterTextFunc)(const CTString &, PIX, PIX, COLOR) const;
 static CCenterTextFunc _pCenterTextFunc = NULL;
 
 // Drawport patches
 class CCecilDrawPort : public CDrawPort {
   public:
-    void P_PutTexture(CTextureObject *pTO, const PIXaabbox2D &boxScreen, const MEXaabbox2D &boxTexture,
-                      COLOR colUL, COLOR colUR, COLOR colDL, COLOR colDR) const
-    {
-      // [Cecil] Check for the menu logo textures
-      if (pTO->GetData()->ser_FileName.Matches("Textures\\Logo\\sam_menulogo256a.tex")
-       || pTO->GetData()->ser_FileName.Matches("Textures\\Logo\\sam_menulogo256b.tex")) {
-        _iMenuLogoHook = 2;
-      }
-
-      // [Cecil] Call original function
-      (this->*_pPutTexFunc)(pTO, boxScreen, boxTexture, colUL, colUR, colDL, colDR);
-    };
-
     void P_PutTextC(const CTString &strText, PIX pixX0, PIX pixY0, COLOR colBlend = 0xFFFFFFFF) const {
       CTString strPutText = strText;
       COLOR colText = colBlend;
@@ -108,15 +84,8 @@ void ChaosboxInit(void) {
   InitShuffled();
 
   // Patch functions
-  _pPutTexFunc = (CPutTexFunc)&CDrawPort::PutTexture;
-  CPatch *pPatch = new CPatch(_pPutTexFunc, &CCecilDrawPort::P_PutTexture, true, true);
-
-  if (!pPatch->IsValid()) {
-    WarningMessage("^cff0000Cannot patch CDrawPort::PutTexture!\n");
-  }
-
   _pCenterTextFunc = (CCenterTextFunc)&CDrawPort::PutTextC;
-  pPatch = new CPatch(_pCenterTextFunc, &CCecilDrawPort::P_PutTextC, true, true);
+  CPatch *pPatch = new CPatch(_pCenterTextFunc, &CCecilDrawPort::P_PutTextC, true, true);
 
   if (!pPatch->IsValid()) {
     WarningMessage("^cff0000Cannot patch CDrawPort::PutTextC!\n");

@@ -2884,11 +2884,6 @@ void CGame::LCDRenderClouds1(void)
   TiledTextureSE(_boxScreen_SE, 0.7f*_pdp_SE->GetWidth()/640.0f, 
     MEX2D(sin(_tmNow_SE*0.6f+1)*32,sin(_tmNow_SE*0.8f)*25),   boxBcgClouds1);
   _pdp_SE->PutTexture(&_toBcgClouds, _boxScreen_SE, boxBcgClouds1, C_BLACK|_ulA_SE>>2);
-  
-  // [Cecil] Display active modules
-  if (!_bPopup) {
-    DisplayActiveModules(_pdp_SE);
-  }
 }
 void CGame::LCDRenderCloudsForComp(void)
 {
@@ -3002,4 +2997,8 @@ void CGame::MenuPreRenderMenu(const char *strMenuName)
 }
 void CGame::MenuPostRenderMenu(const char *strMenuName)
 {
+  // [Cecil] Display active modules
+  if (!strcmp(strMenuName, "Main")) {
+    DisplayActiveModules(_pdp_SE);
+  }
 }
